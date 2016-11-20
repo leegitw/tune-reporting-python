@@ -1,0 +1,36 @@
+# Project files
+*.komodoproject
+.idea/
+.metadata/
+.project
+.settings/
+.pydevproject
+.idea
+.dartignore
+
+# Code build files
+tune_reporting.egg-info/
+build/
+__pycache__/
+*.pyc
+
+# Code documentation
+docs/doxygen/
+docs/sphinx/_build/
+venv/
+
+# Backup files
+*.bak
+*.log
+*.*~
+*~
+
+# Sandbox
+_tmp/*
+**/tmp/*
+
+**/data.json
+**/data.csv
+_tmp/
+data.json
+dist/
