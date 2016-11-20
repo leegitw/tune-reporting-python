@@ -1,0 +1,5 @@
+wheel>=0.22.0
+requests>=2.11.1
+pprintpp
+pyhttpstatus-utils>=0.1.0
+pytz-convert>=0.1.0
