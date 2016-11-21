@@ -4,6 +4,5 @@
 #  @namespace tune_reporting
 
 from .exceptions import (
-    TuneReportingError,
-    TuneReportingModuleError
+    TuneReportingError
 )

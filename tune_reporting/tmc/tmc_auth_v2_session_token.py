@@ -13,7 +13,8 @@ from requests_mv_integrations.support import (
 )
 from requests_mv_integrations.errors import (
     get_exception_message,
-    print_traceback
+    print_traceback,
+    ModuleAuthenticationError
 )
 from tune_reporting.errors import (
     TuneReportingError
@@ -74,7 +75,7 @@ def tmc_auth_v2_session_token(
             }
         )
 
-        raise TuneReportingError(
+        raise ModuleAuthenticationError(
             error_message="TMC v2 Session Authenticate: Failed: Unexpected",
             errors=ex
         )

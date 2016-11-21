@@ -32,9 +32,6 @@ from requests_mv_integrations import (
 from requests_mv_integrations.support import (
     command_line_request_curl_get
 )
-from tune_reporting.errors import (
-    TuneReportingModuleError
-)
 from requests_mv_integrations.errors import (
     IntegrationExitCode
 )
@@ -326,9 +323,8 @@ class TuneMobileAppTrackingApiBase(object):
     ):
         """Authenticate against TMC."""
         if not tmc_api_key:
-            raise TuneReportingModuleError(
-                error_message="Parameter 'tmc_api_key' not defined.",
-                exit_code=IntegrationExitCode.MOD_ERR_ARGUMENT
+            raise ValueError(
+                "Parameter 'tmc_api_key' not defined."
             )
 
         self.logger.info(
