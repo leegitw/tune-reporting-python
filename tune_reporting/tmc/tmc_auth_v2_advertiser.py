@@ -21,7 +21,7 @@ from requests_mv_integrations.support import (
 from requests_mv_integrations.errors import (
     get_exception_message,
     print_traceback,
-    IntegrationExitCode,
+    TuneIntegrationExitCode,
     ModuleAuthenticationError
 )
 from tune_mv_integration.auth_validator import (
@@ -92,7 +92,7 @@ def tmc_auth_v2_advertiser(
 
     except Exception as ex:
         print_traceback(ex)
-        exit_code = IntegrationExitCode.MOD_ERR_SOFTWARE
+        exit_code = TuneIntegrationExitCode.MOD_ERR_SOFTWARE
 
         log.error(
             'TMC v2 Advertiser: Authentication: Failed: Unexpected',

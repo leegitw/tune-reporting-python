@@ -33,7 +33,7 @@ from requests_mv_integrations.support import (
     command_line_request_curl_get
 )
 from requests_mv_integrations.errors import (
-    IntegrationExitCode
+    TuneIntegrationExitCode
 )
 from tune_reporting import (
     __version__
@@ -370,7 +370,7 @@ class TuneMobileAppTrackingApiBase(object):
             raise TuneReportingError(
                 error_message='Invalid JSON response: {}'.format(auth_response.text),
                 errors=ex,
-                exit_code=IntegrationExitCode.MOD_ERR_AUTH_JSON_ERROR,
+                exit_code=TuneIntegrationExitCode.MOD_ERR_AUTH_JSON_ERROR,
                 error_request_curl=auth_request_curl
             )
 
