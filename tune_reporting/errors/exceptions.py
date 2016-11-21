@@ -7,14 +7,9 @@ Tune Reporting Error
 """
 
 from requests_mv_integrations.errors import (
-    TuneRequestError,
-    TuneRequestModuleError
+    TuneRequestBaseError
 )
 
 
-class TuneReportingError(TuneRequestError):
-    pass
-
-
-class TuneReportingModuleError(TuneRequestModuleError):
+class TuneReportingError(TuneRequestBaseError):
     pass
