@@ -7,29 +7,13 @@
 
 import logging
 
-from pyhttpstatus_utils import (
-    HttpStatusType,
-    is_http_status_type
-)
-from requests_mv_integrations.errors import (
-    get_exception_message,
-    print_traceback
-)
-from tune_reporting.errors import (
-    TuneReportingError
-)
-from requests_mv_integrations.support import (
-    python_check_version
-)
-from tune_reporting import (
-    __python_required_version__
-)
-from tune_reporting.tmc.tune_mobileapptracking_api_base import (
-    TuneMobileAppTrackingApiBase
-)
-from logging_mv_integrations import (
-    TuneLoggingFormat
-)
+from pyhttpstatus_utils import (HttpStatusType, is_http_status_type)
+from requests_mv_integrations.errors import (get_exception_message, print_traceback)
+from tune_reporting.errors import (TuneReportingError)
+from requests_mv_integrations.support import (python_check_version)
+from tune_reporting import (__python_required_version__)
+from tune_reporting.tmc.tune_mobileapptracking_api_base import (TuneMobileAppTrackingApiBase)
+from logging_mv_integrations import (TuneLoggingFormat)
 
 python_check_version(__python_required_version__)
 
@@ -45,10 +29,7 @@ class TuneV2AuthenticationTypes(object):
 
     @staticmethod
     def validate(auth_type):
-        return auth_type in [
-            TuneV2AuthenticationTypes.API_KEY,
-            TuneV2AuthenticationTypes.SESSION_TOKEN
-        ]
+        return auth_type in [TuneV2AuthenticationTypes.API_KEY, TuneV2AuthenticationTypes.SESSION_TOKEN]
 
 
 # @brief  TUNE MobileAppTracking API v2/session/authenticate
@@ -60,21 +41,10 @@ class TuneV2SessionAuthenticate(TuneMobileAppTrackingApiBase):
 
     # Initialize Job
     #
-    def __init__(
-        self,
-        logger_level=logging.NOTSET,
-        logger_format=TuneLoggingFormat.JSON
-    ):
-        super(TuneV2SessionAuthenticate, self).__init__(
-            logger_level=logger_level,
-            logger_format=logger_format
-        )
+    def __init__(self, logger_level=logging.NOTSET, logger_format=TuneLoggingFormat.JSON):
+        super(TuneV2SessionAuthenticate, self).__init__(logger_level=logger_level, logger_format=logger_format)
 
-    def get_session_token(
-        self,
-        tmc_api_key,
-        request_retry=None
-    ):
+    def get_session_token(self, tmc_api_key, request_retry=None):
         """Generate session token is returned to provide
         access to service.
 
@@ -85,9 +55,7 @@ class TuneV2SessionAuthenticate(TuneMobileAppTrackingApiBase):
         Returns:
 
         """
-        self.logger.info(
-            "TMC v2 /session/authenticate/: Get Token"
-        )
+        self.logger.info("TMC v2 /session/authenticate/: Get Token")
 
         self.api_key = tmc_api_key
 
@@ -117,67 +85,37 @@ class TuneV2SessionAuthenticate(TuneMobileAppTrackingApiBase):
             )
 
         except TuneReportingError as tmv_ex:
-            self.logger.error(
-                "TMC v2 /session/authenticate/: Failed: {}".format(
-                    str(tmv_ex)
-                )
-            )
+            self.logger.error("TMC v2 /session/authenticate/: Failed: {}".format(str(tmv_ex)))
             raise
 
         except Exception as ex:
             print_traceback(ex)
 
-            self.logger.error(
-                "TMC v2 /session/authenticate/: Failed: {}".format(
-                    get_exception_message(ex)
-                )
-            )
+            self.logger.error("TMC v2 /session/authenticate/: Failed: {}".format(get_exception_message(ex)))
 
             raise TuneReportingError(
-                error_message=(
-                    "TMC v2 /session/authenticate/: Failed: {}"
-                ).format(
-                    get_exception_message(ex)
-                ),
+                error_message=("TMC v2 /session/authenticate/: Failed: {}").format(get_exception_message(ex)),
                 errors=ex
             )
 
         json_response = self.request_mv_integration.validate_json_response(
-            response,
-            request_label="TMC v2 Get Session Token: Validate"
+            response, request_label="TMC v2 Get Session Token: Validate"
         )
 
-        self.logger.debug(
-            "TuneV2SessionAuthenticate",
-            extra={
-                'response': json_response
-            }
-        )
+        self.logger.debug("TuneV2SessionAuthenticate", extra={'response': json_response})
 
         json_response_status_code = json_response['status_code']
         http_status_successful = is_http_status_type(
-            http_status_code=json_response_status_code,
-            http_status_type=HttpStatusType.SUCCESSFUL
+            http_status_code=json_response_status_code, http_status_type=HttpStatusType.SUCCESSFUL
         )
 
         if not http_status_successful or not json_response['data']:
-            raise TuneReportingError(
-                error_message="Failed to authenticate: {}".format(
-                    json_response_status_code
-                )
-            )
+            raise TuneReportingError(error_message="Failed to authenticate: {}".format(json_response_status_code))
 
         self.session_token = json_response['data']
 
-        self.logger.info(
-            "TuneV2SessionAuthenticate",
-            extra={
-                'session_token': self.session_token
-            }
-        )
+        self.logger.info("TuneV2SessionAuthenticate", extra={'session_token': self.session_token})
 
-        self.logger.info(
-            "TMC v2 /session/authenticate/: Finished"
-        )
+        self.logger.info("TMC v2 /session/authenticate/: Finished")
 
         return True

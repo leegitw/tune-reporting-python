@@ -8,40 +8,16 @@
 import logging
 import requests
 import datetime as dt
-from pytz_convert import (
-    validate_tz_name
-)
-from pyhttpstatus_utils import (
-    http_status_code_to_type
-)
-from requests_mv_integrations.support import (
-    python_check_version,
-    safe_str,
-
-    __TIMEZONE_NAME_DEFAULT__
-)
-from tune_reporting.errors import (
-    TuneReportingError
-)
-from tune_reporting import (
-    __python_required_version__
-)
-from requests_mv_integrations import (
-    RequestMvIntegrationDownload
-)
-from requests_mv_integrations.support import (
-    command_line_request_curl_get
-)
-from requests_mv_integrations.errors import (
-    TuneIntegrationExitCode
-)
-from tune_reporting import (
-    __version__
-)
-from logging_mv_integrations import (
-    TuneLoggingFormat,
-    get_logger
-)
+from pytz_convert import (validate_tz_name)
+from pyhttpstatus_utils import (http_status_code_to_type)
+from requests_mv_integrations.support import (python_check_version, safe_str, __TIMEZONE_NAME_DEFAULT__)
+from tune_reporting.errors import (TuneReportingError)
+from tune_reporting import (__python_required_version__)
+from requests_mv_integrations import (RequestMvIntegration)
+from requests_mv_integrations.support import (command_line_request_curl_get)
+from requests_mv_integrations.errors import (TuneIntegrationExitCode)
+from tune_reporting import (__version__)
+from logging_mv_integrations import (TuneLoggingFormat, get_logger)
 
 python_check_version(__python_required_version__)
 
@@ -64,15 +40,12 @@ class TuneMobileAppTrackingApiBase(object):
     __request = None
 
     @property
-    def request_mv_integration(
-        self
-    ):
+    def request_mv_integration(self):
         """Get Property: Logger
         """
         if self.__request is None:
-            self.__request = RequestMvIntegrationDownload(
-                logger_format=self.logger_format,
-                logger_level=self.logger_level
+            self.__request = RequestMvIntegration(
+                logger_format=self.logger_format, logger_level=self.logger_level
             )
 
         return self.__request
@@ -80,9 +53,7 @@ class TuneMobileAppTrackingApiBase(object):
     __logger = None
 
     @property
-    def logger(
-        self
-    ):
+    def logger(self):
         """Get Property: Logger
         """
         if self.__logger is None:
@@ -95,12 +66,7 @@ class TuneMobileAppTrackingApiBase(object):
 
         return self.__logger
 
-    def __init__(
-        self,
-        logger_level=logging.INFO,
-        logger_format=TuneLoggingFormat.JSON,
-        timezone=None
-    ):
+    def __init__(self, logger_level=logging.INFO, logger_format=TuneLoggingFormat.JSON, timezone=None):
         self.logger_level = logger_level
         self.logger_format = logger_format
 
@@ -131,9 +97,7 @@ class TuneMobileAppTrackingApiBase(object):
         if 'api_key' in self.tmc_credentials:
             self.tmc_credentials.pop('api_key')
 
-        self.tmc_credentials.update({
-            'api_key': value
-        })
+        self.tmc_credentials.update({'api_key': value})
 
     @property
     def session_token(self):
@@ -148,9 +112,7 @@ class TuneMobileAppTrackingApiBase(object):
         if 'session_token' in self.tmc_credentials:
             self.tmc_credentials.pop('session_token')
 
-        self.tmc_credentials.update({
-            'session_token': value
-        })
+        self.tmc_credentials.update({'session_token': value})
 
     @property
     def timezone(self):
@@ -164,11 +126,7 @@ class TuneMobileAppTrackingApiBase(object):
         """
         tz_name = value
         if not validate_tz_name(tz_name):
-            raise ValueError(
-                "Invalid timezone name assigned: {}".format(
-                    tz_name
-                )
-            )
+            raise ValueError("Invalid timezone name assigned: {}".format(tz_name))
 
         self.__timezone = tz_name
 
@@ -184,12 +142,7 @@ class TuneMobileAppTrackingApiBase(object):
         """Provide data value."""
         self.__data = value
 
-    def tune_mat_request_path(
-        self,
-        mat_api_version,
-        controller,
-        action
-    ):
+    def tune_mat_request_path(self, mat_api_version, controller, action):
         """TUNE Reporting API service path
 
         Args:
@@ -200,19 +153,11 @@ class TuneMobileAppTrackingApiBase(object):
         Returns:
 
         """
-        request_path = "{}/{}/{}/{}".format(
-            self._TUNE_MANAGEMENT_API_ENDPOINT,
-            mat_api_version,
-            controller,
-            action
-        )
+        request_path = "{}/{}/{}/{}".format(self._TUNE_MANAGEMENT_API_ENDPOINT, mat_api_version, controller, action)
 
         return request_path
 
-    def tune_v2_request_retry_func(
-        self,
-        response
-    ):
+    def tune_v2_request_retry_func(self, response):
         """Request Retry Function
 
         Args:
@@ -224,10 +169,7 @@ class TuneMobileAppTrackingApiBase(object):
         """
         response_json = response.json()
 
-        self.logger.debug(
-            "TMC API Base: Check for Retry: Start",
-            extra=response_json
-        )
+        self.logger.debug("TMC API Base: Check for Retry: Start", extra=response_json)
 
         tune_v2_status_code = None
         tune_v2_errors_messages = ""
@@ -248,64 +190,31 @@ class TuneMobileAppTrackingApiBase(object):
 
         tune_v2_status_type = http_status_code_to_type(tune_v2_status_code)
 
-        response_extra = {
-            'status_code': tune_v2_status_code,
-            'status_type': tune_v2_status_type
-        }
+        response_extra = {'status_code': tune_v2_status_code, 'status_type': tune_v2_status_type}
 
         if tune_v2_errors_messages:
-            response_extra.update({
-                'error_messages': safe_str(tune_v2_errors_messages)
-            })
+            response_extra.update({'error_messages': safe_str(tune_v2_errors_messages)})
 
-        self.logger.debug(
-            "TMC API Base: Check for Retry: Response",
-            extra=response_extra
-        )
+        self.logger.debug("TMC API Base: Check for Retry: Response", extra=response_extra)
 
         if tune_v2_status_code == 200:
-            self.logger.debug(
-                "TMC API Base: Check for Retry: Success",
-                extra=response_extra
-            )
+            self.logger.debug("TMC API Base: Check for Retry: Success", extra=response_extra)
             return False
 
         if tune_v2_status_code in [401, 403]:
-            self.logger.error(
-                "TMC API: Request: Error",
-                extra={
-                    'status_code': tune_v2_status_code
-                }
-            )
-            raise TuneReportingError(
-                error_message=tune_v2_errors_messages,
-                exit_code=tune_v2_status_code
-            )
+            self.logger.error("TMC API: Request: Error", extra={'status_code': tune_v2_status_code})
+            raise TuneReportingError(error_message=tune_v2_errors_messages, exit_code=tune_v2_status_code)
 
         if tune_v2_status_code in [404, 500]:
             if "Api key was not found." in tune_v2_errors_messages:
-                self.logger.error(
-                    "TMC API: Request: Error",
-                    extra={
-                        'tune_v2_status_code': tune_v2_status_code
-                    }
-                )
+                self.logger.error("TMC API: Request: Error", extra={'tune_v2_status_code': tune_v2_status_code})
 
-                raise TuneReportingError(
-                    error_message=tune_v2_errors_messages,
-                    exit_code=tune_v2_status_code
-                )
+                raise TuneReportingError(error_message=tune_v2_errors_messages, exit_code=tune_v2_status_code)
 
-            self.logger.warning(
-                "TMC API Base: Check for Retry: Retry Candidate",
-                extra=response_extra
-            )
+            self.logger.warning("TMC API Base: Check for Retry: Retry Candidate", extra=response_extra)
             return True
 
-        self.logger.warning(
-            "TMC API Base: Check for Retry: No Retry",
-            extra=response_extra
-        )
+        self.logger.warning("TMC API Base: Check for Retry: No Retry", extra=response_extra)
         return False
 
     @property
@@ -317,33 +226,19 @@ class TuneMobileAppTrackingApiBase(object):
             for (i, item) in enumerate(self.data):
                 yield item
 
-    def tmc_auth(
-        self,
-        tmc_api_key
-    ):
+    def tmc_auth(self, tmc_api_key):
         """Authenticate against TMC."""
         if not tmc_api_key:
-            raise ValueError(
-                "Parameter 'tmc_api_key' not defined."
-            )
+            raise ValueError("Parameter 'tmc_api_key' not defined.")
 
-        self.logger.info(
-            "TMC Authentication: Start"
-        )
+        self.logger.info("TMC Authentication: Start")
 
         # Attempt to authenticate.
-        request_url = (
-            'https://api.mobileapptracking.com/v2/advertiser/find'
-        )
+        request_url = ('https://api.mobileapptracking.com/v2/advertiser/find')
 
-        request_params = {
-            'api_key': tmc_api_key
-        }
+        request_params = {'api_key': tmc_api_key}
 
-        auth_request_curl = command_line_request_curl_get(
-            request_url=request_url,
-            request_params=request_params
-        )
+        auth_request_curl = command_line_request_curl_get(request_url=request_url, request_params=request_params)
 
         auth_response = self.request_mv_integration.request(
             request_method="GET",

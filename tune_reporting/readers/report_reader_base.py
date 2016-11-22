@@ -42,25 +42,18 @@ class ReportReaderBase(object):
     #  The constructor
     #  @param str report_url Download report URL
     #                         of requested report to be exported.
-    def __init__(
-        self,
-        report_url
-    ):
+    def __init__(self, report_url):
         """Constructor
 
             :param str report_url: Download report URL.
         """
         if not report_url:
-            raise ValueError(
-                error_message="Undefined 'report_url'"
-            )
+            raise ValueError(error_message="Undefined 'report_url'")
 
         if not report_url or \
            not isinstance(report_url, str) or \
            len(report_url) < 1:
-            raise ValueError(
-                "Parameter 'report_url' is not defined."
-            )
+            raise ValueError("Parameter 'report_url' is not defined.")
 
         self.__report_url = report_url
 

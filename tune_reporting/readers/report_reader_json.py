@@ -10,9 +10,7 @@ from logging import getLogger
 import requests
 # from pprintpp import pprint
 
-from .report_reader_base import (
-    ReportReaderBase
-)
+from .report_reader_base import (ReportReaderBase)
 
 log = getLogger(__name__)
 
@@ -26,17 +24,12 @@ class ReportReaderJSON(ReportReaderBase):
     #  The constructor
     #  @param str report_url Download report URL
     #                         of requested report to be exported.
-    def __init__(
-        self,
-        report_url
-    ):
+    def __init__(self, report_url):
         """The constructor.
 
             :param str report_url: Report URL to be downloaded.
         """
-        super(ReportReaderJSON, self).__init__(
-            report_url
-        )
+        super(ReportReaderJSON, self).__init__(report_url)
 
     #  Using provided report download URL, extract JSON contents.
     #
@@ -44,16 +37,9 @@ class ReportReaderJSON(ReportReaderBase):
         """Read JSON data provided remote path report_url."""
         self.data = None
 
-        response = requests.get(
-            url=self.report_url
-        )
+        response = requests.get(url=self.report_url)
 
-        log.info(
-            "ReportReaderJSON: Response",
-            extra={
-                'http_status_code': response.status_code
-            }
-        )
+        log.info("ReportReaderJSON: Response", extra={'http_status_code': response.status_code})
 
         self.data = json.loads(response.text)
         self.count = len(self.data)
