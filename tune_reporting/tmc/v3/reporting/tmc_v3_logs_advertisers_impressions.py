@@ -8,33 +8,15 @@
 import logging
 # from pprintpp import pprint
 
-from pytz_convert import (
-    validate_tz_name
-)
-from requests_mv_integrations.errors import (
-    get_exception_message,
-    print_traceback
-)
-from tune_reporting.errors import (
-    TuneReportingError
-)
-from requests_mv_integrations.support import (
-    python_check_version
-)
+from pytz_convert import (validate_tz_name)
+from requests_mv_integrations.errors import (get_exception_message, print_traceback)
+from tune_reporting.errors import (TuneReportingError)
+from requests_mv_integrations.support import (python_check_version)
 
-from .tmc_v3_logs_advertisers_base import (
-    TuneV3LogsAdvertisersBase,
-    TuneV3LogsAdvertisersActions
-)
-from tune_reporting import (
-    __python_required_version__
-)
-from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (
-    TuneV2AuthenticationTypes
-)
-from logging_mv_integrations import (
-    TuneLoggingFormat
-)
+from .tmc_v3_logs_advertisers_base import (TuneV3LogsAdvertisersBase, TuneV3LogsAdvertisersActions)
+from tune_reporting import (__python_required_version__)
+from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (TuneV2AuthenticationTypes)
+from logging_mv_integrations import (TuneLoggingFormat)
 
 python_check_version(__python_required_version__)
 
@@ -50,12 +32,7 @@ class TuneV3LogsAdvertisersImpressions(TuneV3LogsAdvertisersBase):
 
     # Initialize Job
     #
-    def __init__(
-        self,
-        timezone=None,
-        logger_level=logging.NOTSET,
-        logger_format=TuneLoggingFormat.JSON
-    ):
+    def __init__(self, timezone=None, logger_level=logging.NOTSET, logger_format=TuneLoggingFormat.JSON):
         """Initialize TUNE V3 Logs Advertiser Impressions class.
         """
         super(TuneV3LogsAdvertisersImpressions, self).__init__(
@@ -140,8 +117,7 @@ class TuneV3LogsAdvertisersImpressions(TuneV3LogsAdvertisersBase):
 
             if "filter" in request_params and request_params["filter"]:
                 dict_request_params["filter"] = "({} AND {})".format(
-                    request_params["filter"],
-                    self._FILTER_NOT_DEBUG_NOR_TEST_DATA
+                    request_params["filter"], self._FILTER_NOT_DEBUG_NOR_TEST_DATA
                 )
 
             if "limit" in request_params:
@@ -158,71 +134,35 @@ class TuneV3LogsAdvertisersImpressions(TuneV3LogsAdvertisersBase):
 
             if timezone:
                 if not validate_tz_name(timezone):
-                    return TuneReportingError(
-                        error_message="Invalid Timezone: {}".format(
-                            timezone
-                        )
-                    )
+                    return TuneReportingError(error_message="Invalid Timezone: {}".format(timezone))
                 self.timezone = timezone
                 dict_request_params["timezone"] = \
                     self.timezone
 
-        self.logger.debug(
-            (
-                "TMC v3 Logs Advertisers Impressions: "
-                "Action '{}', Params: {}"
-            ).format(
-                request_action,
-                str(dict_request_params)
-            )
-        )
+        self.logger.debug(("TMC v3 Logs Advertisers Impressions: "
+                           "Action '{}', Params: {}").format(request_action, str(dict_request_params)))
 
-        self.logger.debug(
-            (
-                "TMC v3 Logs Advertisers Impressions: "
-                "Timezone: {}"
-            ).format(
-                self.timezone
-            )
-        )
+        self.logger.debug(("TMC v3 Logs Advertisers Impressions: " "Timezone: {}").format(self.timezone))
 
         try:
             if request_action == TuneV3LogsAdvertisersActions.FIND:
 
                 request_params["sorts"] = "created desc"
 
-                self._find_v3(
-                    request_params=dict_request_params,
-                    request_retry=request_retry
-                )
+                self._find_v3(request_params=dict_request_params, request_retry=request_retry)
             elif request_action == TuneV3LogsAdvertisersActions.EXPORT:
-                self._export_v3_download_csv(
-                    request_params=dict_request_params,
-                    request_retry=request_retry
-                )
+                self._export_v3_download_csv(request_params=dict_request_params, request_retry=request_retry)
 
         except TuneReportingError as tmv_ex:
-            self.logger.error(
-                "TMC v3 Logs Advertisers Impressions: Failed: {}".format(
-                    str(tmv_ex)
-                )
-            )
+            self.logger.error("TMC v3 Logs Advertisers Impressions: Failed: {}".format(str(tmv_ex)))
             raise
 
         except Exception as ex:
             print_traceback(ex)
 
-            self.logger.error(
-                "TMC v3 Logs Advertisers Impressions: Failed: {}".format(
-                    get_exception_message(ex)
-                )
-            )
+            self.logger.error("TMC v3 Logs Advertisers Impressions: Failed: {}".format(get_exception_message(ex)))
 
             raise TuneReportingError(
-                error_message=(
-                    "TMC v3 Logs Advertisers Impressions: Failed: {}"
-                ).format(
-                    get_exception_message(ex)
-                ),
+                error_message=("TMC v3 Logs Advertisers Impressions: Failed: {}").format(get_exception_message(ex)),
                 errors=ex
             )

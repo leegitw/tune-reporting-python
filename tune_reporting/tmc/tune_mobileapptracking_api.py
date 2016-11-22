@@ -7,21 +7,11 @@
 
 import logging
 
-from tune_reporting import (
-    __python_required_version__
-)
-from requests_mv_integrations.support import (
-    python_check_version
-)
-from tune_reporting.tmc.tune_mobileapptracking_api_base import (
-    TuneMobileAppTrackingApiBase
-)
-from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (
-    TuneV2SessionAuthenticate
-)
-from logging_mv_integrations import (
-    TuneLoggingFormat
-)
+from tune_reporting import (__python_required_version__)
+from requests_mv_integrations.support import (python_check_version)
+from tune_reporting.tmc.tune_mobileapptracking_api_base import (TuneMobileAppTrackingApiBase)
+from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (TuneV2SessionAuthenticate)
+from logging_mv_integrations import (TuneLoggingFormat)
 
 python_check_version(__python_required_version__)
 
@@ -47,12 +37,7 @@ class TuneMobileAppTrackingApi(TuneMobileAppTrackingApiBase):
 
     # Initialize Job
     #
-    def __init__(
-        self,
-        logger_level=logging.NOTSET,
-        logger_format=TuneLoggingFormat.JSON,
-        timezone=None
-    ):
+    def __init__(self, logger_level=logging.NOTSET, logger_format=TuneLoggingFormat.JSON, timezone=None):
         """Initialize
 
         Args:
@@ -63,16 +48,10 @@ class TuneMobileAppTrackingApi(TuneMobileAppTrackingApiBase):
         self.advertiser_id = None
 
         super(TuneMobileAppTrackingApi, self).__init__(
-            logger_level=logger_level,
-            logger_format=logger_format,
-            timezone=timezone
+            logger_level=logger_level, logger_format=logger_format, timezone=timezone
         )
 
-    def get_session_authenticate(
-        self,
-        tmc_api_key,
-        request_retry=None
-    ):
+    def get_session_authenticate(self, tmc_api_key, request_retry=None):
         """Generate session token is returned to provide
         access to service.
 
@@ -83,22 +62,13 @@ class TuneMobileAppTrackingApi(TuneMobileAppTrackingApiBase):
         Returns:
 
         """
-        self.logger.info(
-            "TMC API: Session Authenticate: Request"
-        )
+        self.logger.info("TMC API: Session Authenticate: Request")
 
-        tmc_auth_response = self.tmc_auth(
-            tmc_api_key=tmc_api_key
-        )
+        tmc_auth_response = self.tmc_auth(tmc_api_key=tmc_api_key)
 
-        tune_v2_session_authenticate = TuneV2SessionAuthenticate(
-            integration_name=self.integration_name
-        )
+        tune_v2_session_authenticate = TuneV2SessionAuthenticate(integration_name=self.integration_name)
 
-        if tune_v2_session_authenticate.get_session_token(
-            tmc_api_key=tmc_api_key,
-            request_retry=request_retry
-        ):
+        if tune_v2_session_authenticate.get_session_token(tmc_api_key=tmc_api_key, request_retry=request_retry):
             self.session_token = tune_v2_session_authenticate.session_token
             return True
 

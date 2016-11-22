@@ -12,9 +12,7 @@ import requests
 
 # from pprintpp import pprint
 
-from .report_reader_base import (
-    ReportReaderBase
-)
+from .report_reader_base import (ReportReaderBase)
 
 log = getLogger(__name__)
 
@@ -29,29 +27,19 @@ class ReportReaderCSV(ReportReaderBase):
     #  The constructor
     #  @param str report_url Download report URL
     #                         of requested report to be exported.
-    def __init__(
-        self,
-        report_url
-    ):
+    def __init__(self, report_url):
         """The constructor.
 
             :param str report_url: Report URL to be downloaded.
         """
         if not report_url:
-            raise ValueError(
-                error_message="Undefined 'report_url'"
-            )
+            raise ValueError(error_message="Undefined 'report_url'")
         self.reader = None
-        super(ReportReaderCSV, self).__init__(
-            report_url
-        )
+        super(ReportReaderCSV, self).__init__(report_url)
 
     #  Using provided report download URL, extract CSV contents.
     #
-    def read(
-        self,
-        csv_delimiter=','
-    ):
+    def read(self, csv_delimiter=','):
         """Read CSV data provided remote path report_url.
 
         Args:
@@ -62,24 +50,13 @@ class ReportReaderCSV(ReportReaderBase):
         """
         self.data = None
 
-        response = requests.get(
-            url=self.report_url,
-            stream=True
-        )
+        response = requests.get(url=self.report_url, stream=True)
 
-        log.info(
-            "ReportReaderCSV: Response",
-            extra={
-                'http_status_code': response.status_code
-            }
-        )
+        log.info("ReportReaderCSV: Response", extra={'http_status_code': response.status_code})
 
         data = response.text
 
-        reader = csv.DictReader(
-            data.splitlines(),
-            delimiter=csv_delimiter
-        )
+        reader = csv.DictReader(data.splitlines(), delimiter=csv_delimiter)
 
         self.data = list(reader)
         self.count = len(self.data)

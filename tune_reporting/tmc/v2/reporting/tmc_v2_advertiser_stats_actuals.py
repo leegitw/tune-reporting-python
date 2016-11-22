@@ -7,31 +7,15 @@
 
 import logging
 from pprintpp import pprint
-from pytz_convert import (
-    validate_tz_name
-)
-from requests_mv_integrations.errors import (
-    get_exception_message,
-    print_traceback
-)
-from tune_reporting.errors import (
-    TuneReportingError
-)
-from requests_mv_integrations.support import (
-    python_check_version,
-    safe_dict
-)
+from pytz_convert import (validate_tz_name)
+from requests_mv_integrations.errors import (get_exception_message, print_traceback)
+from tune_reporting.errors import (TuneReportingError)
+from requests_mv_integrations.support import (python_check_version, safe_dict)
 from .tmc_v2_advertiser_stats_base import (
-    TuneV2AdvertiserStatsBase,
-    TuneV2AdvertiserStatsActions,
-    TuneV2AuthenticationTypes
+    TuneV2AdvertiserStatsBase, TuneV2AdvertiserStatsActions, TuneV2AuthenticationTypes
 )
-from tune_reporting import (
-    __python_required_version__
-)
-from logging_mv_integrations import (
-    TuneLoggingFormat
-)
+from tune_reporting import (__python_required_version__)
+from logging_mv_integrations import (TuneLoggingFormat)
 log = logging.getLogger(__name__)
 
 python_check_version(__python_required_version__)
@@ -48,19 +32,11 @@ class TuneV2AdvertiserStatsActuals(TuneV2AdvertiserStatsBase):
 
     # Initialize Job
     #
-    def __init__(
-        self,
-        logger_level=logging.NOTSET,
-        logger_format=TuneLoggingFormat.JSON,
-        timezone=None
-    ):
+    def __init__(self, logger_level=logging.NOTSET, logger_format=TuneLoggingFormat.JSON, timezone=None):
         """Initialize TMC v2 Advertiser Stats Class.
         """
         super(TuneV2AdvertiserStatsActuals, self).__init__(
-            controller=self._CONTROLLER,
-            logger_level=logger_level,
-            logger_format=logger_format,
-            timezone=timezone
+            controller=self._CONTROLLER, logger_level=logger_level, logger_format=logger_format, timezone=timezone
         )
 
     # Collect data: TMC v2 Advertiser Stats Actuals.
@@ -86,35 +62,15 @@ class TuneV2AdvertiserStatsActuals(TuneV2AdvertiserStatsBase):
         Returns:
 
         """
-        self.logger.debug(
-            (
-                "TuneV2AdvertiserStatsActuals: Collect: "
-                "Action: '{}'"
-            ).format(
-                request_action
-            )
-        )
+        self.logger.debug(("TuneV2AdvertiserStatsActuals: Collect: " "Action: '{}'").format(request_action))
 
-        dict_request_params = self._map_request_params(
-            auth_type_use,
-            start_date,
-            end_date,
-            request_params
-        )
+        dict_request_params = self._map_request_params(auth_type_use, start_date, end_date, request_params)
 
-        self.logger.debug(
-            "TuneV2AdvertiserStatsActuals: Collect",
-            extra={
-                'build_params': dict_request_params
-            }
-        )
+        self.logger.debug("TuneV2AdvertiserStatsActuals: Collect", extra={'build_params': dict_request_params})
 
         try:
             if request_action == TuneV2AdvertiserStatsActions.FIND:
-                self._find_v2(
-                    request_params=dict_request_params,
-                    request_retry=request_retry
-                )
+                self._find_v2(request_params=dict_request_params, request_retry=request_retry)
             elif request_action == TuneV2AdvertiserStatsActions.EXPORT:
                 self._export_v2_download_csv(
                     auth_type_use=auth_type_use,
@@ -127,41 +83,22 @@ class TuneV2AdvertiserStatsActuals(TuneV2AdvertiserStatsBase):
                 )
 
         except TuneReportingError as tmv_ex:
-            self.logger.error(
-                "TuneV2AdvertiserStatsActuals: Collect: {}".format(
-                    str(tmv_ex)
-                )
-            )
+            self.logger.error("TuneV2AdvertiserStatsActuals: Collect: {}".format(str(tmv_ex)))
             raise
 
         except Exception as ex:
             print_traceback(ex)
 
-            self.logger.error(
-                "TuneV2AdvertiserStatsActuals: Collect: {}".format(
-                    get_exception_message(ex)
-                )
-            )
+            self.logger.error("TuneV2AdvertiserStatsActuals: Collect: {}".format(get_exception_message(ex)))
 
             raise TuneReportingError(
-                error_message=(
-                    "TuneV2AdvertiserStatsActuals: Collect: Failed: {}"
-                ).format(
-                    get_exception_message(ex)
-                ),
+                error_message=("TuneV2AdvertiserStatsActuals: Collect: Failed: {}").format(get_exception_message(ex)),
                 errors=ex
             )
 
     # Collect data: TUNE Advertiser Stats Actuals.
     #
-    def _stream_v2(
-        self,
-        auth_type_use,
-        start_date,
-        end_date,
-        request_params,
-        request_retry=None
-    ):
+    def _stream_v2(self, auth_type_use, start_date, end_date, request_params, request_retry=None):
         """Stream data: TUNE Advertiser Stats Actuals.
 
         Args:
@@ -173,32 +110,15 @@ class TuneV2AdvertiserStatsActuals(TuneV2AdvertiserStatsBase):
         Returns:
 
         """
-        self.logger.debug(
-            (
-                "TuneV2AdvertiserStatsActuals: "
-                "Streaming V2: Export"
-            ),
-            extra={
-                'request_params': request_params
-            }
-        )
+        self.logger.debug(("TuneV2AdvertiserStatsActuals: "
+                           "Streaming V2: Export"),
+                          extra={'request_params': request_params})
 
-        dict_request_params = self._map_request_params(
-            auth_type_use,
-            start_date,
-            end_date,
-            request_params
-        )
+        dict_request_params = self._map_request_params(auth_type_use, start_date, end_date, request_params)
 
-        self.logger.debug(
-            (
-                "TuneV2AdvertiserStatsActuals: "
-                "Streaming V2: Export"
-            ),
-            extra={
-                'build_params': dict_request_params
-            }
-        )
+        self.logger.debug(("TuneV2AdvertiserStatsActuals: "
+                           "Streaming V2: Export"),
+                          extra={'build_params': dict_request_params})
 
         try:
             response = self._export_stream_v2(
@@ -212,40 +132,21 @@ class TuneV2AdvertiserStatsActuals(TuneV2AdvertiserStatsBase):
             )
 
         except TuneReportingError as tmv_ex:
-            self.logger.error(
-                "TuneV2AdvertiserStatsActuals: {}".format(
-                    str(tmv_ex)
-                )
-            )
+            self.logger.error("TuneV2AdvertiserStatsActuals: {}".format(str(tmv_ex)))
             raise
 
         except Exception as ex:
             print_traceback(ex)
 
-            self.logger.error(
-                "TuneV2AdvertiserStatsActuals: {}".format(
-                    get_exception_message(ex)
-                )
-            )
+            self.logger.error("TuneV2AdvertiserStatsActuals: {}".format(get_exception_message(ex)))
 
             raise TuneReportingError(
-                error_message=(
-                    "TuneV2AdvertiserStatsActuals: Failed: {}"
-                ).format(
-                    get_exception_message(ex)
-                ),
-                errors=ex
+                error_message=("TuneV2AdvertiserStatsActuals: Failed: {}").format(get_exception_message(ex)), errors=ex
             )
 
         return response
 
-    def _map_request_params(
-        self,
-        auth_type_use,
-        start_date,
-        end_date,
-        request_params=None
-    ):
+    def _map_request_params(self, auth_type_use, start_date, end_date, request_params=None):
         """Build Request Paramaters
 
         Args:
@@ -318,10 +219,7 @@ class TuneV2AdvertiserStatsActuals(TuneV2AdvertiserStatsBase):
 
         if request_params:
             self.logger.debug(
-                "TuneV2AdvertiserStatsActuals: Request",
-                extra={
-                    'request_params': safe_dict(request_params)
-                }
+                "TuneV2AdvertiserStatsActuals: Request", extra={'request_params': safe_dict(request_params)}
             )
 
             if "fields" in request_params and \
@@ -342,8 +240,7 @@ class TuneV2AdvertiserStatsActuals(TuneV2AdvertiserStatsBase):
             if "filter" in request_params and \
                     request_params["filter"]:
                 dict_request_params["filter"] = "({} AND {})".format(
-                    request_params["filter"],
-                    self._FILTER_NOT_DEBUG_NOR_TEST_DATA
+                    request_params["filter"], self._FILTER_NOT_DEBUG_NOR_TEST_DATA
                 )
 
             if "format" in request_params:
@@ -374,22 +271,11 @@ class TuneV2AdvertiserStatsActuals(TuneV2AdvertiserStatsBase):
 
             if response_timezone:
                 if not validate_tz_name(response_timezone):
-                    return TuneReportingError(
-                        error_message="Invalid Timezone: {}".format(
-                            response_timezone
-                        )
-                    )
+                    return TuneReportingError(error_message="Invalid Timezone: {}".format(response_timezone))
                 self.timezone = response_timezone
                 dict_request_params["response_timezone"] = \
                     self.timezone
 
-        self.logger.debug(
-            (
-                "TuneV2AdvertiserStatsActuals: "
-                "Timezone: {}"
-            ).format(
-                self.timezone
-            )
-        )
+        self.logger.debug(("TuneV2AdvertiserStatsActuals: " "Timezone: {}").format(self.timezone))
 
         return dict_request_params
