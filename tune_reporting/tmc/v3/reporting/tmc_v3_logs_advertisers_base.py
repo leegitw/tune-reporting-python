@@ -13,7 +13,7 @@ from abc import ABCMeta, abstractmethod
 from urllib.parse import urlparse
 from pyhttpstatus_utils import (is_http_status_type, HttpStatusType)
 from tune_reporting.errors import (print_traceback, get_exception_message)
-from tune_reporting.errors import (TuneReportingError)
+from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.support import (python_check_version, safe_int, safe_dict)
 from tune_reporting.readers.report_reader_json import (ReportReaderJSON)
 from tune_reporting import (__python_required_version__)

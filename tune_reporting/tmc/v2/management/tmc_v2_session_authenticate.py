@@ -9,7 +9,7 @@ import logging
 
 from pyhttpstatus_utils import (HttpStatusType, is_http_status_type)
 from tune_reporting.errors import (print_traceback, get_exception_message)
-from tune_reporting.errors import (TuneReportingError)
+from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.support import (python_check_version)
 from tune_reporting import (__python_required_version__)
 from tune_reporting.tmc.tune_mobileapptracking_api_base import (TuneMobileAppTrackingApiBase)

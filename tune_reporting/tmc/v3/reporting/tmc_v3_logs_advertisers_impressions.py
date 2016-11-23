@@ -10,7 +10,7 @@ import logging
 
 from pytz_convert import (validate_tz_name)
 from tune_reporting.errors import (print_traceback, get_exception_message)
-from tune_reporting.errors import (TuneReportingError)
+from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.support import (python_check_version)
 
 from .tmc_v3_logs_advertisers_base import (TuneV3LogsAdvertisersBase, TuneV3LogsAdvertisersActions)

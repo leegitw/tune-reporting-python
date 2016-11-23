@@ -26,6 +26,7 @@ REQUIREMENTS = [
 PACKAGES = [
     'tune_reporting',
     'tune_reporting.errors',
+    'tune_reporting.exceptions',
     'tune_reporting.readers',
     'tune_reporting.support',
     'tune_reporting.tmc',

@@ -13,10 +13,21 @@ import time
 from abc import ABCMeta, abstractmethod
 from urllib.parse import urlparse
 
-from pyhttpstatus_utils import (HttpStatusType, HttpStatusCode, is_http_status_type)
-from tune_reporting.errors import (print_traceback, get_exception_message)
-from tune_reporting.errors import (TuneReportingError)
-from tune_reporting.support import (python_check_version, safe_dict, safe_int)
+from pyhttpstatus_utils import (
+    HttpStatusType,
+    HttpStatusCode,
+    is_http_status_type,
+)
+from tune_reporting.errors import (
+    print_traceback,
+    get_exception_message,
+)
+from tune_reporting.exceptions import (TuneReportingError)
+from tune_reporting.support import (
+    python_check_version,
+    safe_dict,
+    safe_int,
+)
 from tune_reporting.readers.report_reader_json import (ReportReaderJSON)
 from tune_reporting import (__python_required_version__)
 from tune_reporting.readers.report_reader_csv import (ReportReaderCSV)

@@ -10,12 +10,16 @@ import requests
 import datetime as dt
 from pytz_convert import (validate_tz_name)
 from pyhttpstatus_utils import (http_status_code_to_type)
-from tune_reporting.support import (python_check_version, safe_str, __TIMEZONE_NAME_DEFAULT__)
-from tune_reporting.errors import (TuneReportingError)
+from tune_reporting.support import (
+    python_check_version,
+    safe_str,
+    __TIMEZONE_NAME_DEFAULT__,
+)
+from requests_mv_integrations.errors import (TuneRequestErrorCodes)
+from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting import (__python_required_version__)
-from requests_mv_integrations import (RequestMvIntegration)
+from requests_mv_integrations import (RequestMvIntegrationDownload)
 from tune_reporting.support import (command_line_request_curl_get)
-from requests_mv_integrations.errors import (RequestErrorCode)
 from tune_reporting import (__version__)
 from logging_mv_integrations import (TuneLoggingFormat, get_logger)
 
@@ -41,7 +45,10 @@ class TuneMobileAppTrackingApiBase(object):
         """Get Property: Logger
         """
         if self.__mv_request is None:
-            self.__mv_request = RequestMvIntegration(logger_format=self.logger_format, logger_level=self.logger_level)
+            self.__mv_request = RequestMvIntegrationDownload(
+                logger_format=self.logger_format,
+                logger_level=self.logger_level,
+            )
 
         return self.__mv_request
 
@@ -59,7 +66,12 @@ class TuneMobileAppTrackingApiBase(object):
 
         return self.__logger
 
-    def __init__(self, logger_level=logging.INFO, logger_format=TuneLoggingFormat.JSON, timezone=None):
+    def __init__(
+        self,
+        logger_level=logging.INFO,
+        logger_format=TuneLoggingFormat.JSON,
+        timezone=None,
+    ):
         self.logger_level = logger_level
         self.logger_format = logger_format
 
@@ -258,7 +270,7 @@ class TuneMobileAppTrackingApiBase(object):
             raise TuneReportingError(
                 error_message='Invalid JSON response: {}'.format(auth_response.text),
                 errors=ex,
-                exit_code=RequestErrorCode.MOD_ERR_AUTH_JSON_ERROR,
+                exit_code=TuneRequestErrorCodes.REQ_ERR_AUTH_JSON_ERROR,
                 error_request_curl=auth_request_curl
             )
 

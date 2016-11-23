@@ -7,7 +7,7 @@ import logging
 # from pprintpp import pprint
 
 from tune_reporting.errors import (print_traceback, get_exception_message)
-from tune_reporting.errors import (TuneReportingError)
+from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.tmc.v2.management import (TuneV2SessionAuthenticate)
 
 

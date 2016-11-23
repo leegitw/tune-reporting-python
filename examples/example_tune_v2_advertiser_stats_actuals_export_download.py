@@ -9,7 +9,7 @@ import pytz
 import logging
 
 from tune_reporting.errors import (print_traceback, get_exception_message)
-from tune_reporting.errors import (TuneReportingError)
+from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.tmc.v2.reporting import (
     TuneV2AdvertiserStatsActuals, TuneV2AdvertiserStatsActions, TuneV2AdvertiserStatsFormats
 )
