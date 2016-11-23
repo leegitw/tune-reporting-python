@@ -8,7 +8,7 @@
 import logging
 
 from tune_reporting import (__python_required_version__)
-from requests_mv_integrations.support import (python_check_version)
+from tune_reporting.support import (python_check_version)
 from tune_reporting.tmc.tune_mobileapptracking_api_base import (TuneMobileAppTrackingApiBase)
 from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (TuneV2SessionAuthenticate)
 from logging_mv_integrations import (TuneLoggingFormat)

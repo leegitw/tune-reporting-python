@@ -17,3 +17,12 @@ __PYTHON_VERSION__ = 'Python/%d.%d.%d' % (sys.version_info[0], sys.version_info[
 __USER_AGENT__ = "({}, {})".format(__MODULE_SIG__, __PYTHON_VERSION__)
 
 __LOGGER_NAME__ = __name__.split('.')[0]
+
+HEADER_CONTENT_TYPE_APP_JSON = \
+    {'Content-Type': 'application/json'}
+
+HEADER_CONTENT_TYPE_APP_URLENCODED = \
+    {'Content-Type': 'application/x-www-form-urlencoded'}
+
+HEADER_USER_AGENT = \
+    {'User-Agent': __USER_AGENT__}

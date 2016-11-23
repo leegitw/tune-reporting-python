@@ -10,12 +10,16 @@ import requests
 import datetime as dt
 from pytz_convert import (validate_tz_name)
 from pyhttpstatus_utils import (http_status_code_to_type)
-from requests_mv_integrations.support import (python_check_version, safe_str, __TIMEZONE_NAME_DEFAULT__)
-from tune_reporting.errors import (TuneReportingError)
+from tune_reporting.support import (
+    python_check_version,
+    safe_str,
+    __TIMEZONE_NAME_DEFAULT__,
+)
+from requests_mv_integrations.errors import (TuneRequestErrorCodes)
+from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting import (__python_required_version__)
-from requests_mv_integrations import (RequestMvIntegration)
-from requests_mv_integrations.support import (command_line_request_curl_get)
-from requests_mv_integrations.errors import (TuneIntegrationExitCode)
+from requests_mv_integrations import (RequestMvIntegrationDownload)
+from tune_reporting.support import (command_line_request_curl_get)
 from tune_reporting import (__version__)
 from logging_mv_integrations import (TuneLoggingFormat, get_logger)
 
@@ -32,25 +36,21 @@ class TuneMobileAppTrackingApiBase(object):
     _TUNE_MANAGEMENT_API_ENDPOINT = "https://api.mobileapptracking.com"
 
     __tmc_credentials = None
-
-    #  Timezone
-    #  @var str
     __timezone = None
-
-    __request = None
+    __mv_request = None
+    __logger = None
 
     @property
-    def request_mv_integration(self):
+    def mv_request(self):
         """Get Property: Logger
         """
-        if self.__request is None:
-            self.__request = RequestMvIntegration(
-                logger_format=self.logger_format, logger_level=self.logger_level
+        if self.__mv_request is None:
+            self.__mv_request = RequestMvIntegrationDownload(
+                logger_format=self.logger_format,
+                logger_level=self.logger_level,
             )
 
-        return self.__request
-
-    __logger = None
+        return self.__mv_request
 
     @property
     def logger(self):
@@ -66,7 +66,12 @@ class TuneMobileAppTrackingApiBase(object):
 
         return self.__logger
 
-    def __init__(self, logger_level=logging.INFO, logger_format=TuneLoggingFormat.JSON, timezone=None):
+    def __init__(
+        self,
+        logger_level=logging.INFO,
+        logger_format=TuneLoggingFormat.JSON,
+        timezone=None,
+    ):
         self.logger_level = logger_level
         self.logger_format = logger_format
 
@@ -240,7 +245,7 @@ class TuneMobileAppTrackingApiBase(object):
 
         auth_request_curl = command_line_request_curl_get(request_url=request_url, request_params=request_params)
 
-        auth_response = self.request_mv_integration.request(
+        auth_response = self.mv_request.request(
             request_method="GET",
             request_url=request_url,
             request_params=request_params,
@@ -265,7 +270,7 @@ class TuneMobileAppTrackingApiBase(object):
             raise TuneReportingError(
                 error_message='Invalid JSON response: {}'.format(auth_response.text),
                 errors=ex,
-                exit_code=TuneIntegrationExitCode.MOD_ERR_AUTH_JSON_ERROR,
+                exit_code=TuneRequestErrorCodes.REQ_ERR_AUTH_JSON_ERROR,
                 error_request_curl=auth_request_curl
             )
 

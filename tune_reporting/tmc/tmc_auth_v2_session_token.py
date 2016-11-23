@@ -8,11 +8,16 @@ TUNE Multiverse Reporting Base
 """
 
 import logging
-from requests_mv_integrations.support import (base_class_name)
-from requests_mv_integrations.errors import (get_exception_message, print_traceback, ModuleAuthenticationError)
-from tune_reporting.errors import (TuneReportingError)
-from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (TuneV2SessionAuthenticate)
+
 from logging_mv_integrations import (TuneLoggingFormat)
+
+from tune_reporting.errors import (
+    get_exception_message,
+    print_traceback,
+)
+from tune_reporting.exceptions import (TuneReportingAuthError, TuneReportingError)
+from tune_reporting.support import (base_class_name)
+from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (TuneV2SessionAuthenticate)
 
 log = logging.getLogger(__name__)
 
@@ -49,7 +54,10 @@ def tmc_auth_v2_session_token(tmc_api_key, logger_level=logging.NOTSET, logger_f
                    'error_details': get_exception_message(ex)}
         )
 
-        raise ModuleAuthenticationError(error_message="TMC v2 Session Authenticate: Failed: Unexpected", errors=ex)
+        raise TuneReportingAuthError(
+            error_message="TMC v2 Session Authenticate: Failed: Unexpected",
+            errors=ex,
+        )
 
     log.debug("TMC v2 /session/authenticate/: Response", extra={'session_token': session_token})
 

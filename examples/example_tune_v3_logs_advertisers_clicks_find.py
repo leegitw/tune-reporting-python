@@ -8,23 +8,11 @@ from datetime import datetime, time, timedelta
 import pytz
 import logging
 
-from requests_mv_integrations.errors import (
-    print_traceback,
-    get_exception_message
-)
-from tune_reporting.errors import (
-    TuneReportingError
-)
-from tune_reporting.tmc.v3.reporting import (
-    TuneV3LogsAdvertisersClicks,
-    TuneV3LogsAdvertisersActions
-)
-from tune_reporting.tmc.v2.management import (
-    TuneV2AuthenticationTypes
-)
-from logging_mv_integrations import (
-    TuneLoggingFormat
-)
+from tune_reporting.errors import (print_traceback, get_exception_message)
+from tune_reporting.exceptions import (TuneReportingError)
+from tune_reporting.tmc.v3.reporting import (TuneV3LogsAdvertisersClicks, TuneV3LogsAdvertisersActions)
+from tune_reporting.tmc.v2.management import (TuneV2AuthenticationTypes)
+from logging_mv_integrations import (TuneLoggingFormat)
 
 
 def main(tmc_api_key):
@@ -49,11 +37,9 @@ def main(tmc_api_key):
             start_date=str_yesterday,
             end_date=str_yesterday,
             advertiser_id=877,
-            request_params={
-                'timezone': 'America/New_York',
-                'filter': filter_stats_clicks,
-                'limit': 10
-            },
+            request_params={'timezone': 'America/New_York',
+                            'filter': filter_stats_clicks,
+                            'limit': 10},
             request_action=TuneV3LogsAdvertisersActions.FIND
         )
 

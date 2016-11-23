@@ -13,10 +13,21 @@ import time
 from abc import ABCMeta, abstractmethod
 from urllib.parse import urlparse
 
-from pyhttpstatus_utils import (HttpStatusType, HttpStatusCode, is_http_status_type)
-from requests_mv_integrations.errors import (get_exception_message, print_traceback)
-from tune_reporting.errors import (TuneReportingError)
-from requests_mv_integrations.support import (python_check_version, safe_dict, safe_int)
+from pyhttpstatus_utils import (
+    HttpStatusType,
+    HttpStatusCode,
+    is_http_status_type,
+)
+from tune_reporting.errors import (
+    print_traceback,
+    get_exception_message,
+)
+from tune_reporting.exceptions import (TuneReportingError)
+from tune_reporting.support import (
+    python_check_version,
+    safe_dict,
+    safe_int,
+)
 from tune_reporting.readers.report_reader_json import (ReportReaderJSON)
 from tune_reporting import (__python_required_version__)
 from tune_reporting.readers.report_reader_csv import (ReportReaderCSV)
@@ -314,7 +325,7 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         request_params["end_date"] += " 23:59:59"
 
         try:
-            response = self.request_mv_integration.request(
+            response = self.mv_request.request(
                 request_method="GET",
                 request_url=request_url,
                 request_params=request_params,
@@ -331,7 +342,7 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
             self.logger.error("TMC v2 Advertiser Stats: {}".format(get_exception_message(ex)))
             raise
 
-        json_response = self.request_mv_integration.validate_json_response(
+        json_response = self.mv_request.validate_json_response(
             response, request_label="TMC v2 Advertiser Stats: Action 'find'"
         )
 
@@ -529,7 +540,7 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
 
         job_row_count = 0
 
-        for row in self.request_mv_integration.request_csv_download(
+        for row in self.mv_request.request_csv_download(
             tmp_csv_file_name=tmp_csv_file_name,
             request_method="GET",
             request_url=export_report_url,
@@ -637,7 +648,7 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                          extra={'job_id': export_job_id,
                                 'report_url': export_report_url})
 
-        response = self.request_mv_integration.request(
+        response = self.mv_request.request(
             request_method="GET", request_url=export_report_url, stream=True, request_label=request_label
         )
 
@@ -683,7 +694,7 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                           })
 
         try:
-            response = self.request_mv_integration.request(
+            response = self.mv_request.request(
                 request_method="GET",
                 request_url=request_url,
                 request_params=request_params,
@@ -704,7 +715,7 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                 error_message=("TMC v2 Advertiser Stats: Failed: {}").format(get_exception_message(ex)), errors=ex
             )
 
-        json_response = self.request_mv_integration.validate_json_response(
+        json_response = self.mv_request.validate_json_response(
             response, request_label="TMC v2 Advertiser Stats: Action '{}'".format(export_action)
         )
 
@@ -826,7 +837,7 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         _tries, _delay = tries, delay
         while True:
             try:
-                response = self.request_mv_integration.request(
+                response = self.mv_request.request(
                     request_method="GET",
                     request_url=v2_export_status_request_url,
                     request_params=request_params,
