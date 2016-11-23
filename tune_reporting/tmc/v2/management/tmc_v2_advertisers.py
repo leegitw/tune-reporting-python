@@ -8,12 +8,17 @@
 import logging
 
 from pyhttpstatus_utils import (HttpStatusType, is_http_status_type)
-from tune_reporting.errors import (print_traceback, get_exception_message)
+from requests_mv_integrations.support import (validate_json_response)
+from tune_reporting.errors import (
+    print_traceback,
+    get_exception_message,
+)
 from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.support import (python_check_version)
 from tune_reporting import (__python_required_version__)
 from tune_reporting.tmc.tune_mobileapptracking_api_base import (TuneMobileAppTrackingApiBase)
 from logging_mv_integrations import (TuneLoggingFormat)
+from pprintpp import pprint
 
 python_check_version(__python_required_version__)
 
@@ -114,8 +119,10 @@ class TuneV2Advertisers(TuneMobileAppTrackingApiBase):
                 error_message=("TMC v2 Advertisers: Failed: {}").format(get_exception_message(ex)), errors=ex
             )
 
-        json_response = self.mv_request.validate_json_response(
-            response, request_label="TMC v2 Advertisers: Advertiser ID:"
+        json_response = validate_json_response(
+            response,
+            request_curl=self.mv_request.built_request_curl,
+            request_label="TMC v2 Advertisers: Advertiser ID:"
         )
 
         self.logger.debug("TMC v2 Advertisers: Advertiser ID", extra={'response': json_response})
