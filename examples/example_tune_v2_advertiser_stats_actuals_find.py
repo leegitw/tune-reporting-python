@@ -9,23 +9,12 @@ from pprintpp import pprint
 from datetime import datetime, time, timedelta
 import pytz
 
-from requests_mv_integrations.errors import (
-    print_traceback,
-    get_exception_message
-)
-from tune_reporting.errors import (
-    TuneReportingError
-)
-from tune_reporting.tmc.v2.reporting import (
-    TuneV2AdvertiserStatsActuals,
-    TuneV2AdvertiserStatsActions
-)
-from tune_reporting.tmc.v2.management import (
-    TuneV2AuthenticationTypes
-)
-from logging_mv_integrations import (
-    TuneLoggingFormat
-)
+from tune_reporting.errors import (print_traceback, get_exception_message)
+from tune_reporting.errors import (TuneReportingError)
+from tune_reporting.tmc.v2.reporting import (TuneV2AdvertiserStatsActuals, TuneV2AdvertiserStatsActions)
+from tune_reporting.tmc.v2.management import (TuneV2AuthenticationTypes)
+from logging_mv_integrations import (TuneLoggingFormat)
+
 
 def main(tmc_api_key):
 
@@ -40,9 +29,7 @@ def main(tmc_api_key):
     str_yesterday = str(yesterday)
 
     try:
-        tune_v2_advertiser_stats_actuals.tmc_auth(
-            tmc_api_key=tmc_api_key
-        )
+        tune_v2_advertiser_stats_actuals.tmc_auth(tmc_api_key=tmc_api_key)
 
         tune_v2_advertiser_stats_actuals.collect(
             auth_value=tmc_api_key,

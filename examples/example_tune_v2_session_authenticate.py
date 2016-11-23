@@ -6,16 +6,10 @@ import sys
 import logging
 # from pprintpp import pprint
 
-from requests_mv_integrations.errors import (
-    print_traceback,
-    get_exception_message
-)
-from tune_reporting.errors import (
-    TuneReportingError
-)
-from tune_reporting.tmc.v2.management import (
-    TuneV2SessionAuthenticate
-)
+from tune_reporting.errors import (print_traceback, get_exception_message)
+from tune_reporting.errors import (TuneReportingError)
+from tune_reporting.tmc.v2.management import (TuneV2SessionAuthenticate)
+
 
 def main(tmc_api_key):
 
@@ -25,10 +19,7 @@ def main(tmc_api_key):
         )
 
     try:
-        if tune_v2_session_authenticate.get_session_token(
-            tmc_api_key=tmc_api_key,
-            request_retry=None
-        ):
+        if tune_v2_session_authenticate.get_session_token(tmc_api_key=tmc_api_key, request_retry=None):
             session_token = tune_v2_session_authenticate.session_token
             print(session_token)
 

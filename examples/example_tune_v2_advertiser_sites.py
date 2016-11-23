@@ -6,36 +6,22 @@ import sys
 from pprintpp import pprint
 import logging
 
-from requests_mv_integrations.errors import (
-    print_traceback,
-    get_exception_message
-)
-from tune_reporting.tmc.v2.management import (
-    TuneV2AuthenticationTypes,
-    TuneV2AdvertiserSites
-)
-from tune_reporting.errors import (
-    TuneReportingError
-)
+from tune_reporting.errors import (print_traceback, get_exception_message)
+from tune_reporting.tmc.v2.management import (TuneV2AuthenticationTypes, TuneV2AdvertiserSites)
+from tune_reporting.errors import (TuneReportingError)
 
 
 def main(tmc_api_key):
-    tune_advertiser_sites = TuneV2AdvertiserSites(
-        logger_level=logging.DEBUG
-    )
+    tune_advertiser_sites = TuneV2AdvertiserSites(logger_level=logging.DEBUG)
 
     try:
-        tune_advertiser_sites.tmc_auth(
-            tmc_api_key=tmc_api_key
-        )
+        tune_advertiser_sites.tmc_auth(tmc_api_key=tmc_api_key)
 
         for collect_data_item, collect_error in tune_advertiser_sites.collect(
             auth_value=tmc_api_key,
             auth_type=TuneV2AuthenticationTypes.API_KEY,
             auth_type_use=TuneV2AuthenticationTypes.API_KEY,
-            request_params={
-                'limit': 5
-            }
+            request_params={'limit': 5}
         ):
             pprint(collect_data_item)
 

@@ -10,26 +10,13 @@ from datetime import datetime, time, timedelta
 import pytz
 import logging
 
-from requests_mv_integrations.errors import (
-    print_traceback,
-    get_exception_message
-)
-from tune_reporting.errors import (
-    TuneReportingError
-)
-from tune_reporting.tmc.v2.reporting import (
-    TuneV2AdvertiserStatsActuals,
-    TuneV2AdvertiserStatsFormats
-)
-from requests_mv_integrations.support import (
-    convert_size
-)
-from tune_reporting.tmc.v2.management import (
-    TuneV2AuthenticationTypes
-)
-from logging_mv_integrations import (
-    TuneLoggingFormat
-)
+from tune_reporting.errors import (print_traceback, get_exception_message)
+from tune_reporting.errors import (TuneReportingError)
+from tune_reporting.tmc.v2.reporting import (TuneV2AdvertiserStatsActuals, TuneV2AdvertiserStatsFormats)
+from tune_reporting.support import (convert_size)
+from tune_reporting.tmc.v2.management import (TuneV2AuthenticationTypes)
+from logging_mv_integrations import (TuneLoggingFormat)
+
 
 def main(tmc_api_key):
     TIMEZONE_COLLECT = "America/New_York"
@@ -52,9 +39,7 @@ def main(tmc_api_key):
     str_yesterday = str(yesterday)
 
     try:
-        tune_v2_advertiser_stats_actuals.tmc_auth(
-            tmc_api_key=tmc_api_key
-        )
+        tune_v2_advertiser_stats_actuals.tmc_auth(tmc_api_key=tmc_api_key)
 
         response = tune_v2_advertiser_stats_actuals.stream(
             auth_value=tmc_api_key,
@@ -98,29 +83,19 @@ def main(tmc_api_key):
                 ),
                 'timezone': "America/Los_Angeles"
             },
-            request_retry={
-                'delay': 15,
-                'timeout': 30,
-                'tries': 10
-            }
+            request_retry={'delay': 15,
+                           'timeout': 30,
+                           'tries': 10}
         )
 
-        with open(
-            file=dw_file_path,
-            mode='wb'
-        ) as dw_file_wb:
+        with open(file=dw_file_path, mode='wb') as dw_file_wb:
             for chunk in response.iter_content(chunk_size=1024):
                 if chunk:  # filter out keep-alive new chunks
                     dw_file_wb.write(chunk)
             dw_file_wb.flush()
 
-        with open(
-            file=dw_file_path,
-            mode='r'
-        ) as csv_file_r:
-            csv_dict_reader = csv.DictReader(
-                csv_file_r
-            )
+        with open(file=dw_file_path, mode='r') as csv_file_r:
+            csv_dict_reader = csv.DictReader(csv_file_r)
             for row in csv_dict_reader:
                 print(row)
 
@@ -141,7 +116,6 @@ def main(tmc_api_key):
     except Exception as ex:
         print_traceback(ex)
         print(get_exception_message(ex))
-
 
 
 if __name__ == '__main__':

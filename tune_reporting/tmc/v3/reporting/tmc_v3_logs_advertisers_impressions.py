@@ -9,9 +9,9 @@ import logging
 # from pprintpp import pprint
 
 from pytz_convert import (validate_tz_name)
-from requests_mv_integrations.errors import (get_exception_message, print_traceback)
+from tune_reporting.errors import (print_traceback, get_exception_message)
 from tune_reporting.errors import (TuneReportingError)
-from requests_mv_integrations.support import (python_check_version)
+from tune_reporting.support import (python_check_version)
 
 from .tmc_v3_logs_advertisers_base import (TuneV3LogsAdvertisersBase, TuneV3LogsAdvertisersActions)
 from tune_reporting import (__python_required_version__)

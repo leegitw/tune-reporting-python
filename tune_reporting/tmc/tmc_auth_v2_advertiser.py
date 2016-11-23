@@ -11,12 +11,14 @@ import logging
 
 from tune_reporting.tmc.v2.management.tmc_v2_advertisers import (TuneV2Advertisers)
 from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (TuneV2AuthenticationTypes)
-from requests_mv_integrations.support import (base_class_name)
-from requests_mv_integrations.errors import (
-    get_exception_message, print_traceback, TuneIntegrationExitCode, ModuleAuthenticationError
+from tune_reporting.support import (base_class_name)
+from tune_reporting.errors import (
+    get_exception_message,
+    print_traceback,
+    RequestErrorCode,
 )
 from tune_mv_integration.auth_validator import (AuthenticationError)
-from tune_reporting.errors import (TuneReportingError)
+from tune_reporting.errors.exceptions import (TuneReportingError, TuneReportingAuthError)
 from logging_mv_integrations import (TuneLoggingFormat)
 
 log = logging.getLogger(__name__)
@@ -55,7 +57,7 @@ def tmc_auth_v2_advertiser(tmc_api_key, logger_level=logging.NOTSET, logger_form
     except AuthenticationError as auth_ex:
         log.error("TMC v2 Advertiser: Authentication: Failed", extra=auth_ex.to_dict())
 
-        raise ModuleAuthenticationError(
+        raise TuneReportingAuthError(
             error_message="TMC v2 Advertiser: Authentication: Failed",
             exit_code=auth_ex.remote_status,
             errors=auth_ex.errors,
@@ -64,7 +66,7 @@ def tmc_auth_v2_advertiser(tmc_api_key, logger_level=logging.NOTSET, logger_form
 
     except Exception as ex:
         print_traceback(ex)
-        exit_code = TuneIntegrationExitCode.MOD_ERR_SOFTWARE
+        exit_code = RequestErrorCode.MOD_ERR_SOFTWARE
 
         log.error(
             'TMC v2 Advertiser: Authentication: Failed: Unexpected',
@@ -75,8 +77,10 @@ def tmc_auth_v2_advertiser(tmc_api_key, logger_level=logging.NOTSET, logger_form
             }
         )
 
-        raise ModuleAuthenticationError(
-            error_message="TMC v2 Advertiser: Authentication: Failed: Unexpected", exit_code=exit_code, errors=ex
+        raise TuneReportingAuthError(
+            error_message="TMC v2 Advertiser: Authentication: Failed: Unexpected",
+            exit_code=exit_code,
+            errors=ex,
         )
 
     if response_auth:

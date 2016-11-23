@@ -23,7 +23,7 @@ PACKAGE_PATTERN := $(PACKAGE_PREFIX)-*-$(PACKAGE_SUFFIX)
 VERSION := $(shell $(PYTHON3) setup.py version)
 WHEEL_ARCHIVE := dist/$(PACKAGE_PREFIX)-$(VERSION)-$(PACKAGE_SUFFIX)
 
-PACKAGE_FILES := $(shell find $(PACKAGE_PREFIX) ! -name '__init__.py' -type f -name "*.py")
+PACKAGE_FILES := $(shell find $(PACKAGE_PREFIX) examples ! -name '__init__.py' -type f -name "*.py")
 TOOLS_REQ_FILE := requirements-tools.txt
 REQ_FILE      := requirements.txt
 SETUP_FILE    := setup.py
@@ -122,10 +122,15 @@ local-dev: remove-package
 
 dist: clean
 	@echo "======================================================"
+	@echo remove $(PACKAGE_PREFIX_WILDCARD) and $(PACKAGE_WILDCARD)
+	@echo "======================================================"
+	mkdir -p ./dist/
+	find ./dist/ -name $(PACKAGE_WILDCARD) -exec rm -vf {} \;
+	find ./dist/ -name $(PACKAGE_PREFIX_WILDCARD) -exec rm -vf {} \;
+	@echo "======================================================"
 	@echo dist $(PACKAGE)
 	@echo "======================================================"
 	$(PIP3) install --upgrade -r requirements.txt
-	find ./dist/ -name $(PACKAGE_PATTERN) -exec rm -vf {} \;
 	$(PYTHON3) $(SETUP_FILE) bdist_wheel upload
 	$(PYTHON3) $(SETUP_FILE) bdist_egg upload
 	$(PYTHON3) $(SETUP_FILE) sdist --format=zip,gztar upload
@@ -133,10 +138,15 @@ dist: clean
 
 build: clean
 	@echo "======================================================"
+	@echo remove $(PACKAGE_PREFIX_WILDCARD) and $(PACKAGE_WILDCARD)
+	@echo "======================================================"
+	mkdir -p ./dist/
+	find ./dist/ -name $(PACKAGE_WILDCARD) -exec rm -vf {} \;
+	find ./dist/ -name $(PACKAGE_PREFIX_WILDCARD) -exec rm -vf {} \;
+	@echo "======================================================"
 	@echo build $(PACKAGE)
 	@echo "======================================================"
 	$(PIP3) install --upgrade -r requirements.txt
-	find ./dist/ -name $(PACKAGE_PATTERN) -exec rm -vf {} \;
 	$(PYTHON3) $(SETUP_FILE) clean
 	$(PYTHON3) $(SETUP_FILE) build
 	$(PYTHON3) $(SETUP_FILE) install
@@ -175,7 +185,6 @@ yapf: tools-requirements
 	@echo "======================================================"
 	@echo yapf $(PACKAGE)
 	@echo "======================================================"
-	@echo yapf: $(PACKAGE_FILES)
 	$(PYTHON3) -m yapf --style .style.yapf --in-place $(PACKAGE_FILES)
 
 lint: tools-requirements

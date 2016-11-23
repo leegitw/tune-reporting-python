@@ -8,24 +8,13 @@ from datetime import datetime, timedelta
 import pytz
 import logging
 
-from requests_mv_integrations.errors import (
-    print_traceback,
-    get_exception_message
-)
-from tune_reporting.errors import (
-    TuneReportingError
-)
+from tune_reporting.errors import (print_traceback, get_exception_message)
+from tune_reporting.errors import (TuneReportingError)
 from tune_reporting.tmc.v2.reporting import (
-    TuneV2AdvertiserStatsActuals,
-    TuneV2AdvertiserStatsActions,
-    TuneV2AdvertiserStatsFormats
+    TuneV2AdvertiserStatsActuals, TuneV2AdvertiserStatsActions, TuneV2AdvertiserStatsFormats
 )
-from tune_reporting.tmc.v2.management import (
-    TuneV2AuthenticationTypes
-)
-from logging_mv_integrations import (
-    TuneLoggingFormat
-)
+from tune_reporting.tmc.v2.management import (TuneV2AuthenticationTypes)
+from logging_mv_integrations import (TuneLoggingFormat)
 
 
 def main(tmc_api_key):
@@ -41,9 +30,7 @@ def main(tmc_api_key):
     str_yesterday = str(yesterday)
 
     try:
-        auth_response = tune_v2_advertiser_stats_actuals.tmc_auth(
-            tmc_api_key=tmc_api_key
-        )
+        auth_response = tune_v2_advertiser_stats_actuals.tmc_auth(tmc_api_key=tmc_api_key)
 
         tune_v2_advertiser_stats_actuals.collect(
             auth_value=tmc_api_key,
@@ -90,11 +77,9 @@ def main(tmc_api_key):
                 'limit': 5
             },
             request_action=TuneV2AdvertiserStatsActions.EXPORT,
-            request_retry={
-                'delay': 15,
-                'timeout': 30,
-                'tries': 10
-            }
+            request_retry={'delay': 15,
+                           'timeout': 30,
+                           'tries': 10}
         )
 
     except TuneReportingError as tmv_ex:
