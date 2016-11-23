@@ -18,6 +18,7 @@ from pyhttpstatus_utils import (
     HttpStatusCode,
     is_http_status_type,
 )
+from requests_mv_integrations.support import (validate_json_response)
 from tune_reporting.errors import (
     print_traceback,
     get_exception_message,
@@ -342,8 +343,10 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
             self.logger.error("TMC v2 Advertiser Stats: {}".format(get_exception_message(ex)))
             raise
 
-        json_response = self.mv_request.validate_json_response(
-            response, request_label="TMC v2 Advertiser Stats: Action 'find'"
+        json_response = validate_json_response(
+            response,
+            request_curl=self.mv_request.built_request_curl,
+            request_label="TMC v2 Advertiser Stats: Action 'find'"
         )
 
         if json_response['status_code'] != 200:
@@ -715,8 +718,10 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                 error_message=("TMC v2 Advertiser Stats: Failed: {}").format(get_exception_message(ex)), errors=ex
             )
 
-        json_response = self.mv_request.validate_json_response(
-            response, request_label="TMC v2 Advertiser Stats: Action '{}'".format(export_action)
+        json_response = validate_json_response(
+            response,
+            request_curl=self.mv_request.built_request_curl,
+            request_label="TMC v2 Advertiser Stats: Action '{}'".format(export_action)
         )
 
         if (not json_response or json_response['status_code'] != 200 or 'errors' in json_response):

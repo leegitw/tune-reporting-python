@@ -11,10 +11,21 @@ import os
 import time
 from abc import ABCMeta, abstractmethod
 from urllib.parse import urlparse
-from pyhttpstatus_utils import (is_http_status_type, HttpStatusType)
-from tune_reporting.errors import (print_traceback, get_exception_message)
+from pyhttpstatus_utils import (
+    is_http_status_type,
+    HttpStatusType,
+)
+from requests_mv_integrations.support import (validate_json_response)
+from tune_reporting.errors import (
+    print_traceback,
+    get_exception_message,
+)
 from tune_reporting.exceptions import (TuneReportingError)
-from tune_reporting.support import (python_check_version, safe_int, safe_dict)
+from tune_reporting.support import (
+    python_check_version,
+    safe_int,
+    safe_dict,
+)
 from tune_reporting.readers.report_reader_json import (ReportReaderJSON)
 from tune_reporting import (__python_required_version__)
 from tune_reporting.readers.report_reader_csv import (ReportReaderCSV)
@@ -256,8 +267,10 @@ class TuneV3LogsAdvertisersBase(TuneMobileAppTrackingApi):
             self.logger.error("TMC v3 Logs Advertisers Base: {}".format(get_exception_message(ex)))
             raise
 
-        json_response = self.mv_request.validate_json_response(
-            response, request_label="TMC v3 Logs Advertisers: Action 'find'"
+        json_response = validate_json_response(
+            response,
+            request_curl=self.mv_request.built_request_curl,
+            request_label="TMC v3 Logs Advertisers: Action 'find'",
         )
 
         data = json_response['data']
@@ -447,8 +460,9 @@ class TuneV3LogsAdvertisersBase(TuneMobileAppTrackingApi):
                 error_message=("TMC v3 Logs Advertisers Base: Failed: {}").format(get_exception_message(ex)), errors=ex
             )
 
-        json_response = self.mv_request.validate_json_response(
+        json_response = validate_json_response(
             response,
+            request_curl=self.mv_request.built_request_curl,
             request_label="TMC v3 Logs Advertisers: '{}': Action 'exports'".format(self.logs_advertisers_type)
         )
 

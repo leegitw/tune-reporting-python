@@ -8,6 +8,7 @@
 import logging
 
 from pyhttpstatus_utils import (HttpStatusType, is_http_status_type)
+from requests_mv_integrations.support import (validate_json_response)
 from tune_reporting.errors import (print_traceback, get_exception_message)
 from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.support import (python_check_version)
@@ -98,8 +99,10 @@ class TuneV2SessionAuthenticate(TuneMobileAppTrackingApiBase):
                 errors=ex
             )
 
-        json_response = self.mv_request.validate_json_response(
-            response, request_label="TMC v2 Get Session Token: Validate"
+        json_response = validate_json_response(
+            response,
+            request_curl=self.mv_request.built_request_curl,
+            request_label="TMC v2 Get Session Token: Validate",
         )
 
         self.logger.debug("TuneV2SessionAuthenticate", extra={'response': json_response})

@@ -4,7 +4,7 @@
 # copyright Copyright (c) 2016, TUNE Inc. (http://www.tune.com)
 #
 
-.PHONY: clean version build dist local-dev yapf pyflakes pylint
+.PHONY: clean version build dist local-dev yapf pyflakes pylint run-examples
 
 PACKAGE := tune-reporting
 PACKAGE_PREFIX := tune_reporting
@@ -235,3 +235,15 @@ docs-doxygen:
 	rm -fR ./docs/doxygen/*
 	sudo doxygen docs/Doxyfile
 	x-www-browser docs/doxygen/html/index.html
+
+run-examples:
+	@echo "======================================================"
+	@echo run-examples $(PACKAGE)
+	@echo "======================================================"
+	$(PYTHON3) examples/example_tune_v2_advertisers.py $(api_key)
+	$(PYTHON3) examples/example_tune_v2_advertiser_sites.py $(api_key)
+	$(PYTHON3) examples/example_tune_v2_advertiser_stats_actuals_find.py $(api_key)
+	$(PYTHON3) examples/example_tune_v2_advertiser_stats_actuals_export_stream_csv_transform.py $(api_key)
+	$(PYTHON3) examples/example_tune_v2_advertiser_sites.py $(api_key)
+	$(PYTHON3) examples/example_tune_v2_session_authenticate.py $(api_key)
+	$(PYTHON3) examples/example_tune_v3_logs_advertisers_clicks_find.py $(api_key)
