@@ -24,6 +24,9 @@ VERSION := $(shell $(PYTHON3) setup.py version)
 WHEEL_ARCHIVE := dist/$(PACKAGE_PREFIX)-$(VERSION)-$(PACKAGE_SUFFIX)
 
 PACKAGE_FILES := $(shell find $(PACKAGE_PREFIX) examples ! -name '__init__.py' -type f -name "*.py")
+PACKAGE_ALL_FILES := $(shell find $(PACKAGE_PREFIX) examples -type f -name "*.py")
+PACKAGE_EXAMPLE_FILES := $(shell find examples ! -name '__init__.py' -type f -name "*.py")
+
 TOOLS_REQ_FILE := requirements-tools.txt
 REQ_FILE      := requirements.txt
 SETUP_FILE    := setup.py
@@ -185,7 +188,7 @@ yapf: tools-requirements
 	@echo "======================================================"
 	@echo yapf $(PACKAGE)
 	@echo "======================================================"
-	$(PYTHON3) -m yapf --style .style.yapf --in-place $(PACKAGE_FILES)
+	$(PYTHON3) -m yapf --style .style.yapf --in-place $(PACKAGE_ALL_FILES)
 
 lint: tools-requirements
 	@echo "======================================================"
@@ -226,6 +229,17 @@ docs-sphinx-gen:
 docs-install: venv
 	. venv/bin/activate; pip install -r docs/sphinx/requirements.txt
 
+run-examples:
+	@echo "======================================================"
+	@echo run-examples $(PACKAGE)
+	@echo "======================================================"
+	@for example in $(PACKAGE_EXAMPLE_FILES); do \
+		echo "======================================================" ; \
+		echo Example $$example ; \
+		echo "======================================================" ; \
+		$(PYTHON3) $$example $(tmc_api_key) ; \
+	done
+
 docs-sphinx: docs-install
 	rm -fR ./docs/sphinx/_build
 	cd docs/sphinx && make html
@@ -235,15 +249,3 @@ docs-doxygen:
 	rm -fR ./docs/doxygen/*
 	sudo doxygen docs/Doxyfile
 	x-www-browser docs/doxygen/html/index.html
-
-run-examples:
-	@echo "======================================================"
-	@echo run-examples $(PACKAGE)
-	@echo "======================================================"
-	$(PYTHON3) examples/example_tune_v2_advertisers.py $(api_key)
-	$(PYTHON3) examples/example_tune_v2_advertiser_sites.py $(api_key)
-	$(PYTHON3) examples/example_tune_v2_advertiser_stats_actuals_find.py $(api_key)
-	$(PYTHON3) examples/example_tune_v2_advertiser_stats_actuals_export_stream_csv_transform.py $(api_key)
-	$(PYTHON3) examples/example_tune_v2_advertiser_sites.py $(api_key)
-	$(PYTHON3) examples/example_tune_v2_session_authenticate.py $(api_key)
-	$(PYTHON3) examples/example_tune_v3_logs_advertisers_clicks_find.py $(api_key)
