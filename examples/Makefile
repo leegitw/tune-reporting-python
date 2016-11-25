@@ -9,6 +9,8 @@
 
 PYTHON3 := $(shell which python3)
 
+PACKAGE_EXAMPLE_FILES := $(shell find . ! -name '__init__.py' -type f -name "*.py")
+
 example-v2-advertisers:
 	@echo "======================================================"
 	@echo example-v2-advertisers
@@ -80,3 +82,16 @@ example_tune_v2_session_authenticate:
 	@echo example_tune_v2_session_authenticate
 	@echo "======================================================"
 	$(PYTHON3) example_tune_v2_session_authenticate.py $(tmc_api_key)
+
+
+run-examples:
+	@echo "======================================================"
+	@echo run-examples
+	@echo "======================================================"
+	@for example in $(PACKAGE_EXAMPLE_FILES); do \
+		echo "======================================================" ; \
+		echo Example $$example ; \
+		echo "======================================================" ; \
+		$(PYTHON3) $$example $(tmc_api_key) ; \
+	done
+

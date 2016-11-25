@@ -14,30 +14,15 @@ __copyright__ = 'Copyright 2016 TUNE, Inc.'
 
 __python_required_version__ = (3, 0)
 
-from tune_reporting.tmc.v2.management.tmc_v2_advertiser_sites import (
-    TuneV2AdvertiserSites,
-    TuneV2AdvertiserSiteStatus
-)
-from tune_reporting.tmc.v2.management.tmc_v2_advertisers import (
-    TuneV2Advertisers
-)
+from tune_reporting.tmc.v2.management.tmc_v2_advertiser_sites import (TuneV2AdvertiserSites, TuneV2AdvertiserSiteStatus)
+from tune_reporting.tmc.v2.management.tmc_v2_advertisers import (TuneV2Advertisers)
 from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (
-    TuneV2SessionAuthenticate,
-    TuneV2AuthenticationTypes
+    TuneV2SessionAuthenticate, TuneV2AuthenticationTypes
 )
-from tune_reporting.tmc.v2.reporting.tmc_v2_advertiser_stats_actuals import (
-    TuneV2AdvertiserStatsActuals
-)
+from tune_reporting.tmc.v2.reporting.tmc_v2_advertiser_stats_actuals import (TuneV2AdvertiserStatsActuals)
 from tune_reporting.tmc.v2.reporting.tmc_v2_advertiser_stats_base import (
-    TuneV2AdvertiserStatsActions,
-    TuneV2AdvertiserStatsFormats
+    TuneV2AdvertiserStatsActions, TuneV2AdvertiserStatsFormats
 )
-from tune_reporting.tmc.v3.reporting.tmc_v3_logs_advertisers_base import (
-    TuneV3LogsAdvertisersActions
-)
-from tune_reporting.tmc.v3.reporting.tmc_v3_logs_advertisers_clicks import (
-    TuneV3LogsAdvertisersClicks
-)
-from tune_reporting.tmc.v3.reporting.tmc_v3_logs_advertisers_impressions import (
-    TuneV3LogsAdvertisersImpressions
-)
+from tune_reporting.tmc.v3.reporting.tmc_v3_logs_advertisers_base import (TuneV3LogsAdvertisersActions)
+from tune_reporting.tmc.v3.reporting.tmc_v3_logs_advertisers_clicks import (TuneV3LogsAdvertisersClicks)
+from tune_reporting.tmc.v3.reporting.tmc_v3_logs_advertisers_impressions import (TuneV3LogsAdvertisersImpressions)

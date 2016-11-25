@@ -481,13 +481,29 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                           })
 
         return self._process_export_stream_v2(
-            auth_type_use, str_date_start, str_date_end, export_controller, export_action, export_status_controller,
-            export_status_action, request_params, request_retry
+            auth_type_use,
+            str_date_start,
+            str_date_end,
+            export_controller,
+            export_action,
+            export_status_controller,
+            export_status_action,
+            request_params,
+            request_retry,
         )
 
     def _process_export_download_csv_v2(
-        self, data, auth_type_use, str_date_start, str_date_end, export_controller, export_action,
-        export_status_controller, export_status_action, request_params, request_retry
+        self,
+        data,
+        auth_type_use,
+        str_date_start,
+        str_date_end,
+        export_controller,
+        export_action,
+        export_status_controller,
+        export_status_action,
+        request_params,
+        request_retry,
     ):
         """Process Export Job by Reading Downloaded CSV
 
@@ -547,7 +563,6 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
             tmp_csv_file_name=tmp_csv_file_name,
             request_method="GET",
             request_url=export_report_url,
-            verbose=False,
             request_label="TMC v2 Advertiser Stats: Export: Download CSV"
         ):
             # for row in list(generator_data_stats):

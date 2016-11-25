@@ -3,13 +3,6 @@
 #  @copyright 2016 TUNE, Inc. (http://www.tune.com)
 #  @namespace tune_reporting
 
-
-from .report_reader_base import (
-    ReportReaderBase
-)
-from .report_reader_csv import (
-    ReportReaderCSV
-)
-from .report_reader_json import (
-    ReportReaderJSON
-)
+from .report_reader_base import (ReportReaderBase)
+from .report_reader_csv import (ReportReaderCSV)
+from .report_reader_json import (ReportReaderJSON)
