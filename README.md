@@ -1,8 +1,8 @@
 <h2>tune-reporting-python</h2>
 <h2>TUNE Reporting SDK for Python 2.7 and 3.0</h2>
 <h3>Incorporate TUNE Reporting services.</h3>
-<h4>Update: 2016-11-20 17:00:00 UTC</h4>
-<h4>Version: 2.0.0</h4>
+<h4>Update: Sat, 26 Nov 2016 04:30:00 +00:00</h4>
+<h4>Version: 2.0.2</h4>
 ===
 
 <h3 style="color:red;">Update in progress for to incorporate TUNE Reporting API V3</h3>

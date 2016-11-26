@@ -3,9 +3,9 @@
 #  @copyright 2016 TUNE, Inc. (http://www.tune.com)
 #  @namespace tune_reporting
 
-__title__ = 'tune-mv-reporting'
-__version__ = '2.0.1'
-__build__ = 0x020001
+__title__ = 'tune-reporting'
+__version__ = '2.0.2'
+__build__ = 0x020002
 __version_info__ = tuple(__version__.split('.'))
 
 __author__ = 'jefft@tune.com'

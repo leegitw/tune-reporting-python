@@ -1,7 +1,8 @@
 ## tune-reporting-python Changelog
 ## TUNE Reporting SDK for Python 2.7 and 3.0
 ## Incorporate TUNE Reporting services.
-## Version: 2.0.0
+### Date: Sat, 26 Nov 2016 04:30:00 +00:00
+### Version: 2.0.2
 ===
 
 Here you can see the full list of changes between each `tune-reporting-python` release.
@@ -167,7 +168,7 @@ Version 1.0.8
 
 Python 2.7 and 3.0, Fix required for *tune_reporting/helpers/report_reader_csv.py*
 
-Version 2.0.0
+Version 2.0.2
 -------------
 
 TUNE Reporting: Change from v2 to v3
