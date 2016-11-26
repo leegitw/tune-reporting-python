@@ -239,13 +239,3 @@ run-examples:
 		echo "======================================================" ; \
 		$(PYTHON3) $$example $(tmc_api_key) ; \
 	done
-
-docs-sphinx: docs-install
-	rm -fR ./docs/sphinx/_build
-	cd docs/sphinx && make html
-	x-www-browser docs/sphinx/_build/html/index.html
-
-docs-doxygen:
-	rm -fR ./docs/doxygen/*
-	sudo doxygen docs/Doxyfile
-	x-www-browser docs/doxygen/html/index.html
