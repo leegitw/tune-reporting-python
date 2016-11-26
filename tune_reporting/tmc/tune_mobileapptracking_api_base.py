@@ -8,6 +8,8 @@
 import logging
 import requests
 import datetime as dt
+from pprintpp import pprint
+
 from pytz_convert import (validate_tz_name)
 from pyhttpstatus_utils import (http_status_code_to_type)
 from tune_reporting.support import (
@@ -172,9 +174,17 @@ class TuneMobileAppTrackingApiBase(object):
             Boolean
 
         """
-        response_json = response.json()
+        try:
+            response_json = response.json()
+        except Exception as ex:
+            # No JSON response available.
+            raise TuneReportingError(
+                error_message='Invalid JSON response: {}'.format(response.text),
+                errors=ex,
+                exit_code=TuneRequestErrorCodes.REQ_ERR_JSON_DECODING_ERROR
+            )
 
-        self.logger.debug("TMC API Base: Check for Retry: Start", extra=response_json)
+        self.logger.debug("TMC API V2: Check for Retry: Start", extra=response_json)
 
         tune_v2_status_code = None
         tune_v2_errors_messages = ""
