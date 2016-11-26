@@ -4,8 +4,8 @@ TUNE SDK for Python documentation
     :package: `tune-reporting-python <https://github.com/MobileAppTracking/tune-reporting-python>`_
     :label: TUNE SDK for Python 2.7 and 3.0
     :purpose: Incorporate TUNE services.
-    :update   2016-11-20 17:00:00 UTC
-    :version: 2.0.0
+    :update   Sat, 26 Nov 2016 04:30:00 +00:00
+    :version: 2.0.2
 
 Overview
 ####################

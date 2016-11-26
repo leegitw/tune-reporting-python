@@ -34,3 +34,4 @@ _tmp/*
 _tmp/
 data.json
 dist/
+*.zip
