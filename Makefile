@@ -239,3 +239,6 @@ run-examples:
 		echo "======================================================" ; \
 		$(PYTHON3) $$example $(tmc_api_key) ; \
 	done
+
+list:
+	cat Makefile | grep "^[a-z]" | awk '{print $$1}' | sed "s/://g" | sort
