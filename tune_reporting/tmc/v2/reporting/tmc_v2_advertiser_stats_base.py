@@ -170,7 +170,8 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         elif auth_type_use == TuneV2AuthenticationTypes.API_KEY:
             if self.api_key is None:
                 raise TuneReportingError(
-                    error_message="Value 'api_key' not defined.", error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
+                    error_message="Value 'api_key' not defined.",
+                    error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE,
                 )
 
             auth_value_use = self.api_key
@@ -486,9 +487,11 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         """
         self.logger.debug(
             "TMC v2 Advertiser Stats: Gather Export by Requests Stream",
-            extra={'export_action': export_action,
-                   'export_status_action': export_status_action,
-                   'request_retry': request_retry}
+            extra={
+                'export_action': export_action,
+                'export_status_action': export_status_action,
+                'request_retry': request_retry
+            }
         )
 
         if not request_params:
@@ -596,7 +599,8 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
 
         if not export_report_url:
             raise TuneReportingError(
-                error_message="Export URL not defined", error_code=TuneReportingErrorCodes.REP_ERR_UNEXPECTED_VALUE
+                error_message="Export URL not defined",
+                error_code=TuneReportingErrorCodes.REP_ERR_UNEXPECTED_VALUE,
             )
 
         self.logger.info("TuneV2AdvertiserStatsBase", extra={'job_id': export_job_id, 'report_url': export_report_url})

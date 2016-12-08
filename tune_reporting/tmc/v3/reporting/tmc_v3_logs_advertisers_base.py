@@ -163,7 +163,8 @@ class TuneV3LogsAdvertisersBase(TuneMobileAppTrackingApi):
         elif auth_type_use == TuneV2AuthenticationTypes.API_KEY:
             if self.api_key is None:
                 raise TuneReportingError(
-                    error_message="Value 'api_key' not defined.", error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
+                    error_message="Value 'api_key' not defined.",
+                    error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE,
                 )
 
             auth_value_use = self.api_key
@@ -171,7 +172,7 @@ class TuneV3LogsAdvertisersBase(TuneMobileAppTrackingApi):
         if not auth_value_use:
             raise TuneReportingError(
                 error_message="Value 'auth_value_use' not defined.",
-                error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
+                error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE,
             )
 
         self.advertiser_id = advertiser_id
