@@ -19,10 +19,8 @@ from pyhttpstatus_utils import (
     is_http_status_type,
 )
 from requests_mv_integrations.support import (validate_json_response)
-from tune_reporting.errors import (
-    print_traceback,
-    get_exception_message,
-)
+from requests_mv_integrations.exceptions import (TuneRequestBaseError)
+from tune_reporting.errors import (print_traceback, get_exception_message, TuneReportingErrorCodes)
 from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.support import (
     python_check_version,
@@ -162,18 +160,26 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         auth_value_use = None
         if auth_type_use == TuneV2AuthenticationTypes.SESSION_TOKEN:
             if self.session_token is None:
-                raise TuneReportingError(error_message="Value 'session_token' not defined.")
+                raise TuneReportingError(
+                    error_message="Value 'session_token' not defined.",
+                    error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
+                )
 
             auth_value_use = self.session_token
 
         elif auth_type_use == TuneV2AuthenticationTypes.API_KEY:
             if self.api_key is None:
-                raise TuneReportingError(error_message="Value 'api_key' not defined.")
+                raise TuneReportingError(
+                    error_message="Value 'api_key' not defined.", error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
+                )
 
             auth_value_use = self.api_key
 
         if not auth_value_use:
-            raise TuneReportingError(error_message="Value 'auth_value_use' not defined.")
+            raise TuneReportingError(
+                error_message="Value 'auth_value_use' not defined.",
+                error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
+            )
 
         self._collect(auth_type_use, start_date, end_date, request_params, request_retry, request_action)
 
@@ -222,18 +228,26 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         auth_value_use = None
         if auth_type_use == TuneV2AuthenticationTypes.SESSION_TOKEN:
             if self.session_token is None:
-                raise TuneReportingError(error_message="Value 'session_token' not defined.")
+                raise TuneReportingError(
+                    error_message="Value 'session_token' not defined.",
+                    error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
+                )
 
             auth_value_use = self.session_token
 
         elif auth_type_use == TuneV2AuthenticationTypes.API_KEY:
             if self.api_key is None:
-                raise TuneReportingError(error_message="Value 'api_key' not defined.")
+                raise TuneReportingError(
+                    error_message="Value 'api_key' not defined.", error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
+                )
 
             auth_value_use = self.api_key
 
         if not auth_value_use:
-            raise TuneReportingError(error_message="Value 'auth_value_use' not defined.")
+            raise TuneReportingError(
+                error_message="Value 'auth_value_use' not defined.",
+                error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
+            )
 
         return self._stream_v2(
             auth_type_use=auth_type_use,
@@ -333,8 +347,18 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                 request_label=request_label
             )
 
-        except TuneReportingError as tmv_ex:
-            self.logger.error("TMC v2 Advertiser Stats: Failed: {}".format(str(tmv_ex)))
+        except TuneRequestBaseError as tmc_req_ex:
+            self.logger.error(
+                "TMC v2 Advertiser Stats: Failed",
+                extra=tmc_req_ex.to_dict(),
+            )
+            raise
+
+        except TuneReportingError as tmc_rep_ex:
+            self.logger.error(
+                "TMC v2 Advertiser Stats: Failed",
+                extra=tmc_rep_ex.to_dict(),
+            )
             raise
 
         except Exception as ex:
@@ -354,8 +378,9 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                 error_message=("TMC v2 Advertiser Stats: "
                                "Action 'find': "
                                "Failed to find stats: {}, {}").format(
-                                   json_response['status_code'], json.dumps(json_response)
-                               )
+                                   json_response['status_code'], json.dumps(json_response),
+                               ),
+                error_code=TuneReportingErrorCodes.REP_ERR_REQUEST
             )
 
         data = json_response['data']
@@ -472,13 +497,15 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         str_date_start = str(datetime_start.date())
         str_date_end = str(datetime_end.date())
 
-        self.logger.debug(("TMC v2 Advertiser Stats: Gather Export by Streaming"),
-                          extra={
-                              'action': 'export',
-                              'start_date': str_date_start,
-                              'end_date': str_date_end,
-                              'export_format': export_format
-                          })
+        self.logger.debug(
+            "TMC v2 Advertiser Stats: Gather Export by Streaming",
+            extra={
+                'action': 'export',
+                'start_date': str_date_start,
+                'end_date': str_date_end,
+                'export_format': export_format
+            }
+        )
 
         return self._process_export_stream_v2(
             auth_type_use,
@@ -547,7 +574,9 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         )
 
         if not export_report_url:
-            raise TuneReportingError(error_message="Export URL not defined")
+            raise TuneReportingError(
+                error_message="Export URL not defined", error_code=TuneReportingErrorCodes.REP_ERR_UNEXPECTED_VALUE
+            )
 
         self.logger.info("TuneV2AdvertiserStatsBase", extra={'job_id': export_job_id, 'report_url': export_report_url})
 
@@ -659,7 +688,10 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         )
 
         if not export_report_url:
-            raise TuneReportingError(error_message="Export URL not defined")
+            raise TuneReportingError(
+                error_message="Export URL not defined",
+                error_code=TuneReportingErrorCodes.REP_ERR_UNEXPECTED_VALUE,
+            )
 
         self.logger.info(("TMC v2 Advertiser Stats: "
                           "Export Stream V2: Request Completed Job"),
@@ -670,14 +702,15 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
             request_method="GET", request_url=export_report_url, stream=True, request_label=request_label
         )
 
-        self.logger.info(("TMC v2 Advertiser Stats: "
-                          "Export Stream V2: Response Completed Job"),
-                         extra={
-                             'response_status_code': response.status_code,
-                             'response_headers': response.headers,
-                             'job_id': export_job_id,
-                             'report_url': export_report_url
-                         })
+        self.logger.info(
+            "TMC v2 Advertiser Stats: Export Stream V2: Response Completed Job",
+            extra={
+                'response_status_code': response.status_code,
+                'response_headers': response.headers,
+                'job_id': export_job_id,
+                'report_url': export_report_url
+            }
+        )
 
         return response
 
@@ -720,8 +753,18 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                 request_retry_func=self.tune_v2_request_retry_func
             )
 
-        except TuneReportingError as tmv_ex:
-            self.logger.error("TMC v2 Advertiser Stats: Failed: {}".format(str(tmv_ex)))
+        except TuneRequestBaseError as tmc_req_ex:
+            self.logger.error(
+                "TMC v2 Advertiser Stats: Failed",
+                extra=tmc_req_ex.to_dict(),
+            )
+            raise
+
+        except TuneReportingError as tmc_rep_ex:
+            self.logger.error(
+                "TMC v2 Advertiser Stats: Failed",
+                extra=tmc_rep_ex.to_dict(),
+            )
             raise
 
         except Exception as ex:
@@ -730,7 +773,9 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
             self.logger.error(get_exception_message(ex))
 
             raise TuneReportingError(
-                error_message=("TMC v2 Advertiser Stats: Failed: {}").format(get_exception_message(ex)), errors=ex
+                error_message=("TMC v2 Advertiser Stats: Failed: {}").format(get_exception_message(ex)),
+                errors=ex,
+                error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
             )
 
         json_response = validate_json_response(
@@ -745,14 +790,16 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                                "Action '{}': "
                                "Failed to export stats: {}, {}").format(
                                    export_action, json_response['status_code'], json_response['errors']
-                               )
+                               ),
+                error_code=TuneReportingErrorCodes.REP_ERR_REQUEST
             )
 
         if ('data' not in json_response or not json_response['data']):
             raise TuneReportingError(
                 error_message=("TMC v2 Advertiser Stats: "
                                "Action '{}': "
-                               "Missing data").format(export_action)
+                               "Missing data").format(export_action),
+                error_code=TuneReportingErrorCodes.REP_ERR_UNEXPECTED_VALUE
             )
         json_data = json_response['data']
 
@@ -762,7 +809,8 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                 raise TuneReportingError(
                     error_message=("TMC v2 Advertiser Stats: "
                                    "Action '{}': "
-                                   "Response missing 'export_job_id': {}").format(export_action, str(json_data))
+                                   "Response missing 'export_job_id': {}").format(export_action, str(json_data)),
+                    error_code=TuneReportingErrorCodes.REP_ERR_UNEXPECTED_VALUE
                 )
 
             export_job_id = json_data['job_id']
@@ -773,7 +821,8 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
             raise TuneReportingError(
                 error_message=("TMC v2 Advertiser Stats: "
                                "Action '{}': "
-                               "Response missing 'job_id'").format(export_action)
+                               "Response missing 'job_id'").format(export_action),
+                error_code=TuneReportingErrorCodes.REP_ERR_UNEXPECTED_VALUE
             )
 
         self.logger.info(
@@ -865,8 +914,18 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                     request_retry_func=self.tune_v2_request_retry_func
                 )
 
-            except TuneReportingError as tmv_ex:
-                self.logger.error("TMC v2 Advertiser Stats: Check Job Status: Failed: {}".format(str(tmv_ex)))
+            except TuneRequestBaseError as tmc_req_ex:
+                self.logger.error(
+                    "TMC v2 Advertiser Stats: Check Job Status: Failed",
+                    extra=tmc_req_ex.to_dict(),
+                )
+                raise
+
+            except TuneReportingError as tmc_rep_ex:
+                self.logger.error(
+                    "TMC v2 Advertiser Stats: Check Job Status: Failed",
+                    extra=tmc_rep_ex.to_dict(),
+                )
                 raise
 
             except Exception as ex:
@@ -881,7 +940,8 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
 
             if not http_status_successful:
                 raise TuneReportingError(
-                    error_message=("Failed to get export status on queue: {}").format(response.status_code)
+                    error_message=("Failed to get export status on queue: {}").format(response.status_code),
+                    error_code=TuneReportingErrorCodes.REP_ERR_REQUEST
                 )
 
             json_response = response.json()
@@ -925,15 +985,19 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                     continue
 
                 else:
-                    raise TuneReportingError(error_message=error_message, exit_code=status_code)
+                    raise TuneReportingError(error_message=error_message, error_code=status_code)
 
                 if tries >= 0 and _tries <= 1:
                     if (status_code == HttpStatusCode.GATEWAY_TIMEOUT):
-                        raise TuneReportingError(error_message=error_message)
+                        raise TuneReportingError(
+                            error_message=error_message, error_code=TuneReportingErrorCodes.GATEWAY_TIMEOUT
+                        )
                     elif (status_code == HttpStatusCode.REQUEST_TIMEOUT):
-                        raise TuneReportingError(error_message=error_message)
+                        raise TuneReportingError(
+                            error_message=error_message, error_code=TuneReportingErrorCodes.REQUEST_TIMEOUT
+                        )
                     else:
-                        raise TuneReportingError(error_message=error_message, exit_code=status_code)
+                        raise TuneReportingError(error_message=error_message, error_code=status_code)
                 else:
                     self.logger.warning(error_message)
 
@@ -1011,7 +1075,8 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                             "Check Job Export Status: "
                             "Exhausted Retries: "
                             "Percent Completed: {}"
-                        ).format(safe_int(export_percent_complete))
+                        ).format(safe_int(export_percent_complete)),
+                        error_code=TuneReportingErrorCodes.REP_ERR_RETRY_EXHAUSTED
                     )
 
             _attempts += 1
@@ -1032,7 +1097,8 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         if export_percent_complete == 100 and not report_url:
             raise TuneReportingError(
                 error_message=("TMC v2 Advertiser Stats: Check Job Export Status: "
-                               "Download report URL: Undefined")
+                               "Download report URL: Undefined"),
+                error_code=TuneReportingErrorCodes.REP_ERR_UNEXPECTED_VALUE
             )
 
         self.logger.info(
@@ -1086,11 +1152,17 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         elif report_format == TuneV2AdvertiserStatsFormats.CSV:
             report_reader = ReportReaderCSV(report_url)
         else:
-            raise TuneReportingError(error_message=("Unexpected Report format: '{}'").format(report_format))
+            raise TuneReportingError(
+                error_message=("Unexpected Report format: '{}'").format(report_format),
+                error_code=TuneReportingErrorCodes.REP_ERR_UNEXPECTED_VALUE
+            )
         # pylint: enable=redefined-variable-type
 
         if not report_reader:
-            raise TuneReportingError(error_message=("Report reader not created for format {}").format(report_format))
+            raise TuneReportingError(
+                error_message=("Report reader not created for format {}").format(report_format),
+                error_code=TuneReportingErrorCodes.REP_ERR_UNEXPECTED_VALUE
+            )
 
         report_reader.read()
 

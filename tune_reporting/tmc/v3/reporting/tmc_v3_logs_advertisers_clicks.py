@@ -10,6 +10,7 @@
 import logging
 
 from pytz_convert import (validate_tz_name)
+from requests_mv_integrations.exceptions import (TuneRequestBaseError)
 from tune_reporting.errors import (print_traceback, get_exception_message)
 from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.support import (python_check_version)
@@ -151,8 +152,18 @@ class TuneV3LogsAdvertisersClicks(TuneV3LogsAdvertisersBase):
             elif request_action == TuneV3LogsAdvertisersActions.EXPORT:
                 self._export_v3_download_csv(request_params=dict_request_params, request_retry=request_retry)
 
-        except TuneReportingError as tmv_ex:
-            self.logger.error("TMC v3 Logs Advertisers Clicks: Failed: {}".format(str(tmv_ex)))
+        except TuneRequestBaseError as tmc_req_ex:
+            self.logger.error(
+                "TMC v3 Logs Advertisers Clicks: Failed",
+                extra=tmc_req_ex.to_dict(),
+            )
+            raise
+
+        except TuneReportingError as tmc_rep_ex:
+            self.logger.error(
+                "TMC v3 Logs Advertisers Clicks: Failed",
+                extra=tmc_rep_ex.to_dict(),
+            )
             raise
 
         except Exception as ex:

@@ -3,4 +3,5 @@
 #  @copyright 2016 TUNE, Inc. (http://www.tune.com)
 #  @namespace tune_reporting
 
-from .custom import (TuneReportingBaseError, TuneReportingError, TuneReportingAuthError)
+from .base import (TuneReportingBaseError)
+from .custom import (TuneReportingError, TuneReportingAuthError)

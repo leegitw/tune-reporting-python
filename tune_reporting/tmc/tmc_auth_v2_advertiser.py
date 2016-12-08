@@ -8,11 +8,14 @@ TUNE Multiverse Reporting Base
 """
 
 import logging
+from pprintpp import pprint
+
+from requests_mv_integrations.exceptions import (TuneRequestBaseError)
 
 from logging_mv_integrations import (TuneLoggingFormat)
 from tune_mv_integration.auth_validator import (AuthenticationError)
 
-from tune_reporting.errors import (get_exception_message, print_traceback, TuneRequestErrorCodes)
+from tune_reporting.errors import (get_exception_message, print_traceback, TuneReportingErrorCodes)
 from tune_reporting.exceptions import (TuneReportingError, TuneReportingAuthError)
 from tune_reporting.support import (base_class_name)
 from tune_reporting.tmc.v2.management.tmc_v2_advertisers import (TuneV2Advertisers)
@@ -45,39 +48,43 @@ def tmc_auth_v2_advertiser(tmc_api_key, logger_level=logging.NOTSET, logger_form
 
                 log.debug("TMC v2 Advertiser: {}".format(advertiser_id))
 
-        except TuneReportingError as tmv_ex:
-            print(str(tmv_ex))
+        except TuneRequestBaseError as tmc_req_ex:
+            pprint(tmc_req_ex.to_dict())
+            print(str(tmc_req_ex))
+
+        except TuneReportingError as tmc_rep_ex:
+            pprint(tmc_rep_ex.to_dict())
+            print(str(tmc_rep_ex))
 
         except Exception as ex:
             print_traceback(ex)
             print(get_exception_message(ex))
+
     except AuthenticationError as auth_ex:
         log.error("TMC v2 Advertiser: Authentication: Failed", extra=auth_ex.to_dict())
 
         raise TuneReportingAuthError(
             error_message="TMC v2 Advertiser: Authentication: Failed",
-            exit_code=auth_ex.remote_status,
             errors=auth_ex.errors,
-            error_request_curl=auth_ex.request_curl
+            error_request_curl=auth_ex.request_curl,
+            error_code=auth_ex.remote_status,
         )
 
     except Exception as ex:
         print_traceback(ex)
-        exit_code = TuneRequestErrorCodes.REQ_ERR_SOFTWARE
+        error_code = TuneReportingErrorCodes.REP_ERR_SOFTWARE
 
         log.error(
             'TMC v2 Advertiser: Authentication: Failed: Unexpected',
             extra={
-                'exit_code': exit_code,
+                'exit_code': error_code,
                 'error_exception': base_class_name(ex),
                 'error_details': get_exception_message(ex)
             }
         )
 
         raise TuneReportingAuthError(
-            error_message="TMC v2 Advertiser: Authentication: Failed: Unexpected",
-            exit_code=exit_code,
-            errors=ex,
+            error_message="TMC v2 Advertiser: Authentication: Failed: Unexpected", errors=ex, error_code=error_code
         )
 
     if response_auth:
