@@ -112,7 +112,14 @@ class TuneV2AdvertiserStatsActuals(TuneV2AdvertiserStatsBase):
 
     # Collect data: TUNE Advertiser Stats Actuals.
     #
-    def _stream_v2(self, auth_type_use, start_date, end_date, request_params, request_retry=None):
+    def _stream_v2(
+        self,
+        auth_type_use,
+        start_date,
+        end_date,
+        request_params,
+        request_retry=None,
+    ):
         """Stream data: TUNE Advertiser Stats Actuals.
 
         Args:

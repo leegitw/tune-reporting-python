@@ -185,7 +185,16 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
 
     # Stream data: TUNE Advertiser Stats Base
     #
-    def stream(self, auth_value, auth_type, auth_type_use, start_date, end_date, request_params, request_retry=None):
+    def stream(
+        self,
+        auth_value,
+        auth_type,
+        auth_type_use,
+        start_date,
+        end_date,
+        request_params,
+        request_retry=None,
+    ):
         """Stream data: TUNE Advertiser Stats Base
 
         Args:
@@ -238,7 +247,8 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         elif auth_type_use == TuneV2AuthenticationTypes.API_KEY:
             if self.api_key is None:
                 raise TuneReportingError(
-                    error_message="Value 'api_key' not defined.", error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
+                    error_message="Value 'api_key' not defined.",
+                    error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE,
                 )
 
             auth_value_use = self.api_key
@@ -378,7 +388,8 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                 error_message=("TMC v2 Advertiser Stats: "
                                "Action 'find': "
                                "Failed to find stats: {}, {}").format(
-                                   json_response['status_code'], json.dumps(json_response),
+                                   json_response['status_code'],
+                                   json.dumps(json_response),
                                ),
                 error_code=TuneReportingErrorCodes.REP_ERR_REQUEST
             )
@@ -460,7 +471,7 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         request_params,
         request_retry=None
     ):
-        """Gather Export by Streaming
+        """Gather Export using Requests Stream
 
         Args:
             export_controller:
@@ -473,8 +484,12 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         Returns:
 
         """
-        self.logger.debug(("TMC v2 Advertiser Stats: Gather Export by Streaming: "
-                           "Actions '{}' and '{}'").format(export_action, export_status_action))
+        self.logger.debug(
+            "TMC v2 Advertiser Stats: Gather Export by Requests Stream",
+            extra={'export_action': export_action,
+                   'export_status_action': export_status_action,
+                   'request_retry': request_retry}
+        )
 
         if not request_params:
             raise ValueError("Missing parameter 'request_params'")
@@ -498,12 +513,13 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         str_date_end = str(datetime_end.date())
 
         self.logger.debug(
-            "TMC v2 Advertiser Stats: Gather Export by Streaming",
+            "TMC v2 Advertiser Stats: Gather Export by Requests Stream",
             extra={
                 'action': 'export',
                 'start_date': str_date_start,
                 'end_date': str_date_end,
-                'export_format': export_format
+                'export_format': export_format,
+                'request_retry': request_retry
             }
         )
 
@@ -562,7 +578,12 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         request_params["end_date"] = \
             str_date_end
 
-        export_job_id = self._export_v2_job_to_queue(export_controller, export_action, request_params, request_retry)
+        export_job_id = self._export_v2_job_to_queue(
+            export_controller,
+            export_action,
+            request_params,
+            request_retry,
+        )
 
         export_report_url = self._check_v2_job_status_on_queue(
             auth_type_use,
@@ -659,24 +680,29 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         request_params["end_date"] = \
             str_date_end
 
-        self.logger.debug(("TMC v2 Advertiser Stats: "
-                           "Export Stream V2: Export Job to Queue"),
-                          extra={
-                              'controller': export_controller,
-                              'action': export_action,
-                              'request_params': safe_dict(request_params),
-                              'request_retry': safe_dict(request_retry)
-                          })
+        self.logger.debug(
+            "TMC v2 Advertiser Stats: Export Stream V2: Export Job to Queue",
+            extra={
+                'controller': export_controller,
+                'action': export_action,
+                'request_params': safe_dict(request_params),
+                'request_retry': safe_dict(request_retry)
+            }
+        )
 
-        export_job_id = self._export_v2_job_to_queue(export_controller, export_action, request_params, request_retry)
+        export_job_id = self._export_v2_job_to_queue(
+            export_controller,
+            export_action,
+            request_params,
+            request_retry,
+        )
 
-        self.logger.debug(("TMC v2 Advertiser Stats: "
-                           "Export Stream V2: Check Job status on Queue"),
-                          extra={
-                              'controller': export_status_controller,
-                              'action': export_status_action,
-                              'job_id': export_job_id
-                          })
+        self.logger.debug(
+            "TMC v2 Advertiser Stats: Export Stream V2: Check Job status on Queue",
+            extra={'controller': export_status_controller,
+                   'action': export_status_action,
+                   'job_id': export_job_id}
+        )
 
         export_report_url = self._check_v2_job_status_on_queue(
             auth_type_use,
@@ -715,7 +741,12 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         return response
 
     def _export_v2_job_to_queue(
-        self, export_controller, export_action, request_params, request_retry=None, request_label="TMC v2 Job To Queue"
+        self,
+        export_controller,
+        export_action,
+        request_params,
+        request_retry=None,
+        request_label="TMC v2 Job To Queue",
     ):
         """Export Report Request to Job Queue
 
@@ -839,7 +870,13 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         return export_job_id
 
     def _check_v2_job_status_on_queue(
-        self, auth_type, auth_value, export_status_controller, export_status_action, export_job_id, request_retry=None
+        self,
+        auth_type,
+        auth_value,
+        export_status_controller,
+        export_status_action,
+        export_job_id,
+        request_retry=None,
     ):
         """Check Job Export Status
 
@@ -885,17 +922,13 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                 max_delay = request_retry['max_delay']
 
             if 'tries' in request_retry:
-                request_retry['tries'] = 60
+                tries = request_retry['tries']
             else:
                 request_retry.update({'tries': 60})
         else:
             request_retry = {'tries': 60, 'delay': 10, 'timeout': 60}
 
-        self.logger.debug(
-            msg=("TMC v2 Advertiser Stats: Check Job Status: "
-                 "Request Retry"),
-            extra={'request_retry': safe_dict(request_retry)}
-        )
+        self.logger.debug(msg=("TMC v2 Advertiser Stats: Check Job Status: " "Request Retry"), extra=request_retry)
 
         report_url = None
         _attempts = 1

@@ -87,7 +87,7 @@ def main(tmc_api_key):
             request_params=request_params,
             request_retry={'delay': 15,
                            'timeout': 30,
-                           'tries': 10}
+                           'tries': 5}
         )
 
         line_count = 0

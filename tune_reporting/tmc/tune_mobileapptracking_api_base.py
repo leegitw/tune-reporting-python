@@ -209,7 +209,10 @@ class TuneMobileAppTrackingApiBase(object):
 
         tune_v2_status_type = http_status_code_to_type(tune_v2_status_code)
 
-        response_extra = {'status_code': tune_v2_status_code, 'status_type': tune_v2_status_type,}
+        response_extra = {
+            'status_code': tune_v2_status_code,
+            'status_type': tune_v2_status_type,
+        }
 
         if tune_v2_errors_messages:
             response_extra.update({'error_messages': safe_str(tune_v2_errors_messages)})
