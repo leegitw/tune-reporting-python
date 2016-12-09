@@ -5,7 +5,9 @@
 """
 Tune Reporting Error
 """
+
 import six
+
 from tune_reporting import (__title__)
 from tune_reporting.support.safe_cast import (safe_str)
 
@@ -13,7 +15,6 @@ from tune_reporting.errors import (TuneReportingErrorCodes)
 
 from tune_reporting.errors import error_name as tune_reporting_error_name
 from tune_reporting.errors import error_desc as tune_reporting_error_desc
-
 
 # @brief TUNE Reporting Base Exception
 #
@@ -23,12 +24,11 @@ class TuneReportingBaseError(Exception):
     """
     __error_message = None
     __errors = None
-    __exit_code = TuneReportingErrorCodes.REP_ERR_UNEXPECTED
-
+    __error_code = None
     __error_status = None
     __error_reason = None
     __error_details = None
-    __error_origin = __title__
+    __error_origin = None
     __error_request_curl = None
 
     def __init__(
@@ -42,13 +42,19 @@ class TuneReportingBaseError(Exception):
         error_origin=None,
         error_request_curl=None
     ):
+        self.__error_origin = __title__
+        self.__exit_code = TuneReportingErrorCodes.REP_ERR_UNEXPECTED
+
         if error_code is not None:
             self.__exit_code = error_code
 
         if error_origin is not None:
             self.__error_origin = error_origin
 
-        self.__error_message = self._error_message(error_message=error_message, error_code=self.error_code)
+        self.__error_message = TuneReportingBaseError._error_message(
+            error_message=error_message,
+            error_code=self.__exit_code,
+        )
 
         # Call the base class constructor with the parameters it needs
         super(TuneReportingBaseError, self).__init__(self.error_message)
@@ -74,7 +80,7 @@ class TuneReportingBaseError(Exception):
     def error_code(self):
         """Get property of exit code.
         """
-        return self.__exit_code
+        return self.__error_code
 
     @property
     def error_reason(self):
@@ -127,18 +133,6 @@ class TuneReportingBaseError(Exception):
             error_message_ = error_message_prefix_
 
         return error_message_
-
-    @staticmethod
-    def _exit_code(error_code, exit_code_default):
-        """Prepare exit code.
-        """
-        exit_code_ = None
-        if error_code:
-            exit_code_ = int(error_code)
-        else:
-            exit_code_ = exit_code_default
-
-        return exit_code_
 
     def __str__(self):
         """Stringify
