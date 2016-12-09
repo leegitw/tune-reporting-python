@@ -5,9 +5,11 @@
 """TUNE Advertiser Sites.
 """
 
+import sys
 import logging
 
-from tune_reporting.errors import (print_traceback, get_exception_message)
+from requests_mv_integrations.exceptions import (TuneRequestBaseError)
+from tune_reporting.errors import (print_traceback, get_exception_message, TuneReportingErrorCodes)
 from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.support import (python_check_version)
 from tune_reporting import (__python_required_version__)
@@ -65,9 +67,9 @@ class TuneV2AdvertiserSites(TuneMobileAppTrackingApi):
 
         """
         if not auth_value:
-            raise ValueError("Collect TMC v2 Advertiser Sites: Value 'auth_value' not provided.")
+            raise ValueError("TuneV2AdvertiserSites: Collect: Value 'auth_value' not provided.")
         if not auth_type:
-            raise ValueError("TMC v3 Logs Advertisers Base: Collect: Value 'auth_type' not valid.")
+            raise ValueError("TuneV2AdvertiserSites: Collect: Value 'auth_type' not valid.")
         if not auth_type_use or \
                 not TuneV2AuthenticationTypes.validate(auth_type_use):
             raise ValueError("TMC v3 Logs Advertisers Base: Collect: Value 'auth_type_use' not valid.")
@@ -141,12 +143,22 @@ class TuneV2AdvertiserSites(TuneMobileAppTrackingApi):
                 request_retry_http_status_codes=None,
                 request_retry_func=self.tune_v2_request_retry_func,
                 request_retry_excps_func=None,
-                request_label="TMC v2 Advertiser Sites"
+                request_label="{}.{}".format(self.__class__.__name__, sys._getframe().f_code.co_name)
             )
 
-        except TuneReportingError as tmv_ex:
-            self.logger.error(str(tmv_ex))
-            yield (None, tmv_ex)
+        except TuneRequestBaseError as tmc_req_ex:
+            self.logger.error(
+                "TuneV2AdvertiserSites: Collect: Failed",
+                extra=tmc_req_ex.to_dict(),
+            )
+            yield (None, tmc_req_ex)
+
+        except TuneReportingError as tmc_rep_ex:
+            self.logger.error(
+                "TuneV2AdvertiserSites: Collect: Failed",
+                extra=tmc_rep_ex.to_dict(),
+            )
+            yield (None, tmc_rep_ex)
 
         except Exception as ex:
             print_traceback(ex)
@@ -161,12 +173,17 @@ class TuneV2AdvertiserSites(TuneMobileAppTrackingApi):
                     'errors' in json_response:
                 raise TuneReportingError(
                     error_message="Failed to get advertiser sites: {}, {}".format(
-                        json_response['status_code'], json_response['errors'].get('message', None)
-                    )
+                        json_response['status_code'],
+                        json_response['errors'].get('message', None),
+                    ),
+                    error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
                 )
 
             if ('data' not in json_response or not json_response['data']):
-                raise TuneReportingError(error_message="Missing 'data': {}".format(str(json_response)))
+                raise TuneReportingError(
+                    error_message="Missing 'data': {}".format(str(json_response)),
+                    error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
+                )
 
             data = json_response['data']
         else:

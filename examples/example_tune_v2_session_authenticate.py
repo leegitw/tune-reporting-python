@@ -4,8 +4,9 @@
 
 import sys
 import logging
-# from pprintpp import pprint
+from pprintpp import pprint
 
+from requests_mv_integrations.exceptions import (TuneRequestBaseError)
 from tune_reporting.errors import (print_traceback, get_exception_message)
 from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.tmc.v2.management import (TuneV2SessionAuthenticate)
@@ -23,8 +24,14 @@ def main(tmc_api_key):
             session_token = tune_v2_session_authenticate.session_token
             print(session_token)
 
-    except TuneReportingError as tmv_ex:
-        print(str(tmv_ex))
+    except TuneRequestBaseError as tmc_req_ex:
+        print_traceback(tmc_req_ex)
+        pprint(tmc_req_ex.to_dict())
+        print(str(tmc_req_ex))
+
+    except TuneReportingError as tmc_rep_ex:
+        pprint(tmc_rep_ex.to_dict())
+        print(str(tmc_rep_ex))
 
     except Exception as ex:
         print_traceback(ex)

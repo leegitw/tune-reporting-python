@@ -72,8 +72,8 @@ setup(
     description='TUNE Reporting API client library.',
     author='TUNE',
     author_email='jefft@tune.com',
-    url='https://github.com/MobileAppTracking/tune-reporting-python',
-    keywords=["tune", "tune reporting", "mobileapptracking"],
+    url='https://github.com/TuneLab/tune-reporting-python',
+    keywords=["tune", "reporting", "mobileapptracking", "api"],
     install_requires=REQUIREMENTS,
     packages=PACKAGES,
     package_dir={'tune_reporting': 'tune_reporting'},
@@ -90,8 +90,7 @@ setup(
 
     TUNE Reporting API is for advertisers to export data.
 
-    See https://github.com/MobileAppTracking/tune-reporting-python for
-    more information.
+    See https://github.com/TuneLab/tune-reporting-python for more information.
 
     LICENSE TUNE Reporting Python SDK is distributed under the MIT
     License """

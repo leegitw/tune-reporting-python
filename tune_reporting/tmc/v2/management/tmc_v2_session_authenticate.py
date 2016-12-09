@@ -9,7 +9,8 @@ import logging
 
 from pyhttpstatus_utils import (HttpStatusType, is_http_status_type)
 from requests_mv_integrations.support import (validate_json_response)
-from tune_reporting.errors import (print_traceback, get_exception_message)
+from requests_mv_integrations.exceptions import (TuneRequestBaseError)
+from tune_reporting.errors import (print_traceback, get_exception_message, TuneReportingErrorCodes)
 from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.support import (python_check_version)
 from tune_reporting import (__python_required_version__)
@@ -30,7 +31,10 @@ class TuneV2AuthenticationTypes(object):
 
     @staticmethod
     def validate(auth_type):
-        return auth_type in [TuneV2AuthenticationTypes.API_KEY, TuneV2AuthenticationTypes.SESSION_TOKEN]
+        return auth_type in [
+            TuneV2AuthenticationTypes.API_KEY,
+            TuneV2AuthenticationTypes.SESSION_TOKEN,
+        ]
 
 
 # @brief  TUNE MobileAppTracking API v2/session/authenticate
@@ -43,7 +47,10 @@ class TuneV2SessionAuthenticate(TuneMobileAppTrackingApiBase):
     # Initialize Job
     #
     def __init__(self, logger_level=logging.NOTSET, logger_format=TuneLoggingFormat.JSON):
-        super(TuneV2SessionAuthenticate, self).__init__(logger_level=logger_level, logger_format=logger_format)
+        super(TuneV2SessionAuthenticate, self).__init__(
+            logger_level=logger_level,
+            logger_format=logger_format,
+        )
 
     def get_session_token(self, tmc_api_key, request_retry=None):
         """Generate session token is returned to provide
@@ -56,7 +63,7 @@ class TuneV2SessionAuthenticate(TuneMobileAppTrackingApiBase):
         Returns:
 
         """
-        self.logger.info("TMC v2 /session/authenticate/: Get Token")
+        self.logger.info("TMC v2 Session Authenticate: Get Token")
 
         self.api_key = tmc_api_key
 
@@ -85,18 +92,29 @@ class TuneV2SessionAuthenticate(TuneMobileAppTrackingApiBase):
                 request_label="TMC v2 Session Authenticate"
             )
 
-        except TuneReportingError as tmv_ex:
-            self.logger.error("TMC v2 /session/authenticate/: Failed: {}".format(str(tmv_ex)))
+        except TuneRequestBaseError as tmc_req_ex:
+            self.logger.error(
+                "TMC v2 Session Authenticate: Failed",
+                extra=tmc_req_ex.to_dict(),
+            )
+            raise
+
+        except TuneReportingError as tmc_rep_ex:
+            self.logger.error(
+                "TMC v2 Session Authenticate: Failed",
+                extra=tmc_rep_ex.to_dict(),
+            )
             raise
 
         except Exception as ex:
             print_traceback(ex)
 
-            self.logger.error("TMC v2 /session/authenticate/: Failed: {}".format(get_exception_message(ex)))
+            self.logger.error("TMC v2 Session Authenticate: Failed: {}".format(get_exception_message(ex)))
 
             raise TuneReportingError(
-                error_message=("TMC v2 /session/authenticate/: Failed: {}").format(get_exception_message(ex)),
-                errors=ex
+                error_message=("TMC v2 Session Authenticate: Failed: {}").format(get_exception_message(ex)),
+                errors=ex,
+                error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
             )
 
         json_response = validate_json_response(
@@ -105,20 +123,47 @@ class TuneV2SessionAuthenticate(TuneMobileAppTrackingApiBase):
             request_label="TMC v2 Get Session Token: Validate",
         )
 
-        self.logger.debug("TuneV2SessionAuthenticate", extra={'response': json_response})
-
-        json_response_status_code = json_response['status_code']
-        http_status_successful = is_http_status_type(
-            http_status_code=json_response_status_code, http_status_type=HttpStatusType.SUCCESSFUL
+        self.logger.debug(
+            "TMC v2 Session Authenticate: Details:",
+            extra={'response': json_response},
         )
 
-        if not http_status_successful or not json_response['data']:
-            raise TuneReportingError(error_message="Failed to authenticate: {}".format(json_response_status_code))
+        response_status_code = json_response.get('status_code', None)
+        status_code_successful = is_http_status_type(
+            http_status_code=response_status_code, http_status_type=HttpStatusType.SUCCESSFUL
+        )
+
+        response_errors = json_response.get('errors', None)
+
+        response_error_message = ""
+        if response_errors:
+            if isinstance(response_errors, dict):
+                error_message = response_errors.get('message', None)
+                if error_message:
+                    if error_message.startswith("Invalid api key"):
+                        response_status_code = TuneReportingErrorCodes.UNAUTHORIZED
+                    response_error_message += error_message
+            elif isinstance(response_errors, list):
+                for response_error in response_errors:
+                    if isinstance(response_error, dict) \
+                            and 'message' in response_error:
+                        error_message = response_error.get('message', None)
+                        if error_message:
+                            if error_message.startswith("Invalid api key"):
+                                response_status_code = TuneReportingErrorCodes.UNAUTHORIZED
+                            response_error_message += error_message
+
+        error_code = response_status_code
+
+        if not status_code_successful or not json_response['data']:
+            raise TuneReportingError(
+                error_message="TMC v2 Session Authenticate: Failed: {}".format(response_error_message),
+                error_code=error_code,
+            )
 
         self.session_token = json_response['data']
 
-        self.logger.info("TuneV2SessionAuthenticate", extra={'session_token': self.session_token})
-
-        self.logger.info("TMC v2 /session/authenticate/: Finished")
+        self.logger.info("TMC v2 Session Authenticate", extra={'session_token': self.session_token})
+        self.logger.info("TMC v2 Session Authenticate: Finished")
 
         return True

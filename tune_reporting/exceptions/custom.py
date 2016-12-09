@@ -6,12 +6,8 @@
 Tune Reporting Error
 """
 
-from requests_mv_integrations.errors import (TuneRequestErrorCodes)
-from requests_mv_integrations.exceptions import (TuneRequestBaseError)
-
-
-class TuneReportingBaseError(TuneRequestBaseError):
-    pass
+from tune_reporting.errors import (TuneReportingErrorCodes)
+from .base import (TuneReportingBaseError)
 
 
 class TuneReportingError(TuneReportingBaseError):
@@ -20,5 +16,5 @@ class TuneReportingError(TuneReportingBaseError):
 
 class TuneReportingAuthError(TuneReportingBaseError):
     def __init__(self, **kwargs):
-        error_code = kwargs.pop('error_code', None) or TuneRequestErrorCodes.REQ_ERR_AUTH_ERROR
+        error_code = kwargs.pop('error_code', None) or TuneReportingErrorCodes.REP_ERR_AUTH_ERROR
         super(TuneReportingAuthError, self).__init__(error_code=error_code, **kwargs)

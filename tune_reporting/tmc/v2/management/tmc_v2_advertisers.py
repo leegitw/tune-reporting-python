@@ -9,10 +9,8 @@ import logging
 
 from pyhttpstatus_utils import (HttpStatusType, is_http_status_type)
 from requests_mv_integrations.support import (validate_json_response)
-from tune_reporting.errors import (
-    print_traceback,
-    get_exception_message,
-)
+from requests_mv_integrations.exceptions import (TuneRequestBaseError)
+from tune_reporting.errors import (print_traceback, get_exception_message, TuneReportingErrorCodes)
 from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.support import (python_check_version)
 from tune_reporting import (__python_required_version__)
@@ -86,11 +84,7 @@ class TuneV2Advertisers(TuneMobileAppTrackingApiBase):
                 action="find"
             )
 
-        request_params = \
-            {
-                auth_type: auth_value,
-                "source": "multiverse",
-            }
+        request_params = {auth_type: auth_value}
 
         self.logger.info("TMC v2 Advertisers: Advertiser ID")
 
@@ -106,17 +100,32 @@ class TuneV2Advertisers(TuneMobileAppTrackingApiBase):
                 request_label="TMC v2 Advertisers"
             )
 
-        except TuneReportingError as tmv_ex:
-            self.logger.error("TMC v2 Advertisers: Advertiser ID: Failed", extra={'error': str(tmv_ex)})
+        except TuneRequestBaseError as tmc_req_ex:
+            self.logger.error(
+                "TMC v2 Advertisers: Advertiser ID: Failed",
+                extra=tmc_req_ex.to_dict(),
+            )
+            raise
+
+        except TuneReportingError as tmc_rep_ex:
+            self.logger.error(
+                "TMC v2 Advertisers: Advertiser ID: Failed",
+                extra=tmc_rep_ex.to_dict(),
+            )
             raise
 
         except Exception as ex:
             print_traceback(ex)
 
-            self.logger.error("TMC v2 Advertisers: Advertiser ID: Failed", extra={'error': get_exception_message(ex)})
+            self.logger.error(
+                "TMC v2 Advertisers: Advertiser ID: Failed",
+                extra={'error': get_exception_message(ex)},
+            )
 
             raise TuneReportingError(
-                error_message=("TMC v2 Advertisers: Failed: {}").format(get_exception_message(ex)), errors=ex
+                error_message=("TMC v2 Advertisers: Failed: {}").format(get_exception_message(ex)),
+                errors=ex,
+                error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
             )
 
         json_response = validate_json_response(
@@ -134,18 +143,28 @@ class TuneV2Advertisers(TuneMobileAppTrackingApiBase):
         )
 
         if not http_status_successful or not json_response['data']:
-            raise TuneReportingError(error_message="TMC v2 Advertisers: Failed: {}".format(json_response_status_code))
+            raise TuneReportingError(
+                error_message="TMC v2 Advertisers: Failed: {}".format(json_response_status_code),
+                error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
+            )
 
         if 'data' not in json_response or \
                 not json_response['data'] or \
                 len(json_response['data']) == 0:
-            raise TuneReportingError(error_message="TMC v2 Advertisers: Advertiser ID: Failed")
+            raise TuneReportingError(
+                error_message="TMC v2 Advertisers: Advertiser ID: Failed",
+                error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
+            )
 
         advertiser_data = json_response['data'][0]
-        self.advertiser_id = advertiser_data['id']
+
+        self.advertiser_id = advertiser_data.get('id', None)
+        if self.advertiser_id is None:
+            raise TuneReportingError(
+                error_message="TMC v2 Advertisers: Advertiser ID: Failed",
+                error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
+            )
 
         self.logger.info("TMC v2 Advertisers: Advertiser ID: {}".format(self.advertiser_id))
-
-        self.logger.info("TMC v2 Advertisers: Finished")
 
         return True

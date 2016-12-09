@@ -10,6 +10,7 @@ import pytz
 import json
 import logging
 
+from requests_mv_integrations.exceptions import (TuneRequestBaseError)
 from tune_reporting.errors import (print_traceback, get_exception_message)
 from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.tmc.v2.reporting import (TuneV2AdvertiserStatsActuals, TuneV2AdvertiserStatsFormats)
@@ -86,7 +87,7 @@ def main(tmc_api_key):
             request_params=request_params,
             request_retry={'delay': 15,
                            'timeout': 30,
-                           'tries': 10}
+                           'tries': 5}
         )
 
         line_count = 0
@@ -294,12 +295,18 @@ def main(tmc_api_key):
 
         pprint(extra)
 
-    except TuneReportingError as tmv_ex:
-        pprint(tmv_ex.to_dict())
+    except TuneRequestBaseError as tmc_req_ex:
+        print_traceback(tmc_req_ex)
+        pprint(tmc_req_ex.to_dict())
+        print(str(tmc_req_ex))
+
+    except TuneReportingError as tmc_rep_ex:
+        pprint(tmc_rep_ex.to_dict())
+        print(str(tmc_rep_ex))
 
     except Exception as ex:
         print_traceback(ex)
-        pprint(get_exception_message(ex))
+        print(get_exception_message(ex))
 
 
 if __name__ == '__main__':

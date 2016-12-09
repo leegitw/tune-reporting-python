@@ -22,12 +22,16 @@ from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (TuneV2
 log = logging.getLogger(__name__)
 
 
-def tmc_auth_v2_session_token(tmc_api_key, logger_level=logging.NOTSET, logger_format=TuneLoggingFormat.JSON):
+def tmc_auth_v2_session_token(
+    tmc_api_key,
+    logger_level=logging.NOTSET,
+    logger_format=TuneLoggingFormat.JSON,
+):
     """TMC Authentication
 
     :return:
     """
-    log.info("TMC v2 /session/authenticate/: Request")
+    log.info("TMC v2 Session Token: Request")
 
     response_auth = None
 
@@ -42,23 +46,23 @@ def tmc_auth_v2_session_token(tmc_api_key, logger_level=logging.NOTSET, logger_f
             session_token = tune_v2_session_authenticate.session_token
 
     except TuneReportingError as auth_ex:
-        log.error("TMC v2 /session/authenticate/: Failed", extra=auth_ex.to_dict())
+        log.error("TMC v2 Session Token: Failed", extra=auth_ex.to_dict())
 
         raise
 
     except Exception as ex:
         print_traceback(ex)
         log.error(
-            'TMC v2 Session Authenticate: Failed: Unexpected',
+            'TMC v2 Session Token: Failed: Unexpected',
             extra={'error_exception': base_class_name(ex),
                    'error_details': get_exception_message(ex)}
         )
 
         raise TuneReportingAuthError(
-            error_message="TMC v2 Session Authenticate: Failed: Unexpected",
+            error_message="TMC v2 Session Token: Failed: Unexpected",
             errors=ex,
         )
 
-    log.debug("TMC v2 /session/authenticate/: Response", extra={'session_token': session_token})
+    log.debug("TMC v2 Session Token: Response", extra={'session_token': session_token})
 
     return session_token
