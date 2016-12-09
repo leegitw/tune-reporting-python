@@ -4,7 +4,7 @@ TUNE SDK for Python documentation
     :package: `tune-reporting-python <https://github.com/TuneLab/tune-reporting-python>`_
     :label: TUNE Reporting API SDK for Python 3.0
     :purpose: Incorporate TUNE services.
-    :version: 2.0.4
+    :version: 2.0.5
 
 Update in progress for to incorporate TUNE Reporting API V3.
 
