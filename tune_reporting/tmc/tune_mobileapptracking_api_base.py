@@ -22,7 +22,7 @@ from tune_reporting.errors import (
     get_exception_message,
     TuneReportingErrorCodes,
 )
-from requests_mv_integrations.exceptions import (TuneRequestBaseError)
+from requests_mv_integrations.exceptions import (TuneRequestBaseError, TuneRequestError)
 from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting import (__version__, __python_required_version__)
 from requests_mv_integrations import (RequestMvIntegrationDownload)
@@ -225,7 +225,7 @@ class TuneMobileAppTrackingApiBase(object):
 
         if tune_v2_status_code in [401, 403]:
             self.logger.error("TMC API: Request: Error", extra={'status_code': tune_v2_status_code})
-            raise TuneReportingError(
+            raise TuneRequestError(
                 error_message=tune_v2_errors_messages,
                 error_code=tune_v2_status_code,
             )
@@ -234,7 +234,7 @@ class TuneMobileAppTrackingApiBase(object):
             if "Api key was not found." in tune_v2_errors_messages:
                 self.logger.error("TMC API: Request: Error", extra={'tune_v2_status_code': tune_v2_status_code})
 
-                raise TuneReportingError(
+                raise TuneRequestError(
                     error_message=tune_v2_errors_messages,
                     error_code=tune_v2_status_code,
                 )
