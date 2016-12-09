@@ -29,9 +29,8 @@ venv/
 _tmp/*
 **/tmp/*
 
-**/data.json
-**/data.csv
+examples/data.*
 _tmp/
-data.json
+data.*
 dist/
 *.zip
