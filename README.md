@@ -1,7 +1,7 @@
 <h2>tune-reporting-python</h2>
 <h2>TUNE Reporting SDK for Python 3.0</h2>
 <h3>Incorporate TUNE Reporting API services.</h3>
-<h4>Version: 2.0.4</h4>
+<h4>Version: 2.0.5</h4>
 ===
 
 <h3 style="color:red;">Update in progress for to incorporate TUNE Reporting API V3</h3>
