@@ -790,14 +790,14 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
 
         except TuneRequestBaseError as tmc_req_ex:
             self.logger.error(
-                "TMC v2 Advertiser Stats: Failed",
+                "TMC v2 Advertiser Stats: Request Failed",
                 extra=tmc_req_ex.to_dict(),
             )
             raise
 
         except TuneReportingError as tmc_rep_ex:
             self.logger.error(
-                "TMC v2 Advertiser Stats: Failed",
+                "TMC v2 Advertiser Stats: Reporting Failed",
                 extra=tmc_rep_ex.to_dict(),
             )
             raise
@@ -808,7 +808,7 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
             self.logger.error(get_exception_message(ex))
 
             raise TuneReportingError(
-                error_message=("TMC v2 Advertiser Stats: Failed: {}").format(get_exception_message(ex)),
+                error_message=("TMC v2 Advertiser Stats: Unexpected Failed: {}").format(get_exception_message(ex)),
                 errors=ex,
                 error_code=TuneReportingErrorCodes.REP_ERR_SOFTWARE
             )
@@ -818,6 +818,8 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
             request_curl=self.mv_request.built_request_curl,
             request_label="TMC v2 Advertiser Stats: Action '{}'".format(export_action)
         )
+
+        self.logger.info("TMC v2 Advertiser Stats: Reporting API: Export URL", extra={'url': response.url})
 
         if (not json_response or json_response['status_code'] != 200 or 'errors' in json_response):
             raise TuneReportingError(
@@ -860,16 +862,7 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                 error_code=TuneReportingErrorCodes.REP_ERR_UNEXPECTED_VALUE
             )
 
-        self.logger.info(
-            msg=("TMC v2 Advertiser Stats: "
-                 "Exported Job to Queue"),
-            extra={
-                'action': export_action,
-                'start_date': request_params["start_date"],
-                'end_date': request_params["end_date"],
-                'job_id': export_job_id
-            }
-        )
+        self.logger.info("TMC v2 Advertiser Stats: Reporting API: Job ID", extra={'job_id': export_job_id})
 
         return export_job_id
 
@@ -980,6 +973,8 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                     error_message=("Failed to get export status on queue: {}").format(response.status_code),
                     error_code=TuneReportingErrorCodes.REP_ERR_REQUEST
                 )
+
+            self.logger.info("TMC v2 Advertiser Stats: Reporting API: Status URL", extra={'url': response.url})
 
             json_response = response.json()
 
