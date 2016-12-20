@@ -819,7 +819,9 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
             request_label="TMC v2 Advertiser Stats: Action '{}'".format(export_action)
         )
 
-        self.logger.info("TMC v2 Advertiser Stats: Reporting API: Export URL", extra={'response_url': response.url})
+        if hasattr(response, 'url'):
+            self.logger.info("TMC v2 Advertiser Stats: Reporting API: Export URL",
+                             extra={'response_url': response.url})
 
         if (not json_response or json_response['status_code'] != 200 or 'errors' in json_response):
             raise TuneReportingError(
@@ -974,7 +976,9 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                     error_code=TuneReportingErrorCodes.REP_ERR_REQUEST
                 )
 
-            self.logger.info("TMC v2 Advertiser Stats: Reporting API: Status URL", extra={'response_url': response.url})
+            if hasattr(response, 'url'):
+                self.logger.info("TMC v2 Advertiser Stats: Reporting API: Status URL",
+                                 extra={'response_url': response.url})
 
             json_response = response.json()
 
