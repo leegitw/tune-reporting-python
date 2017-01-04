@@ -1,7 +1,10 @@
 logging-mv-integrations>=0.0.3
-pprintpp
+pprintpp>=0.2.3
 pyhttpstatus-utils>=0.1.0
+pytest
+pytest-mock
+python-dateutil>=2.5.3
 pytz-convert>=0.0.4
 requests_mv_integrations>=0.1.6
 requests>=2.12.1
-wheel>=0.22.0
+wheel>=0.29.0
