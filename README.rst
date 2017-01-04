@@ -36,22 +36,21 @@ Overview
     :alt: Requirements Status
     :target: https://requires.io/github/TuneLab/tune-reporting-python/requirements/?branch=master
 
-.. |version| image:: https://img.shields.io/pypi/v/tune-reporting.svg?style=flat
+.. |version| image:: https://img.shields.io/pypi/v/tune_reporting.svg?style=flat
     :alt: PyPI Package latest release
-    :target: https://pypi.python.org/pypi/tune-reporting
+    :target: https://pypi.python.org/pypi/tune_reporting
 
-.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/tune-reporting.svg?style=flat
+.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/tune_reporting.svg?style=flat
     :alt: Supported versions
-    :target: https://pypi.python.org/pypi/tune-reporting
+    :target: https://pypi.python.org/pypi/tune_reporting
 
 .. end-badges
 
 tune-reporting-python
 ========================
 
-Python helper library for TUNE Reporting API services.
+``tune-reporting-python`` is a Python helper library for TUNE Reporting API services.
 
-The utility focus of this SDK is upon the Advertiser Reporting endpoints.
 
 Installation
 ============
@@ -59,11 +58,6 @@ Installation
 
 Usage
 =====
-
-License
-####################
-
-`MIT License <http://opensource.org/licenses/MIT>`_.
 
 
 Reporting Issues
