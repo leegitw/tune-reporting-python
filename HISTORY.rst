@@ -1,13 +1,28 @@
 .. :changelog:
 
 Release History
----------------
+===============
 
-Version 2.0.0
-++++++++++++++++++
+2.1.0 (2017-01-04)
+------------------
+- README.rst
+- HISTORY.rst
+- setup.py
+
+2.0.0 (2016-11-20)
+------------------
 - TUNE Reporting API v3
 
-
-Version 1.0.0
-++++++++++++++++++
+1.1.1 (2016-01-25)
+------------------
 - TUNE Reporting API v2
+- Changes in Handling Exports and Logs
+
+1.0.0 (2015-04-01)
+------------------
+- TUNE Reporting API v2
+- Initial PyPi release
+
+0.0.1 (2014-10-15)
+------------------
+ - First Commit
