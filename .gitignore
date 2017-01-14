@@ -8,14 +8,17 @@
 .idea
 .dartignore
 
+.sw*
+*.vim
+*.zip
+
 # Code build files
-tune_reporting.egg-info/
+*.egg-info/
 build/
 __pycache__/
 *.pyc
 
 # Code documentation
-docs/doxygen/
 docs/sphinx/_build/
 venv/
 
@@ -26,11 +29,16 @@ venv/
 *~
 
 # Sandbox
-_tmp/*
+**/_tmp/*
 **/tmp/*
-
-examples/data.*
+sandbox/
 _tmp/
 data.*
-dist/
-*.zip
+
+# pytest
+.cache/*
+
+# distribution
+.eggs/*
+dist/*
+
