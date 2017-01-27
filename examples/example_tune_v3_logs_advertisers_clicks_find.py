@@ -20,7 +20,7 @@ def main(tmc_api_key):
 
     tune_v3_logs_advertisers_clicks_find = \
         TuneV3LogsAdvertisersClicks(
-            logger_level=logging.DEBUG,
+            logger_level=logging.INFO,
             logger_format=TuneLoggingFormat.JSON
         )
 

@@ -19,7 +19,7 @@ from logging_mv_integrations import (TuneLoggingFormat)
 def main(tmc_api_key):
     tune_v3_logs_advertisers_clicks_export = \
         TuneV3LogsAdvertisersClicks(
-            logger_level=logging.DEBUG,
+            logger_level=logging.INFO,
             logger_format=TuneLoggingFormat.JSON
         )
 

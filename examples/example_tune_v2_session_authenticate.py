@@ -16,7 +16,7 @@ def main(tmc_api_key):
 
     tune_v2_session_authenticate = \
         TuneV2SessionAuthenticate(
-            logger_level=logging.DEBUG
+            logger_level=logging.INFO
         )
 
     try:

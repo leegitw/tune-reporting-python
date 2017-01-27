@@ -21,7 +21,7 @@ def main(tmc_api_key):
 
     tune_v2_advertiser_stats_actuals = \
         TuneV2AdvertiserStatsActuals(
-            logger_level=logging.DEBUG,
+            logger_level=logging.INFO,
             logger_format=TuneLoggingFormat.JSON
         )
 

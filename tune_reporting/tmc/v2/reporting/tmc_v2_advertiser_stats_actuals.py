@@ -49,6 +49,7 @@ class TuneV2AdvertiserStatsActuals(TuneV2AdvertiserStatsBase):
         auth_type_use,
         start_date,
         end_date,
+        tmp_directory=None,
         request_params=None,
         request_retry=None,
         request_action=TuneV2AdvertiserStatsActions.FIND
@@ -66,7 +67,6 @@ class TuneV2AdvertiserStatsActuals(TuneV2AdvertiserStatsBase):
 
         """
         self.logger.debug(("TuneV2AdvertiserStatsActuals: Collect: " "Action: '{}'").format(request_action))
-
         dict_request_params = self._map_request_params(auth_type_use, start_date, end_date, request_params)
 
         self.logger.debug("TuneV2AdvertiserStatsActuals: Collect", extra={'build_params': dict_request_params})
@@ -75,7 +75,9 @@ class TuneV2AdvertiserStatsActuals(TuneV2AdvertiserStatsBase):
             if request_action == TuneV2AdvertiserStatsActions.FIND:
                 self._find_v2(request_params=dict_request_params, request_retry=request_retry)
             elif request_action == TuneV2AdvertiserStatsActions.EXPORT:
+                assert tmp_directory
                 self._export_v2_download_csv(
+                    tmp_directory=tmp_directory,
                     auth_type_use=auth_type_use,
                     export_controller=self._CONTROLLER,
                     export_action='export',
