@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#  @copyright 2016 TUNE, Inc. (http://www.tune.com)
+#  @copyright 2017 TUNE, Inc. (http://www.tune.com)
 #  @namespace tune_reporting.errors
 
 from requests_mv_integrations.errors import error_name as tune_requests_error_name
@@ -8,17 +8,13 @@ from requests_mv_integrations.errors import error_desc as tune_requests_error_de
 
 tune_reporting_error_name = {
     700: 'Reporting Error',
-
     707: 'Request Error',
     708: 'Software Error',
     710: 'Unexpected Value',
-
     721: 'Job Stopped',
     722: 'Retry Exhausted',
-
     760: 'Auth Error',
     761: 'Auth JSON Error',
-
     766: 'JSON Decoding Error',
     799: 'Unexpected Error'
 }
@@ -27,17 +23,13 @@ tune_reporting_error_description = {
     -1: 'Unassiged exit condition',
     0: 'Successfully completed',
     700: 'Reporting error occurred',
-
     707: 'Unexpected request failure',
     708: 'Unexpected software error was detected',
     710: 'Unexpected value returned',
-
     721: 'Job Stopped',
     722: 'Retry Exhausted',
-
     760: 'Auth Error',
     761: 'Auth JSON Error',
-
     766: 'JSON Decoding Error',
     799: 'Unexpected Error'
 }

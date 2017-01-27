@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#  @copyright 2016 TUNE, Inc. (http://www.tune.com)
+#  @copyright 2017 TUNE, Inc. (http://www.tune.com)
 #  @namespace tune_reporting
 """
 Tune Reporting Error
@@ -15,6 +15,7 @@ from tune_reporting.errors import (TuneReportingErrorCodes)
 
 from tune_reporting.errors import error_name as tune_reporting_error_name
 from tune_reporting.errors import error_desc as tune_reporting_error_desc
+
 
 # @brief TUNE Reporting Base Exception
 #

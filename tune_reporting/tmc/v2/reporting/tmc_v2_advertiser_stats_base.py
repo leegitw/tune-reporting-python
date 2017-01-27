@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#  @copyright 2016 TUNE, Inc. (http://www.tune.com)
+#  @copyright 2017 TUNE, Inc. (http://www.tune.com)
 #  @namespace tune_reporting
 """TUNE Advertiser Stats Abstract Base Class.
 """
@@ -820,8 +820,7 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         )
 
         if hasattr(response, 'url'):
-            self.logger.info("TMC v2 Advertiser Stats: Reporting API: Export URL",
-                             extra={'response_url': response.url})
+            self.logger.info("TMC v2 Advertiser Stats: Reporting API: Export URL", extra={'response_url': response.url})
 
         if (not json_response or json_response['status_code'] != 200 or 'errors' in json_response):
             raise TuneReportingError(
@@ -977,8 +976,9 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                 )
 
             if hasattr(response, 'url'):
-                self.logger.info("TMC v2 Advertiser Stats: Reporting API: Status URL",
-                                 extra={'response_url': response.url})
+                self.logger.info(
+                    "TMC v2 Advertiser Stats: Reporting API: Status URL", extra={'response_url': response.url}
+                )
 
             json_response = response.json()
 

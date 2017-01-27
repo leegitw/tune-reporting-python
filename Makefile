@@ -4,7 +4,7 @@
 # copyright Copyright (c) 2016, TUNE Inc. (http://www.tune.com)
 #
 
-.PHONY: clean version build dist local-dev yapf pyflakes pylint run-examples
+.PHONY: clean version build dist local-dev yapf pyflakes pylint
 
 PACKAGE := tune-reporting
 PACKAGE_PREFIX := tune_reporting
@@ -23,8 +23,9 @@ VERSION := $(shell $(PYTHON3) setup.py version)
 WHEEL_ARCHIVE := dist/$(PACKAGE_PREFIX)-$(VERSION)-$(PACKAGE_SUFFIX)
 
 PACKAGE_FILES := $(shell find $(PACKAGE_PREFIX) examples ! -name '__init__.py' -type f -name "*.py")
-PACKAGE_ALL_FILES := $(shell find $(PACKAGE_PREFIX) examples -type f -name "*.py")
+PACKAGE_ALL_FILES := $(shell find $(PACKAGE_PREFIX) tests examples -type f -name "*.py")
 PACKAGE_EXAMPLE_FILES := $(shell find examples ! -name '__init__.py' -type f -name "*.py")
+PYFLAKES_ALL_FILES := $(shell find $(PACKAGE_PREFIX) tests examples -type f  -name '*.py' ! '(' -name '__init__.py' ')')
 
 TOOLS_REQ_FILE := requirements-tools.txt
 REQ_FILE      := requirements.txt
@@ -139,7 +140,7 @@ dist: clean
 	@echo dist $(PACKAGE)
 	@echo "======================================================"
 	$(PIP3) install --upgrade -r requirements.txt
-	hub release create v$(VERSION) -m "$(PACKAGE_PREFIX)-$(VERSION)-$(PACKAGE_SUFFIX)"
+	hub release create -m "$(PACKAGE_PREFIX)-$(VERSION)-$(PACKAGE_SUFFIX)" v$(VERSION)
 	$(PYTHON3) $(SETUP_FILE) bdist_wheel upload
 	$(PYTHON3) $(SETUP_FILE) bdist_egg upload
 	$(PYTHON3) $(SETUP_FILE) sdist --format=gztar upload
@@ -174,21 +175,21 @@ pep8: tools-requirements
 	@echo "======================================================"
 	@echo pep8 $(PACKAGE)
 	@echo "======================================================"
-	$(PYTHON3) -m pep8 --config .pep8 $(PACKAGE_FILES)
+	$(PYTHON3) -m pep8 --config .pep8 $(PACKAGE_ALL_FILES)
 
 pyflakes: tools-requirements
 	@echo "======================================================"
 	@echo pyflakes $(PACKAGE)
 	@echo "======================================================"
 	$(PIP3) install --upgrade pyflakes
-	$(PYTHON3) -m pyflakes $(PACKAGE_FILES)
+	$(PYTHON3) -m pyflakes $(PYFLAKES_ALL_FILES)
 
 pylint: tools-requirements
 	@echo "======================================================"
 	@echo pylint $(PACKAGE)
 	@echo "======================================================"
 	$(PIP3) install --upgrade pylint
-	$(PYTHON3) -m pylint --rcfile .pylintrc $(PACKAGE_FILES) --disable=C0330,F0401,E0611,E0602,R0903,C0103,E1121,R0913,R0902,R0914,R0912,W1202,R0915,C0302 | more -30
+	$(PYTHON3) -m pylint --rcfile .pylintrc $(PACKAGE_ALL_FILES) --disable=C0330,F0401,E0611,E0602,R0903,C0103,E1121,R0913,R0902,R0914,R0912,W1202,R0915,C0302 | more -30
 
 yapf: tools-requirements
 	@echo "======================================================"
@@ -225,5 +226,11 @@ run-examples:
 		$(PYTHON3) $$example $(tmc_api_key) ; \
 	done
 
+test:
+	py.test tests
+
+coverage:
+	py.test --verbose --cov-report html --cov=requests_mv_integrations tests
+	
 list:
 	cat Makefile | grep "^[a-z]" | awk '{print $$1}' | sed "s/://g" | sort

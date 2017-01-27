@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#  @copyright 2016 TUNE, Inc. (http://www.tune.com)
+#  @copyright 2017 TUNE, Inc. (http://www.tune.com)
 #  @namespace tune_reporting
 """TUNE Advertisers.
 """
@@ -16,7 +16,7 @@ from tune_reporting.support import (python_check_version)
 from tune_reporting import (__python_required_version__)
 from tune_reporting.tmc.tune_mobileapptracking_api_base import (TuneMobileAppTrackingApiBase)
 from logging_mv_integrations import (TuneLoggingFormat)
-from pprintpp import pprint
+# from pprintpp import pprint
 
 python_check_version(__python_required_version__)
 

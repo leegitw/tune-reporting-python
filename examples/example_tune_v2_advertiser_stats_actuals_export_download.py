@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#  @copyright 2016 TUNE, Inc. (http://www.tune.com)
+#  @copyright 2017 TUNE, Inc. (http://www.tune.com)
 
 import sys
 from pprintpp import pprint
@@ -32,6 +32,7 @@ def main(tmc_api_key):
 
     try:
         auth_response = tune_v2_advertiser_stats_actuals.tmc_auth(tmc_api_key=tmc_api_key)
+        assert auth_response
 
         tune_v2_advertiser_stats_actuals.collect(
             auth_value=tmc_api_key,
