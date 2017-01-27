@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#  @copyright 2016 TUNE, Inc. (http://www.tune.com)
+#  @copyright 2017 TUNE, Inc. (http://www.tune.com)
 
 import sys
 import logging
 from pprintpp import pprint
-from datetime import datetime, time, timedelta
+from datetime import datetime, timedelta
 import pytz
 
 from requests_mv_integrations.exceptions import (TuneRequestBaseError)
@@ -24,8 +24,6 @@ def main(tmc_api_key):
         )
 
     tune_v3_logs_advertisers_clicks_export.logger_level = logging.DEBUG
-
-    filter_stats_clicks = "(ad_network_id <> 0)"
 
     tz = pytz.timezone("America/New_York")
     yesterday = datetime.now(tz).date() - timedelta(days=1)

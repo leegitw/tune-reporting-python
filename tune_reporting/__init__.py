@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#  @copyright 2016 TUNE, Inc. (http://www.tune.com)
+#  @copyright 2017 TUNE, Inc. (http://www.tune.com)
 #  @namespace tune_reporting
 
 __title__ = 'tune-reporting'
-__version__ = '2.1.0'
-__build__ = 0x020100
+__version__ = '2.1.1'
+__build__ = 0x020101
 __version_info__ = tuple(__version__.split('.'))
 
 __author__ = 'jefft@tune.com'
 __license__ = 'The MIT License (MIT)'
-__copyright__ = 'Copyright 2016 TUNE, Inc.'
+__copyright__ = 'Copyright 2017 TUNE, Inc.'
 
 __python_required_version__ = (3, 0)
 

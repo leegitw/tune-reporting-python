@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#  @copyright 2016 TUNE, Inc. (http://www.tune.com)
+#  @copyright 2017 TUNE, Inc. (http://www.tune.com)
 #  @namespace tune_reporting
 
 from tune_reporting.tmc.v2.management.tmc_v2_advertiser_sites import (TuneV2AdvertiserSites, TuneV2AdvertiserSiteStatus)

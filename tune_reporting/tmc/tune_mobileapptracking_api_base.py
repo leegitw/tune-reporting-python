@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#  @copyright 2016 TUNE, Inc. (http://www.tune.com)
+#  @copyright 2017 TUNE, Inc. (http://www.tune.com)
 #  @namespace tune_reporting
 """TMC API Base class
 """
@@ -8,7 +8,7 @@
 import logging
 import requests
 import datetime as dt
-from pprintpp import pprint
+# from pprintpp import pprint
 
 from pytz_convert import (validate_tz_name)
 from pyhttpstatus_utils import (http_status_code_to_type)

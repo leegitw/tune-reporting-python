@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#  @copyright 2016 TUNE, Inc. (http://www.tune.com)
+#  @copyright 2017 TUNE, Inc. (http://www.tune.com)
 #  @namespace tune_reporting
 """TUNE MobileAppTracking API base class
 """
@@ -37,7 +37,12 @@ class TuneMobileAppTrackingApi(TuneMobileAppTrackingApiBase):
 
     # Initialize Job
     #
-    def __init__(self, logger_level=logging.NOTSET, logger_format=TuneLoggingFormat.JSON, timezone=None):
+    def __init__(
+        self,
+        logger_level=logging.NOTSET,
+        logger_format=TuneLoggingFormat.JSON,
+        timezone=None,
+    ):
         """Initialize
 
         Args:
@@ -65,6 +70,7 @@ class TuneMobileAppTrackingApi(TuneMobileAppTrackingApiBase):
         self.logger.info("TMC API: Session Authenticate: Request")
 
         tmc_auth_response = self.tmc_auth(tmc_api_key=tmc_api_key)
+        assert tmc_auth_response
 
         tune_v2_session_authenticate = TuneV2SessionAuthenticate(integration_name=self.integration_name)
 
