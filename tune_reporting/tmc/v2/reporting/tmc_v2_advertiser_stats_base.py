@@ -276,7 +276,7 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         end_date,
         request_params=None,
         request_retry=None,
-        request_action=TuneV2AdvertiserStatsActions.FIND
+        request_action=TuneV2AdvertiserStatsActions.FIND,
     ):
         """Collect data: TUNE Advertiser Stats.
 
@@ -294,7 +294,14 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         raise NotImplementedError
 
     @abstractmethod
-    def _stream_v2(self, auth_type_use, start_date, end_date, request_params, request_retry=None):
+    def _stream_v2(
+        self,
+        auth_type_use,
+        start_date,
+        end_date,
+        request_params,
+        request_retry=None,
+    ):
         """Collect data: TUNE Advertiser Stats.
 
         Args:
@@ -309,7 +316,12 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
 
         raise NotImplementedError
 
-    def _find_v2(self, request_params, request_retry=None, request_label="TMC v2 Advertiser Stats Find"):
+    def _find_v2(
+        self,
+        request_params,
+        request_retry=None,
+        request_label="TMC v2 Advertiser Stats Find",
+    ):
         """Gather data using action find.json.
         """
 
@@ -400,13 +412,14 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
 
     def _export_v2_download_csv(
         self,
+        tmp_directory,
         auth_type_use,
         export_controller,
         export_action,
         export_status_controller,
         export_status_action,
         request_params,
-        request_retry=None
+        request_retry=None,
     ):
         """Gather Export by Downloading CSV and reading Data
 
@@ -456,8 +469,17 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         data = []
 
         data, job_row_count = self._process_export_download_csv_v2(
-            data, auth_type_use, str_date_start, str_date_end, export_controller, export_action,
-            export_status_controller, export_status_action, request_params, request_retry
+            tmp_directory,
+            data,
+            auth_type_use,
+            str_date_start,
+            str_date_end,
+            export_controller,
+            export_action,
+            export_status_controller,
+            export_status_action,
+            request_params,
+            request_retry,
         )
 
         self.data = data
@@ -470,7 +492,7 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         export_status_controller,
         export_status_action,
         request_params,
-        request_retry=None
+        request_retry=None,
     ):
         """Gather Export using Requests Stream
 
@@ -540,6 +562,7 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
 
     def _process_export_download_csv_v2(
         self,
+        tmp_directory,
         data,
         auth_type_use,
         str_date_start,
@@ -594,7 +617,7 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
             export_status_controller,
             export_status_action,
             export_job_id,
-            request_retry=request_retry
+            request_retry=request_retry,
         )
 
         if not export_report_url:
@@ -615,6 +638,7 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
 
         for row in self.mv_request.request_csv_download(
             tmp_csv_file_name=tmp_csv_file_name,
+            tmp_directory=tmp_directory,
             request_method="GET",
             request_url=export_report_url,
             request_label="TMC v2 Advertiser Stats: Export: Download CSV"
@@ -653,7 +677,7 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         export_status_action,
         request_params,
         request_retry,
-        request_label="TMC v2 Advertiser Stats Export Stream"
+        request_label="TMC v2 Advertiser Stats Export Stream",
     ):
         """Process Export Job by Steaming
 

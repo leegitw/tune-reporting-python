@@ -13,7 +13,7 @@ from tune_reporting.exceptions import (TuneReportingError)
 
 
 def main(tmc_api_key):
-    tune_advertiser_sites = TuneV2AdvertiserSites(logger_level=logging.DEBUG)
+    tune_advertiser_sites = TuneV2AdvertiserSites(logger_level=logging.INFO)
 
     try:
         tune_advertiser_sites.tmc_auth(tmc_api_key=tmc_api_key)

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 #  @copyright 2017 TUNE, Inc. (http://www.tune.com)
 
+import os
 import sys
 from pprintpp import pprint
 from datetime import datetime, timedelta
@@ -17,12 +18,15 @@ from tune_reporting.tmc.v2.reporting import (
 from tune_reporting.tmc.v2.management import (TuneV2AuthenticationTypes)
 from logging_mv_integrations import (TuneLoggingFormat)
 
+DOWNLOAD_DIR = \
+    os.path.dirname(os.path.realpath(__file__)) + '/tmp'
+
 
 def main(tmc_api_key):
 
     tune_v2_advertiser_stats_actuals = \
         TuneV2AdvertiserStatsActuals(
-            logger_level=logging.DEBUG,
+            logger_level=logging.INFO,
             logger_format=TuneLoggingFormat.JSON
         )
 
