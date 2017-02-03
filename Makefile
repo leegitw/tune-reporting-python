@@ -201,7 +201,7 @@ lint: tools-requirements
 	@echo "======================================================"
 	@echo lint $(PACKAGE)
 	@echo "======================================================"
-	pylint --rcfile .pylintrc $(REQUESTS_MV_INTGS_FILES) | more
+	pylint --rcfile .pylintrc $(PACKAGE_FILES) | more
 
 flake8:
 	@echo "======================================================"
