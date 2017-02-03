@@ -1,4 +1,4 @@
-logging-mv-integrations==0.0.4
+logging-mv-integrations==0.1.1
 pprintpp==0.3.0
 pyhttpstatus-utils==0.1.1
 pytest==3.0.6
