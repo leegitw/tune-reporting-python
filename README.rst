@@ -14,7 +14,7 @@ Overview
     * - tests
       - |travis| |coveralls|
     * - package
-      - |version| |supported-versions|
+      - |version| |supported-versions| |requires|
 
 .. |docs| image:: https://readthedocs.org/projects/tune-reporting-python/badge/?style=flat
     :alt: Documentation Status
