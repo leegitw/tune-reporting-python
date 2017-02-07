@@ -9,12 +9,8 @@ Overview
 .. list-table::
     :stub-columns: 1
 
-    * - docs
-      - |license|
-    * - tests
-      - |travis| |coveralls|
     * - package
-      - |version| |supported-versions| |requires|
+      - |version| |supported-versions|
 
 .. |docs| image:: https://readthedocs.org/projects/tune-reporting-python/badge/?style=flat
     :alt: Documentation Status
