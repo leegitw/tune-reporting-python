@@ -5,7 +5,7 @@
 
 import copy
 import re
-import json
+import ujson as json
 import urllib.parse
 from .constants import (
     HEADER_CONTENT_TYPE_APP_JSON,

@@ -5,3 +5,4 @@ pytz-convert>=0.0.4
 requests_mv_integrations>=0.1.6
 requests>=2.12.1
 wheel>=0.22.0
+ujson==1.35
