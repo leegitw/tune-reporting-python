@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#  @copyright 2016 TUNE, Inc. (http://www.tune.com)
+#  @copyright 2017 TUNE, Inc. (http://www.tune.com)
 
 import os
 import sys
 import csv
 from pprintpp import pprint
-from datetime import datetime, time, timedelta
+from datetime import datetime, timedelta
 import pytz
 import logging
 
@@ -27,7 +27,7 @@ def main(tmc_api_key):
     tune_v2_advertiser_stats_actuals = \
         TuneV2AdvertiserStatsActuals(
             timezone=TIMEZONE_COLLECT,
-            logger_level=logging.DEBUG,
+            logger_level=logging.INFO,
             logger_format=TuneLoggingFormat.JSON
         )
 

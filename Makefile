@@ -4,7 +4,7 @@
 # copyright Copyright (c) 2016, TUNE Inc. (http://www.tune.com)
 #
 
-.PHONY: clean version build dist local-dev yapf pyflakes pylint run-examples
+.PHONY: clean version build dist local-dev yapf pyflakes pylint
 
 PACKAGE := tune-reporting
 PACKAGE_PREFIX := tune_reporting
@@ -12,8 +12,7 @@ PACKAGE_PREFIX := tune_reporting
 PYTHON3 := $(shell which python3)
 PIP3    := $(shell which pip3)
 
-PY_MODULES := pip setuptools pylint flake8 pprintpp pep8 requests six sphinx wheel retry validators python-dateutil
-PYTHON3_SITE_PACKAGES := $(shell python3 -c "import site; print(site.getsitepackages()[0])")
+PY_MODULES := pip setuptools pylint flake8 pprintpp pep8 requests six sphinx wheel python-dateutil
 
 PACKAGE_SUFFIX := py3-none-any.whl
 PACKAGE_WILDCARD := $(PACKAGE)-*
@@ -24,8 +23,9 @@ VERSION := $(shell $(PYTHON3) setup.py version)
 WHEEL_ARCHIVE := dist/$(PACKAGE_PREFIX)-$(VERSION)-$(PACKAGE_SUFFIX)
 
 PACKAGE_FILES := $(shell find $(PACKAGE_PREFIX) examples ! -name '__init__.py' -type f -name "*.py")
-PACKAGE_ALL_FILES := $(shell find $(PACKAGE_PREFIX) examples -type f -name "*.py")
+PACKAGE_ALL_FILES := $(shell find $(PACKAGE_PREFIX) tests examples -type f -name "*.py")
 PACKAGE_EXAMPLE_FILES := $(shell find examples ! -name '__init__.py' -type f -name "*.py")
+PYFLAKES_ALL_FILES := $(shell find $(PACKAGE_PREFIX) tests examples -type f  -name '*.py' ! '(' -name '__init__.py' ')')
 
 TOOLS_REQ_FILE := requirements-tools.txt
 REQ_FILE      := requirements.txt
@@ -62,6 +62,12 @@ clean:
 		$(PACKAGE_PREFIX).egg-info/*
 	find ./* -maxdepth 0 -name "*.pyc" -type f -delete
 	find $(PACKAGE_PREFIX) -name "*.pyc" -type f -delete
+	@echo "======================================================"
+	@echo delete distributions: $(PACKAGE)
+	@echo "======================================================"
+	mkdir -p ./dist/
+	find ./dist/ -name $(PACKAGE_WILDCARD) -exec rm -vf {} \;
+	find ./dist/ -name $(PACKAGE_PREFIX_WILDCARD) -exec rm -vf {} \;
 
 uninstall-package: clean
 	@echo "======================================================"
@@ -76,13 +82,19 @@ uninstall-package: clean
 		echo "python package $(PACKAGE) Not Found"; \
 	fi
 
-remove-package: uninstall-package
+site-packages:
+	@echo "======================================================"
+	@echo site-packages
+	@echo "======================================================"
+	$(eval PYTHON3_SITE_PACKAGES := $(shell python3 -c "import site; print(site.getsitepackages()[0])"))
+	@echo $(PYTHON3_SITE_PACKAGES)
+
+remove-package: uninstall-package site-packages
 	@echo "======================================================"
 	@echo remove-package $(PACKAGE_PREFIX)
 	@echo "======================================================"
 	rm -fR $(PYTHON3_SITE_PACKAGES)/$(PACKAGE_PREFIX)*
 
-# Install the module from a binary distribution archive.
 install: remove-package
 	@echo "======================================================"
 	@echo install $(PACKAGE)
@@ -125,18 +137,13 @@ local-dev: remove-package
 
 dist: clean
 	@echo "======================================================"
-	@echo remove $(PACKAGE_PREFIX_WILDCARD) and $(PACKAGE_WILDCARD)
-	@echo "======================================================"
-	mkdir -p ./dist/
-	find ./dist/ -name $(PACKAGE_WILDCARD) -exec rm -vf {} \;
-	find ./dist/ -name $(PACKAGE_PREFIX_WILDCARD) -exec rm -vf {} \;
-	@echo "======================================================"
 	@echo dist $(PACKAGE)
 	@echo "======================================================"
 	$(PIP3) install --upgrade -r requirements.txt
+	hub release create -m "$(PACKAGE_PREFIX)-$(VERSION)-$(PACKAGE_SUFFIX)" v$(VERSION)
 	$(PYTHON3) $(SETUP_FILE) bdist_wheel upload
 	$(PYTHON3) $(SETUP_FILE) bdist_egg upload
-	$(PYTHON3) $(SETUP_FILE) sdist --format=zip,gztar upload
+	$(PYTHON3) $(SETUP_FILE) sdist --format=gztar upload
 	ls -al ./dist/$(PACKAGE_PREFIX_WILDCARD)
 
 build: clean
@@ -151,6 +158,9 @@ build: clean
 	@echo "======================================================"
 	$(PIP3) install --upgrade -r requirements.txt
 	$(PYTHON3) $(SETUP_FILE) clean
+	$(PYTHON3) $(SETUP_FILE) bdist_wheel
+	$(PYTHON3) $(SETUP_FILE) bdist_egg
+	$(PYTHON3) $(SETUP_FILE) sdist --format=zip,gztar
 	$(PYTHON3) $(SETUP_FILE) build
 	$(PYTHON3) $(SETUP_FILE) install
 	ls -al ./dist/$(PACKAGE_PREFIX_WILDCARD)
@@ -165,24 +175,21 @@ pep8: tools-requirements
 	@echo "======================================================"
 	@echo pep8 $(PACKAGE)
 	@echo "======================================================"
-	@echo pep8: $(REQUESTS_MV_INTGS_FILES)
-	$(PYTHON3) -m pep8 --config .pep8 $(REQUESTS_MV_INTGS_FILES)
+	$(PYTHON3) -m pep8 --config .pep8 $(PACKAGE_ALL_FILES)
 
 pyflakes: tools-requirements
 	@echo "======================================================"
 	@echo pyflakes $(PACKAGE)
 	@echo "======================================================"
-	@echo pyflakes: $(PACKAGE_FILES)
 	$(PIP3) install --upgrade pyflakes
-	$(PYTHON3) -m pyflakes $(PACKAGE_FILES)
+	$(PYTHON3) -m pyflakes $(PYFLAKES_ALL_FILES)
 
 pylint: tools-requirements
 	@echo "======================================================"
 	@echo pylint $(PACKAGE)
 	@echo "======================================================"
-	@echo pylint: $(PACKAGE_FILES)
 	$(PIP3) install --upgrade pylint
-	$(PYTHON3) -m pylint --rcfile .pylintrc $(PACKAGE_FILES) --disable=C0330,F0401,E0611,E0602,R0903,C0103,E1121,R0913,R0902,R0914,R0912,W1202,R0915,C0302 | more -30
+	$(PYTHON3) -m pylint --rcfile .pylintrc $(PACKAGE_ALL_FILES) --disable=C0330,F0401,E0611,E0602,R0903,C0103,E1121,R0913,R0902,R0914,R0912,W1202,R0915,C0302 | more -30
 
 yapf: tools-requirements
 	@echo "======================================================"
@@ -194,7 +201,7 @@ lint: tools-requirements
 	@echo "======================================================"
 	@echo lint $(PACKAGE)
 	@echo "======================================================"
-	pylint --rcfile .pylintrc $(REQUESTS_MV_INTGS_FILES) | more
+	pylint --rcfile .pylintrc $(PACKAGE_FILES) | more
 
 flake8:
 	@echo "======================================================"
@@ -202,32 +209,11 @@ flake8:
 	@echo "======================================================"
 	flake8 --ignore=F401,E265,E129 $(PACKAGE_PREFIX)
 
-site-packages:
-	@echo "======================================================"
-	@echo site-packages $(PACKAGE)
-	@echo "======================================================"
-	@echo $(PYTHON3_SITE_PACKAGES)
-
-list-package:
+list-package: site-packages
 	@echo "======================================================"
 	@echo list-packages $(PACKAGE)
 	@echo "======================================================"
 	ls -al $(PYTHON3_SITE_PACKAGES)/$(PACKAGE_PREFIX)*
-
-tests: build
-	$(PYTHON3) ./tests/tune_reporting_tests.py $(api_key)
-
-tests-travis-ci:
-	flake8 --ignore=F401,E265,E129 tune
-	flake8 --ignore=E123,E126,E128,E265,E501 tests
-	$(PYTHON3) ./tests/tune_reporting_tests.py $(api_key)
-
-docs-sphinx-gen:
-	rm -fR ./docs/sphinx/tune_reporting/*
-	sphinx-apidoc -o ./docs/sphinx/tune_reporting/ ./tune_reporting
-
-docs-install: venv
-	. venv/bin/activate; pip install -r docs/sphinx/requirements.txt
 
 run-examples:
 	@echo "======================================================"
@@ -240,5 +226,11 @@ run-examples:
 		$(PYTHON3) $$example $(tmc_api_key) ; \
 	done
 
+test:
+	py.test tests
+
+coverage:
+	py.test --verbose --cov-report html --cov=requests_mv_integrations tests
+	
 list:
 	cat Makefile | grep "^[a-z]" | awk '{print $$1}' | sed "s/://g" | sort

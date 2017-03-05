@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#  @copyright 2016 TUNE, Inc. (http://www.tune.com)
+#  @copyright 2017 TUNE, Inc. (http://www.tune.com)
 
 import sys
 import logging
@@ -15,7 +15,7 @@ from logging_mv_integrations import (TuneLoggingFormat)
 
 
 def main(tmc_api_key):
-    tune_v2_advertisers = TuneV2Advertisers(logger_level=logging.DEBUG, logger_format=TuneLoggingFormat.JSON)
+    tune_v2_advertisers = TuneV2Advertisers(logger_level=logging.INFO, logger_format=TuneLoggingFormat.JSON)
 
     try:
         tune_v2_advertisers.tmc_auth(tmc_api_key=tmc_api_key)

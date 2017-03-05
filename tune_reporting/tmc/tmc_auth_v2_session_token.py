@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#  @copyright 2016 TUNE, Inc. (http://www.tune.com)
+#  @copyright 2017 TUNE, Inc. (http://www.tune.com)
 #  @namespace tune_reporting
 """
 TUNE Multiverse Reporting Base
@@ -32,8 +32,6 @@ def tmc_auth_v2_session_token(
     :return:
     """
     log.info("TMC v2 Session Token: Request")
-
-    response_auth = None
 
     try:
         tune_v2_session_authenticate = \

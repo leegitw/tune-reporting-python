@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#  @copyright 2016 TUNE, Inc. (http://www.tune.com)
+#  @copyright 2017 TUNE, Inc. (http://www.tune.com)
 
 import sys
 import logging
@@ -16,7 +16,7 @@ def main(tmc_api_key):
 
     tune_v2_session_authenticate = \
         TuneV2SessionAuthenticate(
-            logger_level=logging.DEBUG
+            logger_level=logging.INFO
         )
 
     try:
