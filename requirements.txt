@@ -8,5 +8,5 @@ python-dateutil==2.6.0
 pytz-convert>=0.0.4
 requests_mv_integrations>=0.04.0
 requests==2.13.0
-safe_cast>=0.0.8
+safe-cast>=0.0.8
 wheel==0.29.0
