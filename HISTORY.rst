@@ -3,6 +3,11 @@
 Release History
 ===============
 
+2.1.8 (2017-03-12)
+------------------
+- Switch to using safe-cast package
+
+
 2.1.6 (2017-02-07)
 ------------------
 - Requirements
