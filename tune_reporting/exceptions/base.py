@@ -9,7 +9,7 @@ Tune Reporting Error
 import six
 
 from tune_reporting import (__title__)
-from tune_reporting.support.safe_cast import (safe_str)
+from safe_cast import (safe_str)
 
 from tune_reporting.errors import (TuneReportingErrorCodes)
 

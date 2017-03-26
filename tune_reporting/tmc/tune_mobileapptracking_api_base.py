@@ -14,7 +14,6 @@ from pytz_convert import (validate_tz_name)
 from pyhttpstatus_utils import (http_status_code_to_type)
 from tune_reporting.support import (
     python_check_version,
-    safe_str,
     __TIMEZONE_NAME_DEFAULT__,
 )
 from tune_reporting.errors import (
@@ -28,6 +27,7 @@ from tune_reporting import (__version__, __python_required_version__)
 from requests_mv_integrations import (RequestMvIntegrationDownload)
 from tune_reporting.support import (command_line_request_curl_get)
 from logging_mv_integrations import (TuneLoggingFormat, get_logger)
+from safe_cast import safe_str
 
 python_check_version(__python_required_version__)
 
