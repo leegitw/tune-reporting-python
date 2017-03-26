@@ -10,3 +10,4 @@ requests_mv_integrations>=0.04.0
 requests==2.13.0
 safe-cast>=0.0.8
 wheel==0.29.0
+ujson==1.35

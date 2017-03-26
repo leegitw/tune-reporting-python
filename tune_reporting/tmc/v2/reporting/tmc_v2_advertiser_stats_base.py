@@ -7,7 +7,7 @@
 
 import logging
 import datetime as dt
-import json
+import ujson as json
 import os
 import time
 from abc import ABCMeta, abstractmethod

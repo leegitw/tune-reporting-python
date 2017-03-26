@@ -7,7 +7,7 @@ import sys
 from pprintpp import pprint
 from datetime import datetime, timedelta
 import pytz
-import json
+import ujson as json
 import logging
 
 from requests_mv_integrations.exceptions import (TuneRequestBaseError)

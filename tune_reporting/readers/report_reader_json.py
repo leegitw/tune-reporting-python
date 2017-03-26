@@ -5,7 +5,7 @@
 """Report Reader JSON
 """
 
-import json
+import ujson as json
 from logging import getLogger
 import requests
 # from pprintpp import pprint
