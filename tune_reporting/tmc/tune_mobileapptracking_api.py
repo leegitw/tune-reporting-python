@@ -42,7 +42,7 @@ class TuneMobileAppTrackingApi(TuneMobileAppTrackingApiBase):
         logger_level=logging.NOTSET,
         logger_format=LoggingFormat.JSON,
         logger_output=LoggingOutput.STDOUT_COLOR,
-        timezone=None,
+        timezone=None
     ):
         """Initialize
 

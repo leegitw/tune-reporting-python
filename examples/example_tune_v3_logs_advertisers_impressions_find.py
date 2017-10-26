@@ -11,9 +11,12 @@ import pytz
 from requests_mv_integrations.exceptions import (TuneRequestBaseError)
 from tune_reporting.errors import (print_traceback, get_exception_message)
 from tune_reporting.exceptions import (TuneReportingError)
-from tune_reporting.tmc.v3.reporting import (TuneV3LogsAdvertisersImpressions, TuneV3LogsAdvertisersActions)
+from tune_reporting.tmc.v3.reporting import (
+    TuneV3LogsAdvertisersImpressions,
+    TuneV3LogsAdvertisersActions
+)
 from tune_reporting.tmc.v2.management import (TuneV2AuthenticationTypes)
-from logging_mv_integrations import (LoggingFormat)
+from logging_mv_integrations import (LoggingFormat, LoggingOutput)
 
 
 def main(tmc_api_key):
@@ -21,7 +24,8 @@ def main(tmc_api_key):
     tune_v3_logs_advertisers_impressions_find = \
         TuneV3LogsAdvertisersImpressions(
             logger_level=logging.INFO,
-            logger_format=LoggingFormat.JSON
+            logger_format=LoggingFormat.JSON,
+            logger_output=LoggingOutput.STDOUT_COLOR
         )
 
     tune_v3_logs_advertisers_impressions_find.logger_level = logging.DEBUG

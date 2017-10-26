@@ -86,7 +86,7 @@ class TuneMobileAppTrackingApiBase(object):
         logger_level=logging.INFO,
         logger_format=LoggingFormat.JSON,
         logger_output=LoggingOutput.STDOUT_COLOR,
-        timezone=None,
+        timezone=None
     ):
         self.logger_level = logger_level
         self.logger_format = logger_format
