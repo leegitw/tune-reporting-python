@@ -30,7 +30,7 @@ from tune_reporting.readers.report_reader_csv import (ReportReaderCSV)
 from tune_reporting.tmc.tune_mobileapptracking_api import (TuneMobileAppTrackingApi)
 from tune_reporting.tmc.v2.management import (TuneV2AuthenticationTypes)
 from tune_reporting.tmc.tmc_auth_v2_session_token import (tmc_auth_v2_session_token)
-from logging_mv_integrations import (TuneLoggingFormat)
+from logging_mv_integrations import (LoggingFormat, LoggingOutput)
 from safe_cast import (
     safe_int,
     safe_dict,
@@ -89,12 +89,20 @@ class TuneV3LogsAdvertisersBase(TuneMobileAppTrackingApi):
     # Initialize Job
     #
     def __init__(
-        self, logs_advertisers_type, timezone=None, logger_level=logging.NOTSET, logger_format=TuneLoggingFormat.JSON
+        self,
+        logs_advertisers_type,
+        timezone=None,
+        logger_level=logging.NOTSET,
+        logger_format=LoggingFormat.JSON,
+        logger_output=LoggingOutput.STDOUT_COLOR
     ):
         """Initialize TUNE Advertiser Stats Abstract Base Class.
         """
         super(TuneV3LogsAdvertisersBase, self).__init__(
-            timezone=timezone, logger_level=logger_level, logger_format=logger_format
+            timezone=timezone,
+            logger_level=logger_level,
+            logger_format=logger_format,
+            logger_output=logger_output
         )
 
         self.controller = None
@@ -143,7 +151,10 @@ class TuneV3LogsAdvertisersBase(TuneMobileAppTrackingApi):
 
             if auth_type_use == TuneV2AuthenticationTypes.SESSION_TOKEN:
                 self.session_token = tmc_auth_v2_session_token(
-                    tmc_api_key=self.api_key, logger_level=self.logger_level, logger_format=self.logger_format
+                    tmc_api_key=self.api_key,
+                    logger_level=self.logger_level,
+                    logger_format=self.logger_format,
+
                 )
         elif auth_type == TuneV2AuthenticationTypes.SESSION_TOKEN:
             self.session_token = auth_value

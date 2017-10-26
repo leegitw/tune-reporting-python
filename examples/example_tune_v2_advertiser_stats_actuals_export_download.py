@@ -16,7 +16,7 @@ from tune_reporting.tmc.v2.reporting import (
     TuneV2AdvertiserStatsActuals, TuneV2AdvertiserStatsActions, TuneV2AdvertiserStatsFormats
 )
 from tune_reporting.tmc.v2.management import (TuneV2AuthenticationTypes)
-from logging_mv_integrations import (TuneLoggingFormat)
+from logging_mv_integrations import (LoggingFormat)
 
 DOWNLOAD_DIR = \
     os.path.dirname(os.path.realpath(__file__)) + '/tmp'
@@ -27,7 +27,7 @@ def main(tmc_api_key):
     tune_v2_advertiser_stats_actuals = \
         TuneV2AdvertiserStatsActuals(
             logger_level=logging.INFO,
-            logger_format=TuneLoggingFormat.JSON
+            logger_format=LoggingFormat.JSON
         )
 
     tz = pytz.timezone("America/New_York")

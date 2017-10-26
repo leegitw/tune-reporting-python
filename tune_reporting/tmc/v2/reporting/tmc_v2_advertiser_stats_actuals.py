@@ -10,7 +10,11 @@ import logging
 from pytz_convert import (validate_tz_name)
 from requests_mv_integrations.exceptions import (TuneRequestBaseError)
 from safe_cast import safe_dict
-from tune_reporting.errors import (print_traceback, get_exception_message, TuneReportingErrorCodes)
+from tune_reporting.errors import (
+    print_traceback,
+    get_exception_message,
+    TuneReportingErrorCodes
+)
 from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.support import (python_check_version)
 from .tmc_v2_advertiser_stats_base import (
@@ -19,7 +23,7 @@ from .tmc_v2_advertiser_stats_base import (
     TuneV2AuthenticationTypes,
 )
 from tune_reporting import (__python_required_version__)
-from logging_mv_integrations import (TuneLoggingFormat)
+from logging_mv_integrations import (LoggingFormat, LoggingOutput)
 log = logging.getLogger(__name__)
 
 python_check_version(__python_required_version__)
@@ -36,11 +40,21 @@ class TuneV2AdvertiserStatsActuals(TuneV2AdvertiserStatsBase):
 
     # Initialize Job
     #
-    def __init__(self, logger_level=logging.NOTSET, logger_format=TuneLoggingFormat.JSON, timezone=None):
+    def __init__(
+        self,
+        logger_level=logging.NOTSET,
+        logger_format=LoggingFormat.JSON,
+        logger_output=LoggingOutput.STDOUT_COLOR,
+        timezone=None
+    ):
         """Initialize TMC v2 Advertiser Stats Class.
         """
         super(TuneV2AdvertiserStatsActuals, self).__init__(
-            controller=self._CONTROLLER, logger_level=logger_level, logger_format=logger_format, timezone=timezone
+            controller=self._CONTROLLER,
+            logger_level=logger_level,
+            logger_format=logger_format,
+            logger_output=logger_output,
+            timezone=timezone
         )
 
     # Collect data: TMC v2 Advertiser Stats Actuals.

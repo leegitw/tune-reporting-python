@@ -13,7 +13,7 @@ from tune_reporting.errors import (print_traceback, get_exception_message)
 from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.tmc.v3.reporting import (TuneV3LogsAdvertisersClicks, TuneV3LogsAdvertisersActions)
 from tune_reporting.tmc.v2.management import (TuneV2AuthenticationTypes)
-from logging_mv_integrations import (TuneLoggingFormat)
+from logging_mv_integrations import (LoggingFormat)
 
 
 def main(tmc_api_key):
@@ -21,7 +21,7 @@ def main(tmc_api_key):
     tune_v3_logs_advertisers_clicks_find = \
         TuneV3LogsAdvertisersClicks(
             logger_level=logging.INFO,
-            logger_format=TuneLoggingFormat.JSON
+            logger_format=LoggingFormat.JSON
         )
 
     try:

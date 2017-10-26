@@ -11,11 +11,11 @@ from tune_reporting.errors import (print_traceback, get_exception_message)
 from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.tmc.v2.management.tmc_v2_advertisers import (TuneV2Advertisers)
 from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (TuneV2AuthenticationTypes)
-from logging_mv_integrations import (TuneLoggingFormat)
+from logging_mv_integrations import (LoggingFormat)
 
 
 def main(tmc_api_key):
-    tune_v2_advertisers = TuneV2Advertisers(logger_level=logging.INFO, logger_format=TuneLoggingFormat.JSON)
+    tune_v2_advertisers = TuneV2Advertisers(logger_level=logging.INFO, logger_format=LoggingFormat.JSON)
 
     try:
         tune_v2_advertisers.tmc_auth(tmc_api_key=tmc_api_key)
