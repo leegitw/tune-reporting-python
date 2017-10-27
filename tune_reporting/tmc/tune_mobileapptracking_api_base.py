@@ -21,12 +21,19 @@ from tune_reporting.errors import (
     get_exception_message,
     TuneReportingErrorCodes,
 )
-from requests_mv_integrations.exceptions import (TuneRequestBaseError, TuneRequestError)
+from requests_mv_integrations.exceptions import (
+    TuneRequestBaseError,
+    TuneRequestError
+)
 from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting import (__version__, __python_required_version__)
 from requests_mv_integrations import (RequestMvIntegrationDownload)
 from tune_reporting.support import (command_line_request_curl_get)
-from logging_mv_integrations import (TuneLoggingFormat, get_logger)
+from logging_mv_integrations import (
+    LoggingFormat,
+    LoggingOutput,
+    get_logger
+)
 from safe_cast import safe_str
 
 python_check_version(__python_required_version__)
@@ -54,6 +61,7 @@ class TuneMobileAppTrackingApiBase(object):
             self.__mv_request = RequestMvIntegrationDownload(
                 logger_format=self.logger_format,
                 logger_level=self.logger_level,
+                logger_output=self.logger_output
             )
 
         return self.__mv_request
@@ -67,7 +75,8 @@ class TuneMobileAppTrackingApiBase(object):
                 logger_name=__name__.split('.')[0],
                 logger_version=__version__,
                 logger_format=self.logger_format,
-                logger_level=self.logger_level
+                logger_level=self.logger_level,
+                logger_output=self.logger_output
             )
 
         return self.__logger
@@ -75,11 +84,13 @@ class TuneMobileAppTrackingApiBase(object):
     def __init__(
         self,
         logger_level=logging.INFO,
-        logger_format=TuneLoggingFormat.JSON,
-        timezone=None,
+        logger_format=LoggingFormat.JSON,
+        logger_output=LoggingOutput.STDOUT_COLOR,
+        timezone=None
     ):
         self.logger_level = logger_level
         self.logger_format = logger_format
+        self.logger_output = logger_output
 
         if timezone is not None:
             self.timezone = timezone

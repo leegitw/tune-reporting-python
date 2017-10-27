@@ -13,10 +13,13 @@ import logging
 from requests_mv_integrations.exceptions import (TuneRequestBaseError)
 from tune_reporting.errors import (print_traceback, get_exception_message)
 from tune_reporting.exceptions import (TuneReportingError)
-from tune_reporting.tmc.v2.reporting import (TuneV2AdvertiserStatsActuals, TuneV2AdvertiserStatsFormats)
+from tune_reporting.tmc.v2.reporting import (
+    TuneV2AdvertiserStatsActuals,
+    TuneV2AdvertiserStatsFormats
+)
 from tune_reporting.support import (convert_size)
 from tune_reporting.tmc.v2.management import (TuneV2AuthenticationTypes)
-from logging_mv_integrations import (TuneLoggingFormat)
+from logging_mv_integrations import (LoggingFormat, LoggingOutput)
 
 
 def main(tmc_api_key):
@@ -28,7 +31,8 @@ def main(tmc_api_key):
         TuneV2AdvertiserStatsActuals(
             timezone=TIMEZONE_COLLECT,
             logger_level=logging.INFO,
-            logger_format=TuneLoggingFormat.JSON
+            logger_format=LoggingFormat.JSON,
+            logger_output=LoggingOutput.STDOUT_COLOR
         )
 
     dw_file_path = "data.{}".format(export_format)

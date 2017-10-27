@@ -11,7 +11,7 @@ from tune_reporting import (__python_required_version__)
 from tune_reporting.support import (python_check_version)
 from tune_reporting.tmc.tune_mobileapptracking_api_base import (TuneMobileAppTrackingApiBase)
 from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (TuneV2SessionAuthenticate)
-from logging_mv_integrations import (TuneLoggingFormat)
+from logging_mv_integrations import (LoggingFormat, LoggingOutput)
 
 python_check_version(__python_required_version__)
 
@@ -40,8 +40,9 @@ class TuneMobileAppTrackingApi(TuneMobileAppTrackingApiBase):
     def __init__(
         self,
         logger_level=logging.NOTSET,
-        logger_format=TuneLoggingFormat.JSON,
-        timezone=None,
+        logger_format=LoggingFormat.JSON,
+        logger_output=LoggingOutput.STDOUT_COLOR,
+        timezone=None
     ):
         """Initialize
 
@@ -53,7 +54,10 @@ class TuneMobileAppTrackingApi(TuneMobileAppTrackingApiBase):
         self.advertiser_id = None
 
         super(TuneMobileAppTrackingApi, self).__init__(
-            logger_level=logger_level, logger_format=logger_format, timezone=timezone
+            logger_level=logger_level,
+            logger_format=logger_format,
+            logger_output=logger_output,
+            timezone=timezone
         )
 
     def get_session_authenticate(self, tmc_api_key, request_retry=None):

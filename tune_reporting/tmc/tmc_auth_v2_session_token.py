@@ -9,7 +9,7 @@ TUNE Multiverse Reporting Base
 
 import logging
 
-from logging_mv_integrations import (TuneLoggingFormat)
+from logging_mv_integrations import (LoggingFormat, LoggingOutput)
 
 from tune_reporting.errors import (
     get_exception_message,
@@ -25,7 +25,8 @@ log = logging.getLogger(__name__)
 def tmc_auth_v2_session_token(
     tmc_api_key,
     logger_level=logging.NOTSET,
-    logger_format=TuneLoggingFormat.JSON,
+    logger_format=LoggingFormat.JSON,
+    logger_output=LoggingOutput.STDOUT_COLOR
 ):
     """TMC Authentication
 
@@ -37,7 +38,8 @@ def tmc_auth_v2_session_token(
         tune_v2_session_authenticate = \
             TuneV2SessionAuthenticate(
                 logger_level=logger_level,
-                logger_format=logger_format
+                logger_format=logger_format,
+                logger_output=logger_output
             )
 
         if tune_v2_session_authenticate.get_session_token(tmc_api_key=tmc_api_key, request_retry=None):

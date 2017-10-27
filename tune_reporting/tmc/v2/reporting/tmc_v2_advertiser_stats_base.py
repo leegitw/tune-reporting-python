@@ -29,7 +29,7 @@ from tune_reporting.readers.report_reader_csv import (ReportReaderCSV)
 from tune_reporting.tmc.v2.management import (TuneV2AuthenticationTypes)
 from tune_reporting.tmc.tmc_auth_v2_session_token import (tmc_auth_v2_session_token)
 from tune_reporting.tmc.tune_mobileapptracking_api import (TuneMobileAppTrackingApi)
-from logging_mv_integrations import (TuneLoggingFormat)
+from logging_mv_integrations import (LoggingFormat, LoggingOutput)
 from safe_cast import (
     safe_dict,
     safe_int,
@@ -97,11 +97,21 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
 
     # Initialize Job
     #
-    def __init__(self, controller, logger_level=logging.NOTSET, logger_format=TuneLoggingFormat.JSON, timezone=None):
+    def __init__(
+        self,
+        controller,
+        logger_level=logging.NOTSET,
+        logger_format=LoggingFormat.JSON,
+        logger_output=LoggingOutput.STDOUT_COLOR,
+        timezone=None
+    ):
         """Initialize TUNE Advertiser Stats Abstract Base Class.
         """
         super(TuneV2AdvertiserStatsBase, self).__init__(
-            logger_level=logger_level, logger_format=logger_format, timezone=timezone
+            logger_level=logger_level,
+            logger_format=logger_format,
+            logger_output=logger_output,
+            timezone=timezone
         )
 
         self.controller = controller

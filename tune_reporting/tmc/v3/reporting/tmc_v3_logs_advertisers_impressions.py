@@ -14,10 +14,18 @@ from tune_reporting.errors import (print_traceback, get_exception_message)
 from tune_reporting.exceptions import (TuneReportingError)
 from tune_reporting.support import (python_check_version)
 
-from .tmc_v3_logs_advertisers_base import (TuneV3LogsAdvertisersBase, TuneV3LogsAdvertisersActions)
+from .tmc_v3_logs_advertisers_base import (
+    TuneV3LogsAdvertisersBase,
+    TuneV3LogsAdvertisersActions
+)
 from tune_reporting import (__python_required_version__)
-from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (TuneV2AuthenticationTypes)
-from logging_mv_integrations import (TuneLoggingFormat)
+from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (
+    TuneV2AuthenticationTypes
+)
+from logging_mv_integrations import (
+    LoggingFormat,
+    LoggingOutput
+)
 
 python_check_version(__python_required_version__)
 
@@ -33,14 +41,21 @@ class TuneV3LogsAdvertisersImpressions(TuneV3LogsAdvertisersBase):
 
     # Initialize Job
     #
-    def __init__(self, timezone=None, logger_level=logging.NOTSET, logger_format=TuneLoggingFormat.JSON):
+    def __init__(
+        self,
+        timezone=None,
+        logger_level=logging.NOTSET,
+        logger_format=LoggingFormat.JSON,
+        logger_output=LoggingOutput.STDOUT_COLOR
+    ):
         """Initialize TUNE V3 Logs Advertiser Impressions class.
         """
         super(TuneV3LogsAdvertisersImpressions, self).__init__(
             logs_advertisers_type=self._LOGS_ADVERTISERS_TYPE,
             timezone=timezone,
             logger_level=logger_level,
-            logger_format=logger_format
+            logger_format=logger_format,
+            logger_output=logger_output
         )
 
     # Collect data: TUNE V3 Logs Advertiser Impressions.

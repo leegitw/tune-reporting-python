@@ -12,7 +12,7 @@ from pprintpp import pprint
 
 from requests_mv_integrations.exceptions import (TuneRequestBaseError)
 
-from logging_mv_integrations import (TuneLoggingFormat)
+from logging_mv_integrations import (LoggingFormat, LoggingOutput)
 from tune_mv_integration.auth_validator import (AuthenticationError)
 
 from tune_reporting.errors import (get_exception_message, print_traceback, TuneReportingErrorCodes)
@@ -24,7 +24,12 @@ from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (TuneV2
 log = logging.getLogger(__name__)
 
 
-def tmc_auth_v2_advertiser(tmc_api_key, logger_level=logging.NOTSET, logger_format=TuneLoggingFormat.JSON):
+def tmc_auth_v2_advertiser(
+    tmc_api_key,
+    logger_level=logging.NOTSET,
+    logger_format=LoggingFormat.JSON,
+    logger_output=LoggingOutput.STDOUT_COLOR
+):
     """TMC Authentication
 
     :return:
@@ -36,13 +41,16 @@ def tmc_auth_v2_advertiser(tmc_api_key, logger_level=logging.NOTSET, logger_form
     tune_v2_advertisers = \
         TuneV2Advertisers(
             logger_level=logger_level,
-            logger_format=logger_format
+            logger_format=logger_format,
+            logger_output=logger_output
         )
 
     try:
         try:
             if tune_v2_advertisers.get_advertiser_id(
-                auth_type=TuneV2AuthenticationTypes.API_KEY, auth_value=tmc_api_key, request_retry=None
+                auth_type=TuneV2AuthenticationTypes.API_KEY,
+                auth_value=tmc_api_key,
+                request_retry=None
             ):
                 advertiser_id = tune_v2_advertisers.advertiser_id
 
