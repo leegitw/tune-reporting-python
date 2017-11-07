@@ -3,6 +3,10 @@
 Release History
 ===============
 
+2.2.1 (2017-10-27)
+------------------
+- Support logging-mv-integrations refactor
+
 2.2.0 (2017-03-26)
 ------------------
 - Replace 'json' with 'ujson'
