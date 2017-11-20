@@ -17,8 +17,13 @@ from tune_reporting.tmc.v2.reporting import (
     TuneV2AdvertiserStatsActions,
     TuneV2AdvertiserStatsFormats
 )
-from tune_reporting.tmc.v2.management import (TuneV2AuthenticationTypes)
-from logging_mv_integrations import (LoggingFormat, LoggingOutput)
+from tune_reporting.tmc.v2.management import (
+    TuneV2AuthenticationTypes
+)
+from logging_mv_integrations import (
+    LoggingFormat,
+    LoggingOutput
+)
 
 DOWNLOAD_DIR = \
     os.path.dirname(os.path.realpath(__file__)) + '/tmp'

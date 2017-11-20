@@ -15,7 +15,9 @@ from tune_reporting.tmc.v3.reporting import (
     TuneV3LogsAdvertisersClicks,
     TuneV3LogsAdvertisersActions
 )
-from tune_reporting.tmc.v2.management import (TuneV2AuthenticationTypes)
+from tune_reporting.tmc.v2.management import (
+    TuneV2AuthenticationTypes
+)
 from logging_mv_integrations import (LoggingFormat, LoggingOutput)
 
 

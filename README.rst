@@ -43,18 +43,10 @@ Overview
 .. end-badges
 
 tune-reporting-python
-========================
+=====================
 
-``tune-reporting-python`` is a Python helper library for TUNE Reporting API services.
-
-
-Installation
-============
+Python helper library for TUNE Reporting API services.
 
 
 Usage
 =====
-
-
-Reporting Issues
-================

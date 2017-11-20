@@ -8,12 +8,17 @@ import logging
 
 from requests_mv_integrations.exceptions import (TuneRequestBaseError)
 from tune_reporting.errors import (print_traceback, get_exception_message)
-from tune_reporting.tmc.v2.management import (TuneV2AuthenticationTypes, TuneV2AdvertiserSites)
+from tune_reporting.tmc.v2.management import (
+    TuneV2AuthenticationTypes,
+    TuneV2AdvertiserSites
+)
 from tune_reporting.exceptions import (TuneReportingError)
 
 
 def main(tmc_api_key):
-    tune_advertiser_sites = TuneV2AdvertiserSites(logger_level=logging.INFO)
+    tune_advertiser_sites = TuneV2AdvertiserSites(
+        logger_level=logging.INFO
+    )
 
     try:
         tune_advertiser_sites.tmc_auth(tmc_api_key=tmc_api_key)

@@ -1,7 +1,7 @@
 #   Makefile
 #
 # license   http://opensource.org/licenses/MIT The MIT License (MIT)
-# copyright Copyright (c) 2016, TUNE Inc. (http://www.tune.com)
+# copyright Copyright (c) 2017 TUNE Inc. (http://www.tune.com)
 #
 
 .PHONY: clean version build dist local-dev yapf pyflakes pylint
@@ -231,6 +231,6 @@ test:
 
 coverage:
 	py.test --verbose --cov-report html --cov=requests_mv_integrations tests
-	
+
 list:
 	cat Makefile | grep "^[a-z]" | awk '{print $$1}' | sed "s/://g" | sort
