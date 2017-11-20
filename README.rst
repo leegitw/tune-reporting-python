@@ -50,3 +50,19 @@ Python helper library for TUNE Reporting API services.
 
 Usage
 =====
+
+
+Run Examples
+------------
+
+.. code-block:: bash
+
+    make run-examples tmc_api_key=[TMC API KEY]
+
+
+Run Tests
+---------
+
+.. code-block:: bash
+
+    make test tmc_api_key=[TMC API KEY]

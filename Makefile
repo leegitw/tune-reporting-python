@@ -227,7 +227,7 @@ run-examples:
 	done
 
 test:
-	py.test tests
+	py.test tests --tmc_api_key=$(tmc_api_key)
 
 coverage:
 	py.test --verbose --cov-report html --cov=requests_mv_integrations tests

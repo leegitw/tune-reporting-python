@@ -57,5 +57,5 @@ class TestTuneV3LogsAdvertisersImpressionsExport:
         except Exception as e:
             assert (isinstance(e, TuneRequestBaseError))
 
-        for row in list(obj.generator):
-            assert(row)
+        # for row in list(obj.generator):
+        #     assert(row)
