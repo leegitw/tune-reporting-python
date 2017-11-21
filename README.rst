@@ -3,28 +3,23 @@
 tune-reporting-python
 ---------------------
 
-    :package: `tune-reporting-python <https://github.com/TuneLab/tune-reporting-python>`_
-    :label: TUNE Reporting Python SDK 3.0
-    :purpose: Incorporate TUNE services.
-    :update   2017-11-21 17:00:00 UTC
-    :version: 3.0.0
-
-Overview
---------
-
 Python helper library for TUNE services.
 
-The utility focus of this Python SDK is upon the Advertiser Reporting endpoints.
+The utility focus of this Python SDK is upon the TMC Reporting endpoints.
 
-The second goal of the SDKs is to assure that our customers’ developers are using best practices in gathering reports in the most optimal way.
 
-Please see documentation here: `TUNE Reporting API <https://developers.tune.com/reporting/>`_
+Badges
+------
 
 .. start-badges
 
 .. list-table::
     :stub-columns: 1
 
+    * - docs
+      - |license|
+    * - tests
+      - |travis| |coveralls|
     * - package
       - |version| |supported-versions|
 
@@ -59,18 +54,18 @@ Please see documentation here: `TUNE Reporting API <https://developers.tune.com/
 .. end-badges
 
 
+Install
+-------
+
+.. code-block:: bash
+
+    pip install tune_reporting
+
 Requirements
 ------------
 
-Prerequisites
-~~~~~~~~~~~~~
-
-Python 3.0
-
-Generate API Key
-~~~~~~~~~~~~~~~~
-
-To use SDK, it requires you to `Generate API Key <https://developers.tune.com/management-docs/resource-authentication-user-permissions//>`_
+:Prerequisites: Python 3.0
+:API Key: To use SDK, it requires you to `Generate API Key <https://developers.tune.com/management-docs/resource-authentication-user-permissions//>`_
 
 
 Run Examples
@@ -93,11 +88,3 @@ License
 -------
 
 `MIT License <http://opensource.org/licenses/MIT>`_.
-
-
-Reporting Issues
-----------------
-
-We would love to hear your feedback.
-
-Email: `sdk@tune.com <mailto:sdk@tune.com>`_
