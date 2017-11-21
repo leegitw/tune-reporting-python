@@ -3,7 +3,7 @@
 tune-reporting-python
 ---------------------
 
-    :package: `tune-reporting-python <https://github.com/MobileAppTracking/tune-reporting-python>`_
+    :package: `tune-reporting-python <https://github.com/TuneLab/tune-reporting-python>`_
     :label: TUNE Reporting Python SDK 3.0
     :purpose: Incorporate TUNE services.
     :update   2017-11-21 17:00:00 UTC
