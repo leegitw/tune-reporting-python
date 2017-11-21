@@ -9,8 +9,12 @@ from pprintpp import pprint
 from requests_mv_integrations.exceptions import (TuneRequestBaseError)
 from tune_reporting.errors import (print_traceback, get_exception_message)
 from tune_reporting.exceptions import (TuneReportingError)
-from tune_reporting.tmc.v2.management.tmc_v2_advertisers import (TuneV2Advertisers)
-from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (TuneV2AuthenticationTypes)
+from tune_reporting.tmc.v2.management.tmc_v2_advertisers import (
+    TuneV2Advertisers
+)
+from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (
+    TuneV2AuthenticationTypes
+)
 from logging_mv_integrations import (LoggingFormat, LoggingOutput)
 
 
@@ -25,7 +29,9 @@ def main(tmc_api_key):
         tune_v2_advertisers.tmc_auth(tmc_api_key=tmc_api_key)
 
         if tune_v2_advertisers.get_advertiser_id(
-            auth_value=tmc_api_key, auth_type=TuneV2AuthenticationTypes.API_KEY, request_retry=None
+            auth_value=tmc_api_key,
+            auth_type=TuneV2AuthenticationTypes.API_KEY,
+            request_retry=None
         ):
             advertiser_id = tune_v2_advertisers.advertiser_id
             pprint(advertiser_id)
