@@ -19,7 +19,7 @@ from tune_reporting.errors import error_desc as tune_reporting_error_desc
 
 # @brief TUNE Reporting Base Exception
 #
-# @namespace tune_mv_integration.TuneReportingBaseError
+# @namespace tune_reporting.TuneReportingBaseError
 class TuneReportingBaseError(Exception):
     """TUNE Reporting Base Exception.
     """

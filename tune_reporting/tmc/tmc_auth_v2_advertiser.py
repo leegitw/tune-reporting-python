@@ -13,7 +13,6 @@ from pprintpp import pprint
 from requests_mv_integrations.exceptions import (TuneRequestBaseError)
 
 from logging_mv_integrations import (LoggingFormat, LoggingOutput)
-from tune_mv_integration.auth_validator import (AuthenticationError)
 
 from tune_reporting.errors import (get_exception_message, print_traceback, TuneReportingErrorCodes)
 from tune_reporting.exceptions import (TuneReportingError, TuneReportingAuthError)
@@ -67,16 +66,6 @@ def tmc_auth_v2_advertiser(
         except Exception as ex:
             print_traceback(ex)
             print(get_exception_message(ex))
-
-    except AuthenticationError as auth_ex:
-        log.error("TMC v2 Advertiser: Authentication: Failed", extra=auth_ex.to_dict())
-
-        raise TuneReportingAuthError(
-            error_message="TMC v2 Advertiser: Authentication: Failed",
-            errors=auth_ex.errors,
-            error_request_curl=auth_ex.request_curl,
-            error_code=auth_ex.remote_status,
-        )
 
     except Exception as ex:
         print_traceback(ex)
