@@ -84,6 +84,31 @@ Run Tests
     make test tmc_api_key=[TMC API KEY]
 
 
+Classes
+-------
+
+
+``TuneV2AdvertiserSites``
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    tune_advertiser_sites = TuneV2AdvertiserSites(
+        logger_level=logging.INFO
+    )
+
+    try:
+        tune_advertiser_sites.tmc_auth(tmc_api_key=tmc_api_key)
+
+        for collect_data_item, collect_error in tune_advertiser_sites.collect(
+            auth_value=tmc_api_key,
+            auth_type=TuneV2AuthenticationTypes.API_KEY,
+            auth_type_use=TuneV2AuthenticationTypes.API_KEY,
+            request_params={'limit': 5}
+        ):
+            pprint(collect_data_item)
+
+
 License
 -------
 
