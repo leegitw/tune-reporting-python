@@ -9,6 +9,7 @@ install:
 before_script:
 - make pyflakes
 script:
+- printenv | grep TMC_API_KEY
 - make test-travis-ci
 - make coverage
 after_success: coveralls
