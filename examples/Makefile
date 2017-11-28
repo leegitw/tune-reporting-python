@@ -83,7 +83,6 @@ example_tune_v2_session_authenticate:
 	@echo "======================================================"
 	$(PYTHON3) example_tune_v2_session_authenticate.py $(tmc_api_key)
 
-
 run-examples:
 	@echo "======================================================"
 	@echo run-examples
