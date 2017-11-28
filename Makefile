@@ -12,9 +12,6 @@ PACKAGE_PREFIX := tune_reporting
 PYTHON3 := $(shell which python3)
 PIP3    := $(shell which pip3)
 
-TMC_API_KEY = $(tmc_api_key)
-export TMC_API_KEY
-
 PY_MODULES := pip setuptools pylint flake8 pprintpp pep8 requests six sphinx wheel python-dateutil
 
 PACKAGE_SUFFIX := py3-none-any.whl
@@ -220,14 +217,16 @@ list-package: site-packages
 
 test-env:
 	@echo "======================================================"
-	@echo test-env $(TMC_API_KEY)
+	@echo test-env
 	@echo "======================================================"
+	$(eval export TMC_API_KEY=$(tmc_api_key))
 	@printenv | grep TMC_API_KEY
 
 run-examples: local-dev
 	@echo "======================================================"
 	@echo run-examples $(PACKAGE)
 	@echo "======================================================"
+	$(eval export TMC_API_KEY=$(tmc_api_key))
 	@printenv | grep TMC_API_KEY
 	@for example in $(PACKAGE_EXAMPLE_FILES); do \
 		echo "======================================================" ; \
@@ -240,8 +239,17 @@ test: local-dev
 	@echo "======================================================"
 	@echo test $(PACKAGE)
 	@echo "======================================================"
+	$(eval export TMC_API_KEY=$(tmc_api_key))
 	@printenv | grep TMC_API_KEY
 	py.test tests
+
+test-travis-ci: local-dev
+	@echo "======================================================"
+	@echo test-travis-ci $(PACKAGE)
+	@echo "======================================================"
+	@printenv | grep TMC_API_KEY
+	py.test tests
+
 
 coverage:
 	py.test --verbose --cov-report html --cov=requests_mv_integrations tests
