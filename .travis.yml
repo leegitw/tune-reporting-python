@@ -2,6 +2,7 @@ language: python
 python:
 - '3.6'
 install:
+- env | grep TMC_API_KEY
 - pip install .
 - pip install -r requirements.txt
 - pip install pyflakes
@@ -9,7 +10,7 @@ install:
 before_script:
 - make pyflakes
 script:
-- printenv | grep TMC_API_KEY
+- env | grep TMC_API_KEY
 - make test-travis-ci
 - make coverage
 after_success: coveralls
