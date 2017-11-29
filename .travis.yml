@@ -9,7 +9,6 @@ install:
 before_script:
 - make pyflakes
 script:
-- env
 - make test-travis-ci
 - make coverage
 after_success: coveralls
