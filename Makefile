@@ -215,13 +215,6 @@ list-package: site-packages
 	@echo "======================================================"
 	ls -al $(PYTHON3_SITE_PACKAGES)/$(PACKAGE_PREFIX)*
 
-test-env:
-	@echo "======================================================"
-	@echo test-env
-	@echo "======================================================"
-	$(eval export TMC_API_KEY=$(tmc_api_key))
-	@printenv | grep TMC_API_KEY
-
 run-examples: local-dev
 	@echo "======================================================"
 	@echo run-examples $(PACKAGE)
