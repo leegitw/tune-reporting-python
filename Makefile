@@ -247,9 +247,7 @@ test-travis-ci: local-dev
 	@echo "======================================================"
 	@echo test-travis-ci $(PACKAGE)
 	@echo "======================================================"
-	@printenv | grep TMC_API_KEY
 	py.test tests
-
 
 coverage:
 	py.test --verbose --cov-report html --cov=requests_mv_integrations tests
