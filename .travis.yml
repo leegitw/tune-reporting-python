@@ -2,7 +2,6 @@ language: python
 python:
 - '3.6'
 install:
-- env
 - pip install .
 - pip install -r requirements.txt
 - pip install pyflakes
@@ -14,6 +13,3 @@ script:
 - make test-travis-ci
 - make coverage
 after_success: coveralls
-env:
-  global:
-  - secure: mx5+eRzOHMcfx/cacuyz9ObU+DijKQ63YURuoXDmSzmhYl4xlC1yCGgtXnigJET8VXXd0Y4ZFZkIcIUcUViVo3zr2QbTb62ZxZQaWBqVkZX40wXWvnuqAj4dHq2ENl8yeXx7VZ4b5671EFQfg4ul0VTHx3DXUpqn9FpJtVlpQ/tXQrbb7WACorQIAPK+PbPdsnv/lEErq3+echxHq76e0dVdOLV+kv0gLxADl2J9krQK9ANytS9vcIvcghehPVJ7pqQTBTUGP6xOFUhsL0rY4gndj04NnWLs3nBIoctEsQB30sDNRv7vrg3iFJG0mrkzZjBh7EmfZ907WwvrAQCG0bsEAmbHD189xp7e2K4JG8pvKS7PywDtRWc6M+u2UhsaL62e+972E15mEC0ErxcuDawqbVgOWD1+tI7iPehoqqJK7LoMIn6/y+s2L3Rq/Z9N3hNlqeEfvqCQ/GVXgu7ggHLF7P6Ud1xnxDotZRUctkUSFUpLQynrYreTAm9slt3Adi6noi+vLKrsAKQdz77l4sg6g8TU+LSySKEHW7E7bwXnfDVGoifKnaBZWtLIAwPhvgIuuYdLX2OPyucwGwFHN21MY3lJDm/yqIt8WOigRbzNuyC5V4uAXRo544nb+fvld+/rYCYu42acxngVfNXEEQYaCqOa1dnwBf2BR2HwcTQ=

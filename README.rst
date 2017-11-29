@@ -17,7 +17,7 @@ Badges
     :stub-columns: 1
 
     * - docs
-      - |license|
+      - |license| |hits|
     * - tests
       - |travis| |coveralls|
     * - package
@@ -26,6 +26,10 @@ Badges
 .. |docs| image:: https://readthedocs.org/projects/tune-reporting-python/badge/?style=flat
     :alt: Documentation Status
     :target: https://readthedocs.org/projects/tune-reporting-python
+
+.. |hits| image:: http://hits.dwyl.io/TuneLab/tune-reporting-python.svg
+    :alt: Hit Count
+    :target: http://hits.dwyl.io/TuneLab/tune-reporting-python
 
 .. |license| image:: https://img.shields.io/badge/License-MIT-yellow.svg
     :alt: License Status
@@ -50,6 +54,7 @@ Badges
 .. |supported-versions| image:: https://img.shields.io/pypi/pyversions/tune_reporting.svg?style=flat
     :alt: Supported versions
     :target: https://pypi.python.org/pypi/tune_reporting
+
 
 .. end-badges
 
