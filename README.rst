@@ -1,11 +1,9 @@
 .. -*- mode: rst -*-
 
 tune-reporting-python
----------------------
+=====================
 
-Python helper library for TUNE services.
-
-The utility focus of this Python SDK is upon the TMC Reporting endpoints.
+TUNE Reporting API client library.
 
 
 Badges
@@ -66,6 +64,7 @@ Install
 
     pip install tune_reporting
 
+
 Requirements
 ------------
 
@@ -92,12 +91,25 @@ Run Tests
 Classes
 -------
 
-``TuneV2Advertisers``
-^^^^^^^^^^^^^^^^^^^^^
+There are multiple TUNE API Classes available:
 
-Get list of advertisers from TMC account.
+- ``TuneV2Advertisers``
+- ``TuneV2AdvertiserSites``
+- ``TuneV2AdvertiserStatsActuals``
+- ``TuneV2SessionAuthenticate``
+- ``TuneV3LogsAdvertisersClicks``
+- ``TuneV3LogsAdvertisersImpressions``
 
-** Code **
+
+-------------------------
+
+
+``class TuneV2Advertisers``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Get **``ADVERTISER ID``** for this account based upon provided **``TMC_API_KEY``**.
+
+**Code**
 
 .. code-block:: python
 
@@ -131,24 +143,37 @@ Get list of advertisers from TMC account.
         print_traceback(ex)
         print(get_exception_message(ex))
 
-** Example **
+
+**Example**
 
 .. code-block:: bash
+
     $ cd examples
     $ make example_tune_v2_advertisers tmc_api_key=[ ... TMC API-Key ...]
 
-    {"asctime": "2017-11-29 08:58:30 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1", "message": "TMC Authentication: Start"}
-    {"asctime": "2017-11-29 08:58:31 -0800", "levelname": "INFO", "name": "requests_mv_integrations", "version": "00.06.01", "message": "TMC Authentication: Finished", "request_time_msecs": 635}
-    {"asctime": "2017-11-29 08:58:31 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1", "message": "TMC v2 Advertisers: Advertiser ID"}
-    {"asctime": "2017-11-29 08:58:31 -0800", "levelname": "INFO", "name": "requests_mv_integrations", "version": "00.06.01", "message": "TMC v2 Advertisers: Finished", "request_time_msecs": 260}
-    {"asctime": "2017-11-29 08:58:31 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1", "message": "TMC v2 Advertisers: Advertiser ID: [ADVERTISER ID]"}
+    {"asctime": "2017-11-29 08:58:30 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1",
+    "message": "TMC Authentication: Start"}
+    {"asctime": "2017-11-29 08:58:31 -0800", "levelname": "INFO", "name": "requests_mv_integrations", "version": "00.06.01",
+    "message": "TMC Authentication: Finished", "request_time_msecs": 635}
+    {"asctime": "2017-11-29 08:58:31 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1",
+    "message": "TMC v2 Advertisers: Advertiser ID"}
+    {"asctime": "2017-11-29 08:58:31 -0800", "levelname": "INFO", "name": "requests_mv_integrations", "version": "00.06.01",
+    "message": "TMC v2 Advertisers: Finished", "request_time_msecs": 260}
+    {"asctime": "2017-11-29 08:58:31 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1",
+    "message": "TMC v2 Advertisers: Advertiser ID: [ADVERTISER ID]"}
 
     [ADVERTISER ID]
 
-``TuneV2SessionAuthenticate``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Get Session Token after authenticating TMC API Key.
+-------------------------
+
+
+``class TuneV2SessionAuthenticate``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Get time-limited **``SESSION TOKEN``** after authenticating provided **``TMC_API_KEY``**.
+
+**Code**
 
 .. code-block:: python
 
@@ -179,24 +204,34 @@ Get Session Token after authenticating TMC API Key.
         print(get_exception_message(ex))
 
 
-** Example **
+**Example**
 
 .. code-block:: bash
+
     $ cd examples
     $ make example_tune_v2_session_authenticate tmc_api_key=[ ... TMC API-Key ...]
 
-    {"asctime": "2017-11-29 09:11:09 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1", "message": "TMC v2 Session Authenticate: Get Token"}
-    {"asctime": "2017-11-29 09:11:11 -0800", "levelname": "INFO", "name": "requests_mv_integrations", "version": "00.06.01", "message": "TMC v2 Session Authenticate: Finished", "request_time_msecs": 1550}
-    {"asctime": "2017-11-29 09:11:11 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1", "message": "TMC v2 Session Authenticate", "session_token": "[SESSION TOKEN]"}
-    {"asctime": "2017-11-29 09:11:11 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1", "message": "TMC v2 Session Authenticate: Finished"}
+    {"asctime": "2017-11-29 09:11:09 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1",
+    "message": "TMC v2 Session Authenticate: Get Token"}
+    {"asctime": "2017-11-29 09:11:11 -0800", "levelname": "INFO", "name": "requests_mv_integrations", "version": "00.06.01",
+    "message": "TMC v2 Session Authenticate: Finished", "request_time_msecs": 1550}
+    {"asctime": "2017-11-29 09:11:11 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1",
+    "message": "TMC v2 Session Authenticate", "session_token": "[SESSION TOKEN]"}
+    {"asctime": "2017-11-29 09:11:11 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1",
+    "message": "TMC v2 Session Authenticate: Finished"}
 
     [SESSION TOKEN]
 
 
-``TuneV2AdvertiserSites``
-^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------
 
-Get listing of Advertiser's Mobile Apps (aka Sites).
+
+``class TuneV2AdvertiserSites``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Get listing of Advertiser's Mobile Apps (aka Sites) for this account based upon provided **``TMC_API_KEY``**.
+
+**Code**
 
 .. code-block:: python
 
@@ -230,16 +265,21 @@ Get listing of Advertiser's Mobile Apps (aka Sites).
         print(get_exception_message(ex))
 
 
-** Example **
+**Example**
 
 .. code-block:: bash
+
     $ cd examples
     $ make example_tune_v2_advertiser_sites tmc_api_key=[ ... TMC API-Key ...]
 
-    {"asctime": "2017-11-29 09:04:25 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1", "message": "TMC Authentication: Start"}
-    {"asctime": "2017-11-29 09:04:25 -0800", "levelname": "INFO", "name": "requests_mv_integrations", "version": "00.06.01", "message": "TMC Authentication: Finished", "request_time_msecs": 593}
-    {"asctime": "2017-11-29 09:04:25 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1", "message": "Start Advertiser Sites find"}
-    {"asctime": "2017-11-29 09:04:26 -0800", "levelname": "INFO", "name": "requests_mv_integrations", "version": "00.06.01", "message": "TuneV2AdvertiserSites.collect: Finished", "request_time_msecs": 263}
+    {"asctime": "2017-11-29 09:04:25 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1",
+    "message": "TMC Authentication: Start"}
+    {"asctime": "2017-11-29 09:04:25 -0800", "levelname": "INFO", "name": "requests_mv_integrations", "version": "00.06.01",
+    "message": "TMC Authentication: Finished", "request_time_msecs": 593}
+    {"asctime": "2017-11-29 09:04:25 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1",
+    "message": "Start Advertiser Sites find"}
+    {"asctime": "2017-11-29 09:04:26 -0800", "levelname": "INFO", "name": "requests_mv_integrations", "version": "00.06.01",
+    "message": "TuneV2AdvertiserSites.collect: Finished", "request_time_msecs": 263}
 
     [JSON RESPONSE]
     {
@@ -251,12 +291,16 @@ Get listing of Advertiser's Mobile Apps (aka Sites).
     }
     ...
 
-``TuneV2AdvertiserStatsActuals``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Logs of Advertiser Stats: Actuals
+-------------------------
 
-** Code **
+
+``class TuneV2AdvertiserStatsActuals``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Logs of Advertiser's Actuals Stats for this account based upon provided **``TMC_API_KEY``**.
+
+**Code**
 
 .. code-block:: python
 
@@ -342,17 +386,23 @@ Logs of Advertiser Stats: Actuals
         pprint(row)
 
 
-** Example **
+**Example**
 
 .. code-block:: bash
+
     $ cd examples
     $ make example_tune_v2_advertiser_stats_actuals_export_download tmc_api_key=[ ... TMC API-Key ...]
 
-    {"asctime": "2017-11-29 09:17:21 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1", "message": "TMC Authentication: Start"}
-    {"asctime": "2017-11-29 09:17:22 -0800", "levelname": "INFO", "name": "requests_mv_integrations", "version": "00.06.01", "message": "TMC Authentication: Finished", "request_time_msecs": 516}
-    {"asctime": "2017-11-29 09:17:22 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1", "message": "TMC v2 Advertiser Stats: Collect: export"}
-    {"asctime": "2017-11-29 09:17:23 -0800", "levelname": "INFO", "name": "requests_mv_integrations", "version": "00.06.01", "message": "TMC v2 Advertiser Stats Find: Finished", "request_time_msecs": 1490}
-    'Environment: TMC API-KEY'
+    {"asctime": "2017-11-29 09:17:21 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1",
+    "message": "TMC Authentication: Start"}
+    {"asctime": "2017-11-29 09:17:22 -0800", "levelname": "INFO", "name": "requests_mv_integrations", "version": "00.06.01",
+    "message": "TMC Authentication: Finished", "request_time_msecs": 516}
+    {"asctime": "2017-11-29 09:17:22 -0800", "levelname": "INFO", "name": "tune_reporting", "version": "2.3.1",
+    "message": "TMC v2 Advertiser Stats: Collect: export"}
+    {"asctime": "2017-11-29 09:17:23 -0800", "levelname": "INFO", "name": "requests_mv_integrations", "version": "00.06.01",
+    "message": "TMC v2 Advertiser Stats Find: Finished", "request_time_msecs": 1490}
+
+    [ADVERTISER ACTUALS STATS]
     {
         'ad_clicks': '48',
         'ad_clicks_unique': '0',
@@ -390,6 +440,7 @@ Logs of Advertiser Stats: Actuals
         'site_id': 533,
     }
     ...
+
 
 License
 -------
