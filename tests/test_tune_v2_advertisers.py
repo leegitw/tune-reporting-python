@@ -25,6 +25,9 @@ class TestTuneV2Advertisers:
         tmc_api_key,
         tune_v2_advertisers_object
     ):
+        assert(tmc_api_key)
+        assert(len(tmc_api_key) > 1)
+
         obj = tune_v2_advertisers_object
         try:
             obj.tmc_auth(tmc_api_key)

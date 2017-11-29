@@ -215,19 +215,32 @@ list-package: site-packages
 	@echo "======================================================"
 	ls -al $(PYTHON3_SITE_PACKAGES)/$(PACKAGE_PREFIX)*
 
-run-examples:
+run-examples: local-dev
 	@echo "======================================================"
 	@echo run-examples $(PACKAGE)
 	@echo "======================================================"
+	$(eval export TMC_API_KEY=$(tmc_api_key))
+	@printenv | grep TMC_API_KEY
 	@for example in $(PACKAGE_EXAMPLE_FILES); do \
 		echo "======================================================" ; \
 		echo Example $$example ; \
 		echo "======================================================" ; \
-		$(PYTHON3) $$example $(tmc_api_key) ; \
+		$(PYTHON3) $$example ; \
 	done
 
-test:
-	py.test tests --tmc_api_key=$(tmc_api_key)
+test: local-dev
+	@echo "======================================================"
+	@echo test $(PACKAGE)
+	@echo "======================================================"
+	$(eval export TMC_API_KEY=$(tmc_api_key))
+	@printenv | grep TMC_API_KEY
+	py.test tests
+
+test-travis-ci: local-dev
+	@echo "======================================================"
+	@echo test-travis-ci $(PACKAGE)
+	@echo "======================================================"
+	py.test tests
 
 coverage:
 	py.test --verbose --cov-report html --cov=requests_mv_integrations tests

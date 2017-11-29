@@ -38,6 +38,9 @@ class TestTuneV2AdvertiserStatsActualsExportDownload:
         tmc_api_key,
         tune_v2_advertiser_stats_actuals_object
     ):
+        assert(tmc_api_key)
+        assert(len(tmc_api_key) > 1)
+
         obj = tune_v2_advertiser_stats_actuals_object
         assert(obj)
 

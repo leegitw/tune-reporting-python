@@ -82,7 +82,7 @@ setup(
     author='TUNE Inc., TuneLab',
     author_email='jefft@tune.com',
     url='https://github.com/TuneLab/tune-reporting-python',
-    download_url='https://github.com/TuneLab/requests-mv-integrations/archive/v{0}.tar.gz'.format(version),
+    download_url='https://github.com/TuneLab/tune-reporting-python/archive/v{0}.tar.gz'.format(version),
     keywords=["tune", "reporting", "tmc", "api"],
     license='MIT License',
     zip_safe=False,

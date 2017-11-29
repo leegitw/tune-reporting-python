@@ -11,83 +11,100 @@ PYTHON3 := $(shell which python3)
 
 PACKAGE_EXAMPLE_FILES := $(shell find . ! -name '__init__.py' -type f -name "*.py")
 
-example-v2-advertisers:
+example_tune_v2_advertisers:
 	@echo "======================================================"
 	@echo example-v2-advertisers
 	@echo "======================================================"
+	$(eval export TMC_API_KEY=$(tmc_api_key))
+	@printenv | grep TMC_API_KEY
 	$(PYTHON3) example_tune_v2_advertisers.py $(tmc_api_key)
 
-example-v2-advertiser-sites:
+example_tune_v2_advertiser_sites:
 	@echo "======================================================"
-	@echo example-v2-advertiser-sites
+	@echo example_tune_v2_advertiser_sites
 	@echo "======================================================"
+	$(eval export TMC_API_KEY=$(tmc_api_key))
+	@printenv | grep TMC_API_KEY
 	$(PYTHON3) example_tune_v2_advertiser_sites.py $(tmc_api_key)
 
-example-v2-actuals-find:
+example_tune_v2_advertiser_stats_actuals_find:
 	@echo "======================================================"
-	@echo example-v2-actuals-find
+	@echo example_tune_v2_advertiser_stats_actuals_find
 	@echo "======================================================"
+	$(eval export TMC_API_KEY=$(tmc_api_key))
+	@printenv | grep TMC_API_KEY
 	$(PYTHON3) example_tune_v2_advertiser_stats_actuals_find.py $(tmc_api_key)
 
-example-v2-actuals-export-download:
+example_tune_v2_advertiser_stats_actuals_export_download:
 	@echo "======================================================"
-	@echo example-v2-actuals-export-download
+	@echo example_tune_v2_advertiser_stats_actuals_export_download
 	@echo "======================================================"
+	$(eval export TMC_API_KEY=$(tmc_api_key))
+	@printenv | grep TMC_API_KEY
 	$(PYTHON3) example_tune_v2_advertiser_stats_actuals_export_download.py $(tmc_api_key)
 
-example-v2-actuals-export-stream-csv:
+example_tune_v2_advertiser_stats_actuals_export_stream_csv:
 	@echo "======================================================"
-	@echo example-v2-actuals-export-stream-csv
+	@echo example_tune_v2_advertiser_stats_actuals_export_stream_csv
 	@echo "======================================================"
+	$(eval export TMC_API_KEY=$(tmc_api_key))
+	@printenv | grep TMC_API_KEY
 	$(PYTHON3) example_tune_v2_advertiser_stats_actuals_export_stream_csv.py $(tmc_api_key)
 
-example-v2-actuals-export-stream-csv-transform:
+example_tune_v2_advertiser_stats_actuals_export_stream_csv_transform:
 	@echo "======================================================"
-	@echo example-v2-actuals-export-stream-csv-transform
+	@echo example_tune_v2_advertiser_stats_actuals_export_stream_csv_transform
 	@echo "======================================================"
+	$(eval export TMC_API_KEY=$(tmc_api_key))
+	@printenv | grep TMC_API_KEY
 	$(PYTHON3) example_tune_v2_advertiser_stats_actuals_export_stream_csv_transform.py $(tmc_api_key)
 
-example-v3-clicks-find:
+example_tune_v3_logs_advertisers_clicks_find:
 	@echo "======================================================"
-	@echo example-v3-clicks-find
+	@echo example_tune_v3_logs_advertisers_clicks_find
 	@echo "======================================================"
+	$(eval export TMC_API_KEY=$(tmc_api_key))
+	@printenv | grep TMC_API_KEY
 	$(PYTHON3) example_tune_v3_logs_advertisers_clicks_find.py $(tmc_api_key)
 
-example-v3-clicks-export:
+example_tune_v3_logs_advertisers_clicks_export:
 	@echo "======================================================"
-	@echo example-v3-clicks-export
+	@echo example_tune_v3_logs_advertisers_clicks_export
 	@echo "======================================================"
+	$(eval export TMC_API_KEY=$(tmc_api_key))
+	@printenv | grep TMC_API_KEY
+	$(eval export TMC_API_KEY=$(tmc_api_key))
+	@printenv | grep TMC_API_KEY
 	$(PYTHON3) example_tune_v3_logs_advertisers_clicks_export.py $(tmc_api_key)
 
-example-v3-impressions-find:
+example_tune_v3_logs_advertisers_impressions_find:
 	@echo "======================================================"
-	@echo example-v3-impressions-find
+	@echo example_tune_v3_logs_advertisers_impressions_find
 	@echo "======================================================"
+	$(eval export TMC_API_KEY=$(tmc_api_key))
+	@printenv | grep TMC_API_KEY
 	$(PYTHON3) example_tune_v3_logs_advertisers_impressions_find.py $(tmc_api_key)
 
-example-v3-impressions-export:
+example_tune_v3_logs_advertisers_impressions_export:
 	@echo "======================================================"
-	@echo example-v3-impressions-export
+	@echo example_tune_v3_logs_advertisers_impressions_export
 	@echo "======================================================"
 	$(PYTHON3) example_tune_v3_logs_advertisers_impressions_export.py $(tmc_api_key)
-
-example_tune_v2_advertisers:
-	@echo "======================================================"
-	@echo example_tune_v2_advertisers
-	@echo "======================================================"
-	$(PYTHON3) example_tune_v2_advertisers.py $(tmc_api_key)
 
 example_tune_v2_session_authenticate:
 	@echo "======================================================"
 	@echo example_tune_v2_session_authenticate
 	@echo "======================================================"
+	$(eval export TMC_API_KEY=$(tmc_api_key))
+	@printenv | grep TMC_API_KEY
 	$(PYTHON3) example_tune_v2_session_authenticate.py $(tmc_api_key)
-
 
 run-examples:
 	@echo "======================================================"
 	@echo run-examples
 	@echo "======================================================"
+	$(eval export TMC_API_KEY=$(tmc_api_key))
+	@printenv | grep TMC_API_KEY
 	@for example in $(PACKAGE_EXAMPLE_FILES); do \
 		echo "======================================================" ; \
 		echo Example $$example ; \
@@ -95,3 +112,5 @@ run-examples:
 		$(PYTHON3) $$example $(tmc_api_key) ; \
 	done
 
+list:
+	cat Makefile | grep "^[a-z]" | awk '{print $$1}' | sed "s/://g" | sort

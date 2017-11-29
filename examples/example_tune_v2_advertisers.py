@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 #  @copyright 2017 TUNE, Inc. (http://www.tune.com)
 
+import os
 import sys
 import logging
 from pprintpp import pprint
@@ -52,9 +53,17 @@ def main(tmc_api_key):
 
 if __name__ == '__main__':
     try:
-        if len(sys.argv) < 2:
-            raise ValueError("{} [tmc_api_key].".format(sys.argv[0]))
-        tmc_api_key = sys.argv[1]
+        tmc_api_key = os.environ.get('TMC_API_KEY')
+        if tmc_api_key is None:
+            if len(sys.argv) < 2:
+                raise ValueError("{} [tmc_api_key].".format(sys.argv[0]))
+            tmc_api_key = sys.argv[1]
+            pprint("Argument: TMC API-KEY")
+        else:
+            pprint("Environment: TMC API-KEY")
+
+        if tmc_api_key is None:
+            raise ValueError("Missing: TMC API-KEY")
         sys.exit(main(tmc_api_key))
     except Exception as exc:
         print("Exception: {0}".format(exc))
