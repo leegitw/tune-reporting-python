@@ -14,8 +14,8 @@ Badges
 .. list-table::
     :stub-columns: 1
 
-    * - docs
-      - |license| |hits|
+    * - info
+      - |license| |hits| |contributors|
     * - tests
       - |travis| |coveralls|
     * - package
@@ -28,6 +28,10 @@ Badges
 .. |hits| image:: http://hits.dwyl.io/TuneLab/tune-reporting-python.svg
     :alt: Hit Count
     :target: http://hits.dwyl.io/TuneLab/tune-reporting-python
+
+.. |contributors| image:: https://img.shields.io/github/contributors/TuneLab/tune-reporting-python.svg
+    :alt: Contributors
+    :target: https://github.com/TuneLab/tune-reporting-python/graphs/contributors
 
 .. |license| image:: https://img.shields.io/badge/License-MIT-yellow.svg
     :alt: License Status
