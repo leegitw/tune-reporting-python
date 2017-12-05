@@ -83,7 +83,7 @@ setup(
     author_email='jefft@tune.com',
     url='https://github.com/TuneLab/tune-reporting-python',
     download_url='https://github.com/TuneLab/tune-reporting-python/archive/v{0}.tar.gz'.format(version),
-    keywords=["tune", "reporting", "tmc", "api"],
+    keywords="reporting tune api tmc attribution",
     license='MIT License',
     zip_safe=False,
     install_requires=REQUIREMENTS,
