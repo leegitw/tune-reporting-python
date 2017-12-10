@@ -1,7 +1,15 @@
 .. -*- mode: rst -*-
 
 tune-reporting-python
----------------------
+=====================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+
+Introduction
+------------
 
 TUNE Reporting API client library.
 
@@ -113,6 +121,7 @@ There are multiple TUNE API Classes available:
 
 
 ``class TuneV2Advertisers``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Get **``ADVERTISER ID``** for this account based upon provided **``TMC_API_KEY``**.
 
@@ -174,8 +183,9 @@ Get **``ADVERTISER ID``** for this account based upon provided **``TMC_API_KEY``
 
 -------------------------
 
-``class TuneV2SessionAuthenticate``
 
+``class TuneV2SessionAuthenticate``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Get time-limited **``SESSION TOKEN``** after authenticating provided **``TMC_API_KEY``**.
 
@@ -231,7 +241,9 @@ Get time-limited **``SESSION TOKEN``** after authenticating provided **``TMC_API
 
 -------------------------
 
+
 ``class TuneV2AdvertiserSites``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Get listing of Advertiser's Mobile Apps (aka Sites) for this account based upon provided **``TMC_API_KEY``**.
 
@@ -300,6 +312,7 @@ Get listing of Advertiser's Mobile Apps (aka Sites) for this account based upon 
 
 
 ``class TuneV2AdvertiserStatsActuals``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Logs of Advertiser's Actuals Stats for this account based upon provided **``TMC_API_KEY``**.
 
@@ -388,6 +401,7 @@ Logs of Advertiser's Actuals Stats for this account based upon provided **``TMC_
     for row in list(tune_v2_advertiser_stats_actuals.generator):
         pprint(row)
 
+
 **Example**
 
 .. code-block:: bash
@@ -448,4 +462,3 @@ License
 -------
 
 `MIT License <http://opensource.org/licenses/MIT>`_.
-
