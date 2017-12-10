@@ -8,7 +8,7 @@ __version__ = '2.6.0'
 __version_info__ = tuple(__version__.split('.'))
 
 __author__ = 'jefft@tune.com'
-__license__ = 'The MIT License (MIT)'
+__license__ = 'MIT License'
 __copyright__ = 'Copyright 2017 TUNE, Inc.'
 
 __python_required_version__ = (3, 0)
