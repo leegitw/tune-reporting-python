@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #  @namespace tune-reporting-python
 #
-#    Copyright (c) 2017 TUNE, Inc.
+#    Copyright (c) 2018 TUNE, Inc.
 #    All rights reserved.
 #
 
@@ -79,10 +79,10 @@ setup(
     version=version,
     description='TUNE Reporting API client library.',
     long_description=readme + '\n\n' + history,
-    author='TUNE Inc., TuneLab',
+    author='TUNE Inc.',
     author_email='jefft@tune.com',
-    url='https://github.com/TuneLab/tune-reporting-python',
-    download_url='https://github.com/TuneLab/tune-reporting-python/archive/v{0}.tar.gz'.format(version),
+    url='https://github.com/tuneinc/tune-reporting-python',
+    download_url='https://github.com/tuneinc/tune-reporting-python/archive/v{0}.tar.gz'.format(version),
     keywords="reporting tune api tmc attribution",
     license='MIT License',
     zip_safe=False,

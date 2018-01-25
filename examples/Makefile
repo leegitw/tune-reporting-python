@@ -1,10 +1,10 @@
 #   Makefile
 #
-#   Copyright (c) 2017 TUNE, Inc
+#   Copyright (c) 2018 TUNE, Inc
 #   All rights reserved.
 #
 # license   http://opensource.org/licenses/MIT The MIT License (MIT)
-# copyright Copyright (c) 2017 TUNE Inc. (http://www.tune.com)
+# copyright Copyright (c) 2018 TUNE Inc. (http://www.tune.com)
 #
 
 PYTHON3 := $(shell which python3)
