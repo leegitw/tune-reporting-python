@@ -38,29 +38,29 @@ Badges
     :alt: Documentation Status
     :target: http://tune-reporting-python.readthedocs.io
 
-.. |hits| image:: http://hits.dwyl.io/TuneLab/tune-reporting-python.svg
+.. |hits| image:: http://hits.dwyl.io/tuneinc/tune-reporting-python.svg
     :alt: Hit Count
-    :target: http://hits.dwyl.io/TuneLab/tune-reporting-python
+    :target: http://hits.dwyl.io/tuneinc/tune-reporting-python
 
-.. |contributors| image:: https://img.shields.io/github/contributors/TuneLab/tune-reporting-python.svg
+.. |contributors| image:: https://img.shields.io/github/contributors/tuneinc/tune-reporting-python.svg
     :alt: Contributors
-    :target: https://github.com/TuneLab/tune-reporting-python/graphs/contributors
+    :target: https://github.com/tuneinc/tune-reporting-python/graphs/contributors
 
 .. |license| image:: https://img.shields.io/badge/License-MIT-yellow.svg
     :alt: License Status
     :target: https://opensource.org/licenses/MIT
 
-.. |travis| image:: https://travis-ci.org/TuneLab/tune-reporting-python.svg?branch=master
+.. |travis| image:: https://travis-ci.org/tuneinc/tune-reporting-python.svg?branch=master
     :alt: Travis-CI Build Status
-    :target: https://travis-ci.org/TuneLab/tune-reporting-python
+    :target: https://travis-ci.org/tuneinc/tune-reporting-python
 
-.. |coveralls| image:: https://coveralls.io/repos/TuneLab/tune-reporting-python/badge.svg?branch=master&service=github
+.. |coveralls| image:: https://coveralls.io/repos/tuneinc/tune-reporting-python/badge.svg?branch=master&service=github
     :alt: Code Coverage Status
-    :target: https://coveralls.io/r/TuneLab/tune-reporting-python
+    :target: https://coveralls.io/r/tuneinc/tune-reporting-python
 
-.. |requires| image:: https://requires.io/github/TuneLab/tune-reporting-python/requirements.svg?branch=master
+.. |requires| image:: https://requires.io/github/tuneinc/tune-reporting-python/requirements.svg?branch=master
     :alt: Requirements Status
-    :target: https://requires.io/github/TuneLab/tune-reporting-python/requirements/?branch=master
+    :target: https://requires.io/github/tuneinc/tune-reporting-python/requirements/?branch=master
 
 .. |version| image:: https://img.shields.io/pypi/v/logging_mv_integrations.svg?style=flat
     :alt: PyPI Package latest release
