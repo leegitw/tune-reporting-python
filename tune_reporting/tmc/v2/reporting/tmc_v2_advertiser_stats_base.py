@@ -862,11 +862,13 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
 
         if (not json_response or json_response['status_code'] != 200 or 'errors' in json_response):
             raise TuneReportingError(
-                error_message=("TMC v2 Advertiser Stats: "
-                               "Action '{}': "
-                               "Failed to export stats: {}, {}").format(
-                                   export_action, json_response['status_code'], json_response['errors']
-                               ),
+                error_message=(
+                    "TMC v2 Advertiser Stats: Action '{}': Failed to export stats: {}, {}"
+                ).format(
+                    export_action,
+                    json_response['status_code'],
+                    json_response['errors']
+                ),
                 error_code=TuneReportingErrorCodes.REP_ERR_REQUEST
             )
 
