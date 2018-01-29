@@ -66,9 +66,9 @@ Badges
     :alt: PyPI Package latest release
     :target: https://pypi.python.org/pypi/tune_reporting
 
-.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/tune-reporting-python.svg?style=flat
+.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/tune_reporting.svg?style=flat
     :alt: Supported versions
-    :target: https://pypi.python.org/pypi/tune-reporting-python
+    :target: https://pypi.python.org/pypi/tune_reporting
 
 .. end-badges
 

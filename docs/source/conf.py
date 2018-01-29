@@ -50,7 +50,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'tune-reporting-python'
-copyright = u'2017, TUNE Inc.'
+copyright = u'2018, TUNE Inc.'
 author = u'TUNE Inc.'
 
 # The version info for the project you're documenting, acts as replacement for
