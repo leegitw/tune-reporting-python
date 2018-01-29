@@ -18,6 +18,7 @@ from tune_reporting.tmc.v3.reporting import (
 from tune_reporting.tmc.v2.management import (TuneV2AuthenticationTypes)
 from logging_mv_integrations import (LoggingFormat, LoggingOutput)
 
+
 @pytest.fixture
 def tune_v3_logs_advertisers_impressions_object():
     obj = TuneV3LogsAdvertisersImpressions(
@@ -26,6 +27,7 @@ def tune_v3_logs_advertisers_impressions_object():
         logger_output=LoggingOutput.STDOUT_COLOR
     )
     return obj
+
 
 class TestTuneV3LogsAdvertisersImpressionsFind:
     def test_tune_v2_advertiser_impressions_find(

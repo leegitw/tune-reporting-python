@@ -6,7 +6,7 @@
 import pytest
 import os
 
+
 @pytest.fixture
 def tmc_api_key():
     return os.environ.get('TMC_API_KEY')
-

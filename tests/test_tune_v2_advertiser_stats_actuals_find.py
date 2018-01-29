@@ -23,6 +23,7 @@ from tune_reporting.tmc.v2.reporting import (
     TuneV2AdvertiserStatsActions
 )
 
+
 @pytest.fixture
 def tune_v2_advertiser_stats_actuals_object():
     obj = \
@@ -32,6 +33,7 @@ def tune_v2_advertiser_stats_actuals_object():
             logger_output=LoggingOutput.STDOUT_COLOR
         )
     return obj
+
 
 class TestTuneV2AdvertiserStatsActualsFind:
     def test_tune_v2_advertiser_sites_object(

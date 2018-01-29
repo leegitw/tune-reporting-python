@@ -17,10 +17,12 @@ from tune_reporting.tmc.v2.management import (
     TuneV2AuthenticationTypes
 )
 
+
 @pytest.fixture
 def tune_v3_logs_advertisers_clicks_object():
     obj = TuneV3LogsAdvertisersClicks()
     return obj
+
 
 class TestTuneV3LogsAdvertisersClicksFind:
     def test_tune_v2_advertiser_clicks_find(

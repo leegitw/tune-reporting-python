@@ -25,6 +25,7 @@ from tune_reporting.tmc.v2.reporting import (
 
 TIMEZONE_COLLECT = "America/New_York"
 
+
 @pytest.fixture
 def tune_v2_advertiser_stats_actuals_object():
 
@@ -35,6 +36,7 @@ def tune_v2_advertiser_stats_actuals_object():
         logger_output=LoggingOutput.STDOUT_COLOR
     )
     return obj
+
 
 class TestTuneV2AdvertiserStatsActualsExportStreamCsv:
     def test_tune_v2_advertiser_stats_actuals_export_stream_csv(

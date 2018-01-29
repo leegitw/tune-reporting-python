@@ -23,6 +23,7 @@ from tune_reporting.tmc.v2.management import (
     TuneV2AuthenticationTypes
 )
 
+
 @pytest.fixture
 def tune_v2_advertiser_stats_actuals_object():
     obj = TuneV2AdvertiserStatsActuals(
@@ -31,6 +32,7 @@ def tune_v2_advertiser_stats_actuals_object():
         logger_output=LoggingOutput.STDOUT_COLOR
     )
     return obj
+
 
 class TestTuneV2AdvertiserStatsActualsExportDownload:
     def test_tune_v2_advertiser_stats_actuals_export_download(

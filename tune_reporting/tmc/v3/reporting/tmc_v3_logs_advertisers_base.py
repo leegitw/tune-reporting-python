@@ -698,15 +698,16 @@ class TuneV3LogsAdvertisersBase(TuneMobileAppTrackingApi):
             if tries >= 0:
                 _tries -= 1
                 if _tries == 0:
-                    self.logger.error(("TMC v3 Logs Advertisers Base: "
-                                       "Check Job Export Status: Exhausted Retries"),
-                                      extra={
-                                          'attempt': _attempts,
-                                          'tries': _tries,
-                                          'action': export_status_action,
-                                          'request_label': request_label,
-                                          'export_percent_complete': export_percent_complete
-                                      })
+                    self.logger.error(
+                        "TMC v3 Logs Advertisers Base: Check Job Export Status: Exhausted Retries",
+                        extra={
+                            'attempt': _attempts,
+                            'tries': _tries,
+                            'action': export_status_action,
+                            'request_label': request_label,
+                            'export_percent_complete': export_percent_complete
+                        }
+                    )
 
                     raise TuneReportingError(
                         error_message=(

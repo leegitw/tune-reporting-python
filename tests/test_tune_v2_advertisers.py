@@ -14,10 +14,12 @@ from tune_reporting.tmc.v2.management.tmc_v2_session_authenticate import (
     TuneV2AuthenticationTypes
 )
 
+
 @pytest.fixture
 def tune_v2_advertisers_object():
     obj = TuneV2Advertisers()
     return obj
+
 
 class TestTuneV2Advertisers:
     def test_tune_v2_advertisers_object(

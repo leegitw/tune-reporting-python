@@ -12,12 +12,14 @@ from tune_reporting.tmc.v2.management import (
     TuneV2AdvertiserSites
 )
 
+
 @pytest.fixture
 def tune_v2_advertiser_sites_object():
     obj = TuneV2AdvertiserSites(
         logger_level=logging.INFO
     )
     return obj
+
 
 class TestTuneV2AdvertiserSites:
     def test_tune_v2_advertiser_sites(
