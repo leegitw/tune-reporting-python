@@ -11,7 +11,7 @@ import datetime as dt
 # from pprintpp import pprint
 
 from pytz_convert import (validate_tz_name)
-from pyhttpstatus_utils import (http_status_code_to_type)
+from pyhttpstatus_utils import (get_http_status_type)
 from tune_reporting.support import (
     python_check_version,
     __TIMEZONE_NAME_DEFAULT__,
@@ -218,7 +218,7 @@ class TuneMobileAppTrackingApiBase(object):
                             and 'message' in tune_v2_error:
                         tune_v2_errors_messages += tune_v2_error['message']
 
-        tune_v2_status_type = http_status_code_to_type(tune_v2_status_code)
+        tune_v2_status_type = get_http_status_type(tune_v2_status_code)
 
         response_extra = {
             'status_code': tune_v2_status_code,

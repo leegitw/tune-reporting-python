@@ -54,9 +54,9 @@ Badges
     :alt: Requirements Status
     :target: https://requires.io/github/tuneinc/tune-reporting-python/requirements/?branch=master
 
-.. |version| image:: https://img.shields.io/pypi/v/logging_mv_integrations.svg?style=flat
+.. |version| image:: https://img.shields.io/pypi/v/tune_reporting.svg?style=flat
     :alt: PyPI Package latest release
-    :target: https://pypi.python.org/pypi/logging_mv_integrations
+    :target: https://pypi.python.org/pypi/tune_reporting
 
 .. |supported-versions| image:: https://img.shields.io/pypi/pyversions/tune-reporting-python.svg?style=flat
     :alt: Supported versions

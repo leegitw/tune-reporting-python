@@ -26,6 +26,7 @@ from safe_cast import (safe_str, safe_float, safe_int)
 
 TIMEZONE_COLLECT = "America/New_York"
 
+
 @pytest.fixture
 def tune_v2_advertiser_stats_actuals_object():
 
@@ -36,6 +37,7 @@ def tune_v2_advertiser_stats_actuals_object():
         logger_output=LoggingOutput.STDOUT_COLOR
     )
     return obj
+
 
 class TestTuneV2AdvertiserStatsActualsExportStreamCsvTransform:
     def test_tune_v2_advertiser_stats_actuals_export_stream_csv_transform(

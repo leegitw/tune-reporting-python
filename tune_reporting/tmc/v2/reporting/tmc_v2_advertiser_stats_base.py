@@ -407,12 +407,14 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
 
         if json_response['status_code'] != 200:
             raise TuneReportingError(
-                error_message=("TMC v2 Advertiser Stats: "
-                               "Action 'find': "
-                               "Failed to find stats: {}, {}").format(
-                                   json_response['status_code'],
-                                   json.dumps(json_response),
-                               ),
+                error_message=(
+                    "TMC v2 Advertiser Stats: "
+                    "Action 'find': "
+                    "Failed to find stats: {}, {}"
+                ).format(
+                    json_response['status_code'],
+                    json.dumps(json_response)
+                ),
                 error_code=TuneReportingErrorCodes.REP_ERR_REQUEST
             )
 
@@ -467,13 +469,15 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
         str_date_start = str(datetime_start.date())
         str_date_end = str(datetime_end.date())
 
-        self.logger.debug(("TMC v2 Advertiser Stats: Export CSV Download"),
-                          extra={
-                              'action': 'export',
-                              'start_date': str_date_start,
-                              'end_date': str_date_end,
-                              'export_format': export_format
-                          })
+        self.logger.debug(
+            "TMC v2 Advertiser Stats: Export CSV Download",
+            extra={
+                'action': 'export',
+                'start_date': str_date_start,
+                'end_date': str_date_end,
+                'export_format': export_format
+            }
+        )
 
         data = []
 
@@ -804,13 +808,14 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                 action=export_action
             )
 
-        self.logger.debug(("TMC v2 Advertiser Stats: "
-                           "Start Advertiser Report Actuals"),
-                          extra={
-                              'action': export_action,
-                              'start_date': request_params["start_date"],
-                              'end_date': request_params["end_date"]
-                          })
+        self.logger.debug(
+            "TMC v2 Advertiser Stats: Start Advertiser Report Actuals",
+            extra={
+                'action': export_action,
+                'start_date': request_params["start_date"],
+                'end_date': request_params["end_date"]
+            }
+        )
 
         try:
             response = self.mv_request.request(
@@ -931,13 +936,15 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
 
         request_params = {auth_type: auth_value, "job_id": export_job_id}
 
-        self.logger.info(("TMC v2 Advertiser Stats: Check Job Status"),
-                         extra={
-                             'action': export_status_action,
-                             'job_id': export_job_id,
-                             'request_url': v2_export_status_request_url,
-                             'request_params': safe_dict(request_params)
-                         })
+        self.logger.info(
+            "TMC v2 Advertiser Stats: Check Job Status",
+            extra={
+                'action': export_status_action,
+                'job_id': export_job_id,
+                'request_url': v2_export_status_request_url,
+                'request_params': safe_dict(request_params)
+            }
+        )
 
         tries = 60  # -1 (indefinite)
         delay = 10
@@ -1094,14 +1101,15 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                     if (export_percent_complete == 100 and json_data["status"] == "complete" and json_data["url"]):
                         report_url = json_data["url"]
 
-                        self.logger.debug(("TMC v2 Advertiser Stats: "
-                                           "Check Job Export Status: Completed"),
-                                          extra={
-                                              'job_id': export_job_id,
-                                              'action': export_status_action,
-                                              'report_url': report_url,
-                                              'request_label': request_label
-                                          })
+                        self.logger.debug(
+                            "TMC v2 Advertiser Stats: Check Job Export Status: Completed",
+                            extra={
+                                'job_id': export_job_id,
+                                'action': export_status_action,
+                                'report_url': report_url,
+                                'request_label': request_label
+                            }
+                        )
 
                         break
 
@@ -1111,14 +1119,15 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
                             json_data["data"]["url"]):
                         report_url = json_data["data"]["url"]
 
-                        self.logger.debug(("TMC v2 Advertiser Stats: "
-                                           "Check Job Export Status: Completed"),
-                                          extra={
-                                              'job_id': export_job_id,
-                                              'action': export_status_action,
-                                              'report_url': report_url,
-                                              'request_label': request_label
-                                          })
+                        self.logger.debug(
+                            "TMC v2 Advertiser Stats: Check Job Export Status: Completed",
+                            extra={
+                                'job_id': export_job_id,
+                                'action': export_status_action,
+                                'report_url': report_url,
+                                'request_label': request_label
+                            }
+                        )
 
                         break
             else:
@@ -1127,16 +1136,17 @@ class TuneV2AdvertiserStatsBase(TuneMobileAppTrackingApi):
             if tries >= 0:
                 _tries -= 1
                 if _tries == 0:
-                    self.logger.error(("TMC v2 Advertiser Stats: "
-                                       "Check Job Export Status: Exhausted Retries"),
-                                      extra={
-                                          'attempt': _attempts,
-                                          'tries': _tries,
-                                          'action': export_status_action,
-                                          'request_label': request_label,
-                                          'export_percent_complete': safe_int(export_percent_complete),
-                                          'job_id': export_job_id
-                                      })
+                    self.logger.error(
+                        "TMC v2 Advertiser Stats: Check Job Export Status: Exhausted Retries",
+                        extra={
+                            'attempt': _attempts,
+                            'tries': _tries,
+                            'action': export_status_action,
+                            'request_label': request_label,
+                            'export_percent_complete': safe_int(export_percent_complete),
+                            'job_id': export_job_id
+                        }
+                    )
 
                     raise TuneReportingError(
                         error_message=(

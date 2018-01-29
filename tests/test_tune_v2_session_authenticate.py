@@ -8,12 +8,14 @@ import logging
 from tune_reporting.tmc.v2.management import (TuneV2SessionAuthenticate)
 from requests_mv_integrations.exceptions import (TuneRequestBaseError)
 
+
 @pytest.fixture
 def tune_v2_session_authenticate():
     obj = TuneV2SessionAuthenticate(
         logger_level=logging.INFO
     )
     return obj
+
 
 class TestTuneV2SessionAuthenticate:
     def test_tune_v2_session_authenticate(

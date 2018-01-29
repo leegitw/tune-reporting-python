@@ -3,6 +3,11 @@
 Release History
 ===============
 
+2.7.0 (2018-01-28)
+------------------
+- Upgraded to use pyhttpstatus-utils 0.2.2.
+- Upgraded to use requests-mv-integrations 0.7.5.
+
 2.6.1 (2018-01-25)
 ------------------
 - migrate to github/tuneinc.

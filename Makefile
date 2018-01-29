@@ -139,12 +139,24 @@ dist: clean
 	@echo "======================================================"
 	@echo dist $(PACKAGE)
 	@echo "======================================================"
+	@echo "======================================================"
+	@echo remove $(PACKAGE_PREFIX_WILDCARD) and $(PACKAGE_WILDCARD)
+	@echo "======================================================"
+	mkdir -p ./dist/
+	find ./dist/ -name $(PACKAGE_WILDCARD) -exec rm -vf {} \;
+	find ./dist/ -name $(PACKAGE_PREFIX_WILDCARD) -exec rm -vf {} \;
+	@echo "======================================================"
+	@echo upload $(PACKAGE)
+	@echo "======================================================"
 	$(PIP3) install --upgrade -r requirements.txt
 	hub release create -m "$(PACKAGE_PREFIX)-$(VERSION)-$(PACKAGE_SUFFIX)" v$(VERSION)
 	$(PYTHON3) $(SETUP_FILE) sdist bdist_wheel upload
 	ls -al ./dist/$(PACKAGE_PREFIX_WILDCARD)
 
 build: clean
+	@echo "======================================================"
+	@echo build $(PACKAGE)
+	@echo "======================================================"
 	@echo "======================================================"
 	@echo remove $(PACKAGE_PREFIX_WILDCARD) and $(PACKAGE_WILDCARD)
 	@echo "======================================================"
@@ -157,8 +169,7 @@ build: clean
 	$(PIP3) install --upgrade -r requirements.txt
 	$(PYTHON3) $(SETUP_FILE) clean
 	$(PYTHON3) $(SETUP_FILE) bdist_wheel
-	$(PYTHON3) $(SETUP_FILE) bdist_egg
-	$(PYTHON3) $(SETUP_FILE) sdist --format=zip,gztar
+	$(PYTHON3) $(SETUP_FILE) sdist
 	$(PYTHON3) $(SETUP_FILE) build
 	$(PYTHON3) $(SETUP_FILE) install
 	ls -al ./dist/$(PACKAGE_PREFIX_WILDCARD)

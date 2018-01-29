@@ -100,14 +100,14 @@ class TuneV2AdvertiserSites(TuneMobileAppTrackingApi):
                     tmc_api_key=self.api_key, logger_level=self.logger_level, logger_format=self.logger_format
                 )
 
-                _request_params.update({"session_token": self.session_token,})
+                _request_params.update({"session_token": self.session_token})
             else:
-                _request_params.update({"api_key": self.api_key,})
+                _request_params.update({"api_key": self.api_key})
 
         elif auth_type == TuneV2AuthenticationTypes.SESSION_TOKEN:
             self.session_token = auth_value
 
-            _request_params.update({"session_token": self.session_token,})
+            _request_params.update({"session_token": self.session_token})
         else:
             raise ValueError("Invalid 'auth_type': '{}'".format(auth_type))
 
