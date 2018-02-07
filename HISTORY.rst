@@ -3,6 +3,10 @@
 Release History
 ===============
 
+2.7.2 (2018-02-07)
+--------------------
+- Updated requirements.txt
+
 2.7.0 (2018-01-28)
 ------------------
 - Upgraded to use pyhttpstatus-utils 0.2.2.
